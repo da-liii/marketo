@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="kmarknote" version="1">
+<MenuBar>
+  <Menu name="file">
+    <Merge/>
+    <Action name="file_preview"/>
+  </Menu>
+  <Menu name="window"><text>&amp;Window</text>
+    <Action name="win_onecol" />
+    <Action name="win_twocol" />
+    <Action name="win_threecol" />  
+  </Menu>
+  <Merge/>
+</MenuBar>
+<ToolBar name="mainToolBar">
+  <Merge/>
+  <Action name="file_preview"/>
+  <Action name="win_onecol" />
+  <Action name="win_twocol" />
+  <Action name="win_threecol" />
+</ToolBar>
+</gui>
