@@ -148,12 +148,14 @@ void KMarknote::preview()
     std::stringstream html_ss;
     std::string html;
     markdown::Document processer;
-
-    processer.read(m_note->text().toStdString());
+    
+    // Markdown rendering
+    processer.read(std::string(m_note->text().toUtf8().constData()));
     processer.write(html_ss);
     html = html_ss.str();
-    qWarning() << QString::fromStdString(html);
-    m_view->previewer->setHtml(QString::fromStdString(html), QUrl());   
+    
+    // Preview it
+    m_view->previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());   
     switch(column) {
         case 1:
         case 3:
