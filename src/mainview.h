@@ -14,6 +14,11 @@
 #include <KWebView>
 #include <QFileSystemModel>
 
+namespace KTextEditor {
+    class Document;
+    class View;
+}
+
 class MainView : public QWidget
 {
     Q_OBJECT
@@ -25,6 +30,7 @@ public:
     KWebView *previewer;
     QFileSystemModel *lmodel;
     QFileSystemModel *tmodel;
+    KTextEditor::View *editor;
 
     MainView(QWidget *parent = 0);
     virtual ~MainView();

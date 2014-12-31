@@ -24,17 +24,25 @@ MainView::MainView(QWidget *parent)
     tmodel->setRootPath(QDir::homePath());
     tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     treeView->setModel(tmodel);
-    treeView->setRootIndex(tmodel->index(QDir::homePath()));
+    treeView->setRootIndex(tmodel->index(QDir::homePath().append("/notes")));
     treeView->resizeColumnToContents(0);
     treeView->setColumnHidden(1, true);
     treeView->setColumnHidden(2, true);
     treeView->setColumnHidden(3, true);
-    
+    treeView->setUniformRowHeights(true);
+    treeView->setIconSize(QSize(treeView->sizeHint().width(), 34));
+    treeView->setHeaderHidden(true);
+
     lmodel = new QFileSystemModel; 
     lmodel->setRootPath(QDir::homePath());
     lmodel->setFilter(QDir::Files);
     listView->setModel(lmodel);
-    listView->setRootIndex(lmodel->index(QDir::homePath()));
+    listView->setRootIndex(lmodel->index(QDir::homePath().append("/notes")));
+    listView->setGridSize(QSize(listView->sizeHint().width(), 34));
+    listView->setIconSize(QSize(listView->sizeHint().width(), 34));
+    listView->setAlternatingRowColors(true);
+    
+    //listView->setResizeMode(QListView::Adjust);
     
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(gotoDir(QModelIndex)));

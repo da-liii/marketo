@@ -48,7 +48,7 @@
 KMarknote::KMarknote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , m_view(new MainView(parent))
-    , column(1)
+    , m_column(1)
     , isPreview(false)
 {
     setupAction();
@@ -60,15 +60,15 @@ KMarknote::KMarknote(QWidget* parent)
         m_note = 0;
     } else {
         m_note = new_editor->createDocument(0);
-        m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
-        m_view->splitter->addWidget(m_editor);
+        m_view->editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
+        m_view->splitter->addWidget(m_view->editor);
         
         KConfigGroup cg(KGlobal::config(), "KMarknote");
         setAutoSaveSettings(cg, true);
        
         setCentralWidget(m_view);
         setupGUI(QSize(500,600), Default, "kmarknote.rc");
-        guiFactory()->addClient(m_editor);
+        guiFactory()->addClient(m_view->editor);
         restoreWindowSize(cg);
     }
     setupConnect();
@@ -104,8 +104,12 @@ void KMarknote::setupConnect()
             this, SLOT(updateCaption()));
     connect(m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
             this, SLOT(updateCaption()));
+    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
+            this, SLOT(updateCaptionModified()));
     connect(m_view->listView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(open(QModelIndex)));
+    connect(m_view->treeView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(showReadme(QModelIndex)));
 }
 
 void KMarknote::newNote()
@@ -127,9 +131,14 @@ void KMarknote::open(const QModelIndex &index)
     // TODO: if in preview mode, keep preview
 }
 
+void KMarknote::updateCaptionModified()
+{
+    setCaption(m_note->url().fileName() + " [modified]- KMarknote");
+}
+
 void KMarknote::updateCaption()
 {
-    setCaption("[modified]- KMarknote");
+    setCaption(m_note->url().fileName() + " - KMarknote");
 }
 
 void KMarknote::togglePreview()
@@ -156,10 +165,10 @@ void KMarknote::preview()
     
     // Preview it
     m_view->previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());   
-    switch(column) {
+    switch(m_column) {
         case 1:
         case 3:
-            m_editor->setHidden(true);
+            m_view->editor->setHidden(true);
             m_view->previewer->setHidden(false);
             break;
         case 2:
@@ -171,10 +180,10 @@ void KMarknote::preview()
 
 void KMarknote::unpreview()
 {
-    switch(column) {
+    switch(m_column) {
         case 1:
         case 3:
-            m_editor->setHidden(false);
+            m_view->editor->setHidden(false);
             m_view->previewer->setHidden(true);
             break;
         case 2:
@@ -185,7 +194,7 @@ void KMarknote::unpreview()
 
 void KMarknote::updatePreviewer()
 {
-    if (column == 2) {
+    if (m_column == 2) {
         QTimer::singleShot(1000, this, SLOT(preview()));
     }
 }
@@ -195,7 +204,7 @@ void KMarknote::oneColView()
     m_view->treeView->setHidden(true);
     m_view->listView->setHidden(true);
     m_view->previewer->setHidden(true);
-    column = 1;
+    m_column = 1;
 }
 
 void KMarknote::twoColView()
@@ -208,7 +217,7 @@ void KMarknote::twoColView()
     m_view->treeView->setHidden(true);
     m_view->listView->setHidden(true);
     m_view->previewer->setHidden(false);
-    column = 2;
+    m_column = 2;
 }
 
 void KMarknote::threeColView()
@@ -220,7 +229,15 @@ void KMarknote::threeColView()
     
     sizeList << 50 << 50<< 300 << 300;
     m_view->splitter->setSizes(sizeList);
-    column = 3;
+    m_column = 3;
+}
+
+void KMarknote::showReadme(const QModelIndex &index)
+{
+    QString readmePath = m_view->tmodel->filePath(index).append("/README.md");
+    m_note->openUrl(KUrl(readmePath));
+    if (isPreview)
+        unpreview();
 }
 
 KMarknote::~KMarknote()
