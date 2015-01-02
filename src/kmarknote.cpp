@@ -84,6 +84,7 @@ void KMarknote::setupAction()
     KAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setIcon(KIcon("document-preview"));
     previewAction->setText(i18n("Preview"));
+    previewAction->setCheckable(true);
     
     KAction* oneColAction = actionCollection()->addAction("win_onecol", this, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", this, SLOT(twoColView()));
@@ -114,7 +115,14 @@ void KMarknote::setupConnect()
 
 void KMarknote::newNote()
 {
-    // TODO
+    switch(m_column) {
+        case 1:
+        case 2:
+            //TODO
+            break;
+        case 3:
+            break;
+    }
 }
 
 void KMarknote::open()
@@ -143,13 +151,10 @@ void KMarknote::updateCaption()
 
 void KMarknote::togglePreview()
 {
-    if (isPreview) {
+    if (isPreview)
         unpreview();
-        isPreview = false;
-    } else {
+    else 
         preview();
-        isPreview = true;
-    }
 }
 
 void KMarknote::preview()
@@ -176,6 +181,7 @@ void KMarknote::preview()
             break;
     }
     isPreview = true;
+    actionCollection()->action("file_preview")->setChecked(true);
 }
 
 void KMarknote::unpreview()
@@ -190,6 +196,8 @@ void KMarknote::unpreview()
         default:
             break;
     }   
+    isPreview = false;
+    actionCollection()->action("file_preview")->setChecked(false);
 }
 
 void KMarknote::updatePreviewer()

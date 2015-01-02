@@ -36,13 +36,18 @@ MainView::MainView(QWidget *parent)
     lmodel = new QFileSystemModel; 
     lmodel->setRootPath(QDir::homePath());
     lmodel->setFilter(QDir::Files);
+    
+    QStringList filters;
+    filters << "*.md" << "*.markdown";
+    lmodel->setNameFilters(filters);
+    lmodel->setNameFilterDisables(false);
+    
     listView->setModel(lmodel);
     listView->setRootIndex(lmodel->index(QDir::homePath().append("/notes")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 34));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
     
-    //listView->setResizeMode(QListView::Adjust);
     
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(gotoDir(QModelIndex)));
