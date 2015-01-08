@@ -3,6 +3,11 @@
 #include <QDir>
 #include <QtDebug>
 
+#include <KDE/KLocale>
+#include <KTextEditor/Editor>
+#include <KTextEditor/EditorChooser>
+#include <KDE/KMessageBox>
+
 MainView::MainView(QWidget *parent)
     : QWidget(parent)
 {
@@ -12,12 +17,10 @@ MainView::MainView(QWidget *parent)
     treeView = new QTreeView(splitter);
     listView = new QListView(splitter);
     previewer = new KWebView(splitter);
-    
-    splitter->setOrientation(Qt::Horizontal);
-    splitter->addWidget(treeView);
-    splitter->addWidget(listView);
-    splitter->addWidget(previewer);
-    
+    fulleditor = new QWidget(this);
+    vl2 = new QVBoxLayout(fulleditor);
+    title = new KLineEdit(fulleditor);
+   
     verticalLayout->addWidget(splitter);
     
     tmodel = new QFileSystemModel;
@@ -48,7 +51,24 @@ MainView::MainView(QWidget *parent)
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
     
+    // TODO: new_editor should be carefully handled, may memory leak
+    KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
+    if (!new_editor) {
+        KMessageBox::error(this,  i18n("A KDE text-editor component could not be found;\n"
+                                       "please check your KDE installation."));
+        note = 0;
+    } else {
+        note = new_editor->createDocument(0);
+        editor = qobject_cast<KTextEditor::View*>(note->createView(this));
+    }
     
+    vl2->addWidget(title);
+    vl2->addWidget(editor);
+    splitter->setOrientation(Qt::Horizontal);
+    splitter->addWidget(treeView);
+    splitter->addWidget(listView);
+    splitter->addWidget(previewer);
+    splitter->addWidget(fulleditor);
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(gotoDir(QModelIndex)));
 }

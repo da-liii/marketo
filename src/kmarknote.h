@@ -37,6 +37,7 @@ public:
     
     void unpreview();   
     void setupAction();
+    void setupUI();
     void setupConnect();
     
 private slots:

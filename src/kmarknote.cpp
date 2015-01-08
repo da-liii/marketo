@@ -22,7 +22,6 @@
 
 #include <iostream>
 #include <KDE/KLocale>
-#include <KDE/KMessageBox>
 #include <KDE/KConfigGroup>
 #include <KDE/KGlobal>
 #include <KDE/KXMLGUIFactory>
@@ -32,9 +31,6 @@
 #include <KDE/KFileDialog>
 #include <KDE/KUrl>
 #include <KDE/KWebView>
-#include <KTextEditor/View>
-#include <KTextEditor/Editor>
-#include <KTextEditor/EditorChooser>
 #include <KDE/KMenuBar>
 
 #include <QTemporaryFile>
@@ -51,26 +47,9 @@ KMarknote::KMarknote(QWidget* parent)
     , m_column(1)
     , isPreview(false)
 {
+    m_note = m_view->note;
     setupAction();
-    
-    KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
-    if (!new_editor) {
-        KMessageBox::error(this,  i18n("A KDE text-editor component could not be found;\n"
-                                       "please check your KDE installation."));
-        m_note = 0;
-    } else {
-        m_note = new_editor->createDocument(0);
-        m_view->editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
-        m_view->splitter->addWidget(m_view->editor);
-        
-        KConfigGroup cg(KGlobal::config(), "KMarknote");
-        setAutoSaveSettings(cg, true);
-       
-        setCentralWidget(m_view);
-        setupGUI(QSize(500,600), Default, "kmarknote.rc");
-        guiFactory()->addClient(m_view->editor);
-        restoreWindowSize(cg);
-    }
+    setupUI();
     setupConnect();
     threeColView();
 }
@@ -98,6 +77,17 @@ void KMarknote::setupAction()
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
 }
+
+void KMarknote::setupUI()
+{
+    KConfigGroup cg(KGlobal::config(), "KMarknote");
+    setAutoSaveSettings(cg, true);
+    
+    setCentralWidget(m_view);
+    setupGUI(QSize(500,600), Default, "kmarknote.rc");
+    guiFactory()->addClient(m_view->editor);
+    restoreWindowSize(cg);
+ }
 
 void KMarknote::setupConnect()
 {
@@ -138,6 +128,7 @@ void KMarknote::open(const QModelIndex &index)
 {
     KUrl url = KUrl(m_view->lmodel->filePath(index));
     m_note->openUrl(url);
+    m_view->title->setText(url.fileName());
     // TODO: if in preview mode, keep preview
 }
 
@@ -153,7 +144,7 @@ void KMarknote::updateCaption()
 
 void KMarknote::togglePreview()
 {
-    if (isPreview)
+    if (isPreview && m_column != 2)
         unpreview();
     else 
         preview();
@@ -172,17 +163,13 @@ void KMarknote::preview()
     
     // Preview it
     m_view->previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());   
-    switch(m_column) {
-        case 1:
-        case 3:
-            m_view->editor->setHidden(true);
-            m_view->previewer->setHidden(false);
-            break;
-        case 2:
-        default:
-            break;
-    }
+    
+    if (m_column == 1 || m_column == 3)
+        m_view->fulleditor->setHidden(true);
+    else
+        m_view->fulleditor->setHidden(false);
     isPreview = true;
+    m_view->previewer->setHidden(false);
     actionCollection()->action("file_preview")->setChecked(true);
 }
 
@@ -191,7 +178,7 @@ void KMarknote::unpreview()
     switch(m_column) {
         case 1:
         case 3:
-            m_view->editor->setHidden(false);
+            m_view->fulleditor->setHidden(false);
             m_view->previewer->setHidden(true);
             break;
         case 2:
@@ -213,8 +200,10 @@ void KMarknote::oneColView()
 {
     m_view->treeView->setHidden(true);
     m_view->listView->setHidden(true);
-    m_view->previewer->setHidden(true);
+    m_view->title->setHidden(true);
+    // NOTE: m_column = 1 must be before unpreview
     m_column = 1;
+    unpreview();
 }
 
 void KMarknote::twoColView()
@@ -226,7 +215,8 @@ void KMarknote::twoColView()
     
     m_view->treeView->setHidden(true);
     m_view->listView->setHidden(true);
-    m_view->previewer->setHidden(false);
+    m_view->title->setHidden(true);
+    // NOTE: m_colum = 2 must be before preview
     m_column = 2;
     preview();
 }
@@ -236,17 +226,22 @@ void KMarknote::threeColView()
     QList<int> sizeList;
     m_view->treeView->setHidden(false);
     m_view->listView->setHidden(false);
-    m_view->previewer->setHidden(true);
     
+    // NOTE: m_colum = 3 must be before preview or unpreview
+    m_column = 3;
+    if (isPreview)
+        preview();
+    else
+        unpreview();
     sizeList << 50 << 50<< 300 << 300;
     m_view->splitter->setSizes(sizeList);
-    m_column = 3;
 }
 
 void KMarknote::showReadme(const QModelIndex &index)
 {
     QString readmePath = m_view->tmodel->filePath(index).append("/README.md");
     m_note->openUrl(KUrl(readmePath));
+    m_view->title->setText("README.md");
     if (isPreview)
         unpreview();
 }

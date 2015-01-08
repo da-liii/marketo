@@ -11,13 +11,12 @@
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
-#include <KWebView>
 #include <QFileSystemModel>
 
-namespace KTextEditor {
-    class Document;
-    class View;
-}
+#include <KWebView>
+#include <KTextEditor/View>
+#include <KTextEditor/Document>
+#include <KDE/KLineEdit>
 
 class MainView : public QWidget
 {
@@ -31,6 +30,10 @@ public:
     QFileSystemModel *lmodel;
     QFileSystemModel *tmodel;
     KTextEditor::View *editor;
+    KTextEditor::Document *note;
+    QVBoxLayout *vl2;
+    KLineEdit *title;
+    QWidget *fulleditor;
 
     MainView(QWidget *parent = 0);
     virtual ~MainView();
