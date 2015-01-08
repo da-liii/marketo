@@ -107,6 +107,8 @@ void KMarknote::setupConnect()
             this, SLOT(updateCaption()));
     connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
             this, SLOT(updateCaptionModified()));
+    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
+            this, SLOT(updatePreviewer())); 
     connect(m_view->listView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(open(QModelIndex)));
     connect(m_view->treeView, SIGNAL(clicked(QModelIndex)),
@@ -226,6 +228,7 @@ void KMarknote::twoColView()
     m_view->listView->setHidden(true);
     m_view->previewer->setHidden(false);
     m_column = 2;
+    preview();
 }
 
 void KMarknote::threeColView()
