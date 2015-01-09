@@ -32,7 +32,7 @@ static const char version[] = "0.1";
 
 int main(int argc, char **argv)
 {
-    KAboutData about("KMarknote", 0, ki18n("KMarknote"), version, ki18n(description),
+    KAboutData about("KMarkNote", 0, ki18n("KMarkNote"), version, ki18n(description),
                      KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen1992@gmail.com");
     about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen1992@gmail.com" );
     KCmdLineArgs::init(argc, argv, &about);
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
 
-    KMarknote *mainWindow = new KMarknote();
+    KMarkNote *mainWindow = new KMarkNote();
     mainWindow->show();
     
     return app.exec();

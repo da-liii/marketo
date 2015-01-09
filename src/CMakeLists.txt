@@ -4,6 +4,8 @@ set(kmarknote_SRCS
    kmarknote.cpp
    main.cpp
    mainview.cpp
+   kmarkview.cpp
+   noteview.cpp
 )
 
 kde4_add_executable(kmarknote ${kmarknote_SRCS})
@@ -17,4 +19,4 @@ target_link_libraries(kmarknote
 
 install(TARGETS kmarknote DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS kmarknote.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES kmarknote.rc DESTINATION ${DATA_INSTALL_DIR}/KMarknote)
+install(FILES kmarknote.rc DESTINATION ${DATA_INSTALL_DIR}/KMarkNote)

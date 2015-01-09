@@ -1,4 +1,5 @@
 #include "mainview.h"
+#include "kmarknote.h"
 
 #include <QDir>
 #include <QtDebug>
@@ -11,15 +12,22 @@
 MainView::MainView(QWidget *parent)
     : QWidget(parent)
 {
+    setupUI();
+    setupConnect();
+    column = 3;
+    threeColView();
+}
+
+void MainView::setupUI()
+{
     resize(629, 470);
     verticalLayout = new QVBoxLayout(this);
     splitter = new QSplitter(this);
     treeView = new QTreeView(splitter);
     listView = new QListView(splitter);
-    previewer = new KWebView(splitter);
-    fulleditor = new QWidget(this);
-    vl2 = new QVBoxLayout(fulleditor);
-    title = new KLineEdit(fulleditor);
+    noteView = new NoteView(splitter);
+    note = noteView->note;
+    markView = noteView->markView;
    
     verticalLayout->addWidget(splitter);
     
@@ -51,32 +59,117 @@ MainView::MainView(QWidget *parent)
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
     
-    // TODO: new_editor should be carefully handled, may memory leak
-    KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
-    if (!new_editor) {
-        KMessageBox::error(this,  i18n("A KDE text-editor component could not be found;\n"
-                                       "please check your KDE installation."));
-        note = 0;
-    } else {
-        note = new_editor->createDocument(0);
-        editor = qobject_cast<KTextEditor::View*>(note->createView(this));
-    }
-    
-    vl2->addWidget(title);
-    vl2->addWidget(editor);
     splitter->setOrientation(Qt::Horizontal);
     splitter->addWidget(treeView);
     splitter->addWidget(listView);
-    splitter->addWidget(previewer);
-    splitter->addWidget(fulleditor);
+    splitter->addWidget(noteView);
+}
+
+void MainView::setupConnect()
+{
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(gotoDir(QModelIndex)));
+    connect(listView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(open(QModelIndex)));
+    connect(treeView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(showReadme(QModelIndex)));    
+}
+
+void MainView::open(const QModelIndex &index)
+{
+    KUrl url = KUrl(lmodel->filePath(index));
+    note->openUrl(url);
+    noteView->setTitle(url.fileName());
 }
 
 void MainView::gotoDir(const QModelIndex& index)
 {
     lmodel->setRootPath(tmodel->filePath(index));
     listView->setRootIndex(lmodel->index(tmodel->filePath(index)));
+}
+
+KTextEditor::View* MainView::getEditor()
+{
+    return markView->getEditor();
+}
+
+bool MainView::preview()
+{
+    markView->preview(column == 2);
+    return true;
+}
+
+bool MainView::unpreview()
+{
+    if (column == 2)
+        return true;
+    else {
+        markView->unpreview();
+        return false;
+    }
+}
+
+void MainView::oneColView()
+{
+    treeView->setHidden(true);
+    listView->setHidden(true);
+    noteView->hideTitleLine();
+    
+    column = 1;
+    unpreview();
+}
+
+void MainView::twoColView()
+{
+    QList<int> sizeList;
+    sizeList << 0 << 0 << 400;
+    splitter->setSizes(sizeList);
+    
+    treeView->setHidden(true);
+    listView->setHidden(true);
+    noteView->hideTitleLine();
+    
+    column = 2;
+    preview();
+}
+
+void MainView::threeColView()
+{
+    treeView->setHidden(false);
+    listView->setHidden(false);
+    noteView->showTitleLine();
+    
+    QList<int> sizeList;
+    sizeList << 50 << 50<< 300;
+    splitter->setSizes(sizeList);
+    
+    column = 3;
+    unpreview();
+}
+
+void MainView::showReadme(const QModelIndex &index)
+{
+    QString readmePath = tmodel->filePath(index).append("/README.md");
+    note->openUrl(KUrl(readmePath));
+    noteView->setTitle("README.md");
+    unpreview();
+}
+
+void MainView::openUrl(KUrl url)
+{
+    // TODO:if the url is not in the watching dir and is in three column view
+    // switch to one column view
+    note->openUrl(url);
+}
+
+void MainView::newNote()
+{
+    KUrl url;
+    
+    url = note->url();
+    url = url.directory().append("/Untitle.md");
+    noteView->setTitle(url.fileName());
+    note->openUrl(url);
 }
 
 MainView::~MainView()

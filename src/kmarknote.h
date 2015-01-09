@@ -28,12 +28,12 @@
 #include <QWidget>
 #include <QModelIndex>
 
-class KMarknote : public KXmlGuiWindow
+class KMarkNote : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    KMarknote(QWidget *parent = 0);
-    virtual ~KMarknote();
+    KMarkNote(QWidget *parent = 0);
+    virtual ~KMarkNote();
     
     void unpreview();   
     void setupAction();
@@ -43,21 +43,13 @@ public:
 private slots:
     void newNote();
     void open();
-    void open(const QModelIndex &index);
     void updateCaptionModified();
     void updateCaption();
-    void preview();
-    void updatePreviewer();
     void togglePreview();
-    void showReadme(const QModelIndex &index);
-    void oneColView();
-    void twoColView();
-    void threeColView();
     
 private:
     KTextEditor::Document *m_note;
     MainView *m_view;
-    int m_column;
     bool isPreview;
 };
 
