@@ -1,5 +1,4 @@
 #include "mainview.h"
-#include "kmarknote.h"
 
 #include <QDir>
 #include <QtDebug>
@@ -9,11 +8,13 @@
 #include <KTextEditor/EditorChooser>
 #include <KDE/KMessageBox>
 
-MainView::MainView(QWidget *parent)
+MainView::MainView(QWidget *parent, KAction *pAction)
     : QWidget(parent)
 {
     setupUI();
     setupConnect();
+    
+    previewAction = pAction;
     column = 3;
     threeColView();
 }
@@ -117,6 +118,7 @@ void MainView::oneColView()
     
     column = 1;
     unpreview();
+    previewAction->setChecked(false);
 }
 
 void MainView::twoColView()
@@ -131,6 +133,7 @@ void MainView::twoColView()
     
     column = 2;
     preview();
+    previewAction->setChecked(true);
 }
 
 void MainView::threeColView()
@@ -145,6 +148,7 @@ void MainView::threeColView()
     
     column = 3;
     unpreview();
+    previewAction->setChecked(false);
 }
 
 void MainView::showReadme(const QModelIndex &index)

@@ -37,9 +37,14 @@
 
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
-    , m_view(new MainView(this))
     , isPreview(false)
 {
+    KAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
+    previewAction->setIcon(KIcon("document-preview"));
+    previewAction->setText(i18n("Preview"));
+    previewAction->setCheckable(true);
+    
+    m_view = new MainView(parent, previewAction);
     m_note = m_view->note;
     setupAction();
     setupUI();
@@ -52,11 +57,6 @@ void KMarkNote::setupAction()
     KStandardAction::open(this, SLOT(open()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
     
-    
-    KAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
-    previewAction->setIcon(KIcon("document-preview"));
-    previewAction->setText(i18n("Preview"));
-    previewAction->setCheckable(true);
     
     KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));

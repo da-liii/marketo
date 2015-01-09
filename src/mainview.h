@@ -21,6 +21,7 @@
 #include <KTextEditor/Document>
 #include <KDE/KLineEdit>
 #include <KUrl>
+#include <KAction>
 
 class MainView : public QWidget
 {
@@ -29,7 +30,7 @@ class MainView : public QWidget
 public:
     KMarkView *markView;
     KTextEditor::Document *note;
-    MainView(QWidget *parent = 0);
+    MainView(QWidget *parent = 0, KAction *pAction = 0);
     virtual ~MainView();    
     KTextEditor::Document *getNote();
     KTextEditor::View *getEditor();
@@ -50,6 +51,7 @@ private:
     
     KTextEditor::View *editor;
     NoteView *noteView;
+    KAction *previewAction;
     int column;
 
 private slots:
