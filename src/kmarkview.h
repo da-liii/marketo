@@ -21,7 +21,7 @@ public:
     void unpreview();
 
 public slots:
-    void preview(bool livePreview);
+    void preview(bool livePreview = true);
     
 private:
     QSplitter *hs;

@@ -22,6 +22,8 @@ public:
     
 private:
     QVBoxLayout *vl;
+    QHBoxLayout *hl;
+    
     KLineEdit *title;
     
     void setupUI();

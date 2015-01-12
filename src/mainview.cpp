@@ -23,14 +23,22 @@ void MainView::setupUI()
 {
     resize(629, 470);
     verticalLayout = new QVBoxLayout(this);
-    splitter = new QSplitter(this);
-    treeView = new QTreeView(splitter);
-    listView = new QListView(splitter);
-    noteView = new NoteView(splitter);
+    vsplitter = new QSplitter(Qt::Vertical, this);
+    hsplitter = new QSplitter(Qt::Horizontal, this);
+    terminal = new TerminalView(this);
+    terminal->hide();
+    treeView = new QTreeView(hsplitter);
+    listView = new QListView(hsplitter);
+    noteView = new NoteView(hsplitter);
     note = noteView->note;
     markView = noteView->markView;
-   
-    verticalLayout->addWidget(splitter);
+
+    vsplitter->addWidget(hsplitter);
+    vsplitter->addWidget(terminal);
+    QList<int> sizeList;
+    sizeList << 800 << 300;
+    vsplitter->setSizes(sizeList);
+    verticalLayout->addWidget(vsplitter);
     
     tmodel = new QFileSystemModel;
     tmodel->setRootPath(QDir::homePath());
@@ -60,10 +68,9 @@ void MainView::setupUI()
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
     
-    splitter->setOrientation(Qt::Horizontal);
-    splitter->addWidget(treeView);
-    splitter->addWidget(listView);
-    splitter->addWidget(noteView);
+    hsplitter->addWidget(treeView);
+    hsplitter->addWidget(listView);
+    hsplitter->addWidget(noteView);
 }
 
 void MainView::setupConnect()
@@ -125,7 +132,7 @@ void MainView::twoColView()
 {
     QList<int> sizeList;
     sizeList << 0 << 0 << 400;
-    splitter->setSizes(sizeList);
+    hsplitter->setSizes(sizeList);
     
     treeView->setHidden(true);
     listView->setHidden(true);
@@ -144,7 +151,7 @@ void MainView::threeColView()
     
     QList<int> sizeList;
     sizeList << 50 << 50<< 300;
-    splitter->setSizes(sizeList);
+    hsplitter->setSizes(sizeList);
     
     column = 3;
     unpreview();
@@ -174,6 +181,14 @@ void MainView::newNote()
     url = url.directory().append("/Untitle.md");
     noteView->setTitle(url.fileName());
     note->openUrl(url);
+}
+
+void MainView::toggleTerminal()
+{
+    if (terminal->isVisible())
+        terminal->hide();
+    else
+        terminal->show();
 }
 
 MainView::~MainView()

@@ -84,7 +84,7 @@ void KMarkView::unpreview()
 void KMarkView::updatePreviewer()
 {
     if (m_livePreview)
-        QTimer::singleShot(1000, this, SLOT(preview(true)));
+        QTimer::singleShot(1000, this, SLOT(preview()));
 }
 
 KMarkView::~KMarkView()

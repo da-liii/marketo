@@ -3,6 +3,7 @@
 
 #include "kmarkview.h"
 #include "noteview.h"
+#include "terminalview.h"
 
 #include <QVariant>
 #include <QAction>
@@ -32,7 +33,6 @@ public:
     KTextEditor::Document *note;
     MainView(QWidget *parent = 0, KAction *pAction = 0);
     virtual ~MainView();    
-    KTextEditor::Document *getNote();
     KTextEditor::View *getEditor();
     bool preview();
     bool unpreview();
@@ -43,7 +43,9 @@ public:
     
 private:
     QVBoxLayout *verticalLayout;
-    QSplitter *splitter;
+    QSplitter *vsplitter;
+    QSplitter *hsplitter;
+    TerminalView *terminal;
     QListView *listView;
     QTreeView *treeView;
     QFileSystemModel *lmodel;
@@ -61,6 +63,7 @@ private slots:
     void threeColView();
     void open(const QModelIndex &index);
     void showReadme(const QModelIndex &index);
+    void toggleTerminal();
 };
 
 #endif // MAINVIEW_H

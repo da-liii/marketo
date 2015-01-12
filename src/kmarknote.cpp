@@ -30,10 +30,12 @@
 #include <KDE/KUrl>
 #include <KDE/KWebView>
 #include <KDE/KMenuBar>
+#include <KDE/KShortcut>
 
 #include <QTemporaryFile>
 #include <QUrl>
 #include <QTimer>
+#include <QKeySequence>
 
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
@@ -69,6 +71,11 @@ void KMarkNote::setupAction()
     oneColAction->setIcon(KIcon("view-split-top-bottom"));
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
+    
+    KAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
+    KShortcut terminalShortcut = terminalAction->shortcut();
+    terminalShortcut.setPrimary(QKeySequence("F4"));
+    terminalAction->setShortcut(terminalShortcut);
 }
 
 void KMarkNote::setupUI()

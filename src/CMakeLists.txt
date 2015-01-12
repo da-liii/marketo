@@ -1,11 +1,12 @@
 # In this CMakeLists.txt we define which files
 # are used to compile the application
 set(kmarknote_SRCS
-   kmarknote.cpp
    main.cpp
-   mainview.cpp
+   kmarknote.cpp
    kmarkview.cpp
+   mainview.cpp
    noteview.cpp
+   terminalview.cpp
 )
 
 kde4_add_executable(kmarknote ${kmarknote_SRCS})
