@@ -1,0 +1,5 @@
+build/
+.kde4/
+kmarknote.kdev4
+.directory
+*~
