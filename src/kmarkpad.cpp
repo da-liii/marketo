@@ -9,6 +9,10 @@
 #include <KTextEditor/Editor>
 #include <KTextEditor/EditorChooser>
 #include <KMessageBox>
+#include <KTextEditor/View>
+#include <KTextEditor/Document>
+#include <KTextEditor/Cursor>
+
 #include <QTimer>
 #include <QList>
 #include <QWebFrame>
@@ -43,6 +47,8 @@ KMarkPad::KMarkPad(QWidget *parent)
     
     connect(note, SIGNAL(textChanged(KTextEditor::Document *)), 
         this, SLOT(updatePreviewer()));
+    connect(editor, SIGNAL(cursorPositionChanged(KTextEditor::View *,const KTextEditor::Cursor&)),
+        this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
 }
 
 void KMarkPad::preview(bool livePreview)
@@ -59,14 +65,9 @@ void KMarkPad::preview(bool livePreview)
     // Preview it
     m_livePreview = livePreview;
     previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());
-    qWarning() << previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
     
     // Scroll to the correct position
-    int sourceTotal = note->lines();
-    int sourceCur = editor->cursorPosition().line();
-    int targetTotal = previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
-    int targetCur = sourceCur * targetTotal / sourceTotal;
-    previewer->page()->mainFrame()->scroll(0, targetCur);
+    updatePreviewerByCursor(0, editor->cursorPosition());
     
     if (livePreview) {
         editor->setHidden(false);
@@ -87,6 +88,16 @@ void KMarkPad::updatePreviewer()
 {
     if (m_livePreview)
         QTimer::singleShot(1000, this, SLOT(preview()));
+}
+
+void KMarkPad::updatePreviewerByCursor(KTextEditor::View *a_editor, const KTextEditor::Cursor& a_cursor)
+{
+    int sourceTotal = note->lines();
+    int sourceCur = a_cursor.line();
+    int targetTotal = previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+    int targetCur = sourceCur * targetTotal / sourceTotal;
+    
+    previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur - 100));
 }
 
 KMarkPad::~KMarkPad()

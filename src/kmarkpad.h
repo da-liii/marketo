@@ -1,12 +1,15 @@
 #ifndef KMARKVIEW_H
 #define KMARKVIEW_H
 
-#include <KTextEditor/View>
-#include <KTextEditor/Document>
 #include <KWebView>
 #include <QSplitter>
 #include <QHBoxLayout>
 
+namespace KTextEditor {
+    class View;
+    class Document;
+    class Cursor;
+}
 class KMarkPad : public QWidget
 {
     Q_OBJECT
@@ -31,6 +34,7 @@ private:
     
 private slots:
     void updatePreviewer();
+    void updatePreviewerByCursor(KTextEditor::View *a_editor, const KTextEditor::Cursor& a_cursor);
 };
 
 #endif
