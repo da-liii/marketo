@@ -15,6 +15,7 @@
 
 #include <QTimer>
 #include <QList>
+#include <QDir>
 #include <QWebFrame>
 
 KMarkPad::KMarkPad(QWidget *parent)
@@ -26,6 +27,7 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_livePreview = false;
     
     previewer->setTextSizeMultiplier(0.8);
+    hl->setMargin(0);
     
     // TODO: new_editor should be carefully handled, may memory leak
     KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
@@ -56,15 +58,24 @@ void KMarkPad::preview(bool livePreview)
     std::stringstream html_ss;
     std::string html;
     markdown::Document processer;
+    QString notePath = QDir::homePath().append("/notes");
     
     // Markdown rendering
-    processer.read(std::string(note->text().toUtf8().constData()));
+    bool ret = processer.read(std::string(note->text().toUtf8().constData()));
+    if (!ret)
+        return ;
     processer.write(html_ss);
     html = html_ss.str();
     
     // Preview it
     m_livePreview = livePreview;
-    previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());
+    QString content = QString::fromUtf8(html.c_str());
+    content = QString("<html>") + QString("<head>")
+        + QString("<link href=\"") + notePath +QString("/css/style.css\" type=\"text/css\">")
+        + QString("</head>") + QString("<body>")
+        + content + QString("</body>")
+        + QString("</html>");
+    previewer->setHtml(content, QUrl());
     
     // Scroll to the correct position
     updatePreviewerByCursor(0, editor->cursorPosition());
@@ -96,8 +107,9 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *a_editor, const KTextE
     int sourceCur = a_cursor.line();
     int targetTotal = previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
     int targetCur = sourceCur * targetTotal / sourceTotal;
+    int offset = (sourceCur - sourceTotal/2) * 400 / sourceTotal;
     
-    previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur - 100));
+    previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
 }
 
 KMarkPad::~KMarkPad()
