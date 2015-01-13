@@ -7,19 +7,19 @@
 #include <QSplitter>
 #include <QHBoxLayout>
 
-class KMarkView : public QWidget
+class KMarkPad : public QWidget
 {
     Q_OBJECT
     
 public:
-    KMarkView(QWidget *parent = 0);
-    virtual ~KMarkView();
-    
-    KTextEditor::View *getEditor();
-    KTextEditor::Document *getNote();
+    KMarkPad(QWidget *parent = 0);
+    virtual ~KMarkPad();
     KWebView *getPreviewer();
     void unpreview();
-
+    
+    KTextEditor::Document *note;
+    KTextEditor::View *editor;
+ 
 public slots:
     void preview(bool livePreview = true);
     
@@ -27,8 +27,6 @@ private:
     QSplitter *hs;
     QHBoxLayout *hl;
     KWebView *previewer;
-    KTextEditor::View *editor;
-    KTextEditor::Document *note;
     bool m_livePreview;
     
 private slots:

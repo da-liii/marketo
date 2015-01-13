@@ -1,7 +1,7 @@
 #ifndef NOTEVIEW_H
 #define NOTEVIEW_H
 
-#include "kmarkview.h"
+#include "kmarkpad.h"
 
 #include <QVBoxLayout>
 #include <KLineEdit>
@@ -11,7 +11,7 @@ class NoteView : public QWidget
 {
     Q_OBJECT
 public:
-    KMarkView *markView;
+    KMarkPad *markPad;
     KTextEditor::Document *note;
     
     NoteView(QWidget *parent);

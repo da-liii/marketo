@@ -1,4 +1,4 @@
-#include "kmarkview.h"
+#include "kmarkpad.h"
 #include "markdown.h"
 
 #include <string>
@@ -11,14 +11,17 @@
 #include <KMessageBox>
 #include <QTimer>
 #include <QList>
+#include <QWebFrame>
 
-KMarkView::KMarkView(QWidget *parent)
+KMarkPad::KMarkPad(QWidget *parent)
     : QWidget(parent)
 {
     hl = new QHBoxLayout(this);
     hs = new QSplitter(this);
     previewer = new KWebView(this);
     m_livePreview = false;
+    
+    previewer->setTextSizeMultiplier(0.8);
     
     // TODO: new_editor should be carefully handled, may memory leak
     KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
@@ -39,20 +42,10 @@ KMarkView::KMarkView(QWidget *parent)
     hs->setSizes(sizeList);
     
     connect(note, SIGNAL(textChanged(KTextEditor::Document *)), 
-        this, SLOT(updatePreviewer())); 
+        this, SLOT(updatePreviewer()));
 }
 
-KTextEditor::Document* KMarkView::getNote()
-{
-    return note;
-}
-
-KTextEditor::View* KMarkView::getEditor()
-{
-    return editor;
-}
-
-void KMarkView::preview(bool livePreview)
+void KMarkPad::preview(bool livePreview)
 {
     std::stringstream html_ss;
     std::string html;
@@ -66,6 +59,15 @@ void KMarkView::preview(bool livePreview)
     // Preview it
     m_livePreview = livePreview;
     previewer->setHtml(QString::fromUtf8(html.c_str()), QUrl());
+    qWarning() << previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+    
+    // Scroll to the correct position
+    int sourceTotal = note->lines();
+    int sourceCur = editor->cursorPosition().line();
+    int targetTotal = previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+    int targetCur = sourceCur * targetTotal / sourceTotal;
+    previewer->page()->mainFrame()->scroll(0, targetCur);
+    
     if (livePreview) {
         editor->setHidden(false);
         previewer->setHidden(false);
@@ -75,19 +77,21 @@ void KMarkView::preview(bool livePreview)
     }
 }
 
-void KMarkView::unpreview()
+void KMarkPad::unpreview()
 {
     editor->setHidden(false);
     previewer->setHidden(true);
 }
 
-void KMarkView::updatePreviewer()
+void KMarkPad::updatePreviewer()
 {
     if (m_livePreview)
         QTimer::singleShot(1000, this, SLOT(preview()));
 }
 
-KMarkView::~KMarkView()
+KMarkPad::~KMarkPad()
 {
 
 }
+
+#include "kmarkpad.moc"

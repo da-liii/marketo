@@ -31,7 +31,7 @@ void MainView::setupUI()
     listView = new QListView(hsplitter);
     noteView = new NoteView(hsplitter);
     note = noteView->note;
-    markView = noteView->markView;
+    markPad = noteView->markPad;
 
     vsplitter->addWidget(hsplitter);
     vsplitter->addWidget(terminal);
@@ -98,12 +98,12 @@ void MainView::gotoDir(const QModelIndex& index)
 
 KTextEditor::View* MainView::getEditor()
 {
-    return markView->getEditor();
+    return markPad->editor;
 }
 
 bool MainView::preview()
 {
-    markView->preview(column == 2);
+    markPad->preview(column == 2);
     return true;
 }
 
@@ -112,7 +112,7 @@ bool MainView::unpreview()
     if (column == 2)
         return true;
     else {
-        markView->unpreview();
+        markPad->unpreview();
         return false;
     }
 }

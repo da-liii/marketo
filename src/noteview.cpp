@@ -18,12 +18,12 @@ void NoteView::setupConnect()
 void NoteView::setupUI()
 {
     vl = new QVBoxLayout(this);
-    markView = new KMarkView(this);
+    markPad = new KMarkPad(this);
     title = new KLineEdit(this);
-    note = markView->getNote();
+    note = markPad->note;
     
     vl->addWidget(title);
-    vl->addWidget(markView);
+    vl->addWidget(markPad);
 }
 
 void NoteView::saveNote(QString name)
@@ -57,6 +57,5 @@ NoteView::~NoteView()
 {
 
 }
-
 
 #include "noteview.moc"

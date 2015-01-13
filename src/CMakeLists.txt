@@ -3,7 +3,7 @@
 set(kmarknote_SRCS
    main.cpp
    kmarknote.cpp
-   kmarkview.cpp
+   kmarkpad.cpp
    mainview.cpp
    noteview.cpp
    terminalview.cpp

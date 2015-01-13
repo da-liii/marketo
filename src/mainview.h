@@ -1,7 +1,7 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include "kmarkview.h"
+#include "kmarkpad.h"
 #include "noteview.h"
 #include "terminalview.h"
 
@@ -29,7 +29,7 @@ class MainView : public QWidget
     Q_OBJECT
     
 public:
-    KMarkView *markView;
+    KMarkPad *markPad;
     KTextEditor::Document *note;
     MainView(QWidget *parent = 0, KAction *pAction = 0);
     virtual ~MainView();    
