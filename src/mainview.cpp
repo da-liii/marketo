@@ -2,11 +2,25 @@
 
 #include <QDir>
 #include <QtDebug>
+#include <QVBoxLayout>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QListView>
+#include <QSplitter>
+#include <QFileSystemModel>
+#include <QTreeView>
+#include <QModelIndex>
 
+#include <KDE/KWebView>
+#include <KDE/KUrl>
+#include <KDE/KAction>
 #include <KDE/KLocale>
 #include <KTextEditor/Editor>
 #include <KTextEditor/EditorChooser>
+#include <KDE/KLineEdit>
 #include <KDE/KMessageBox>
+
 
 MainView::MainView(QWidget *parent, KAction *pAction)
     : QWidget(parent)

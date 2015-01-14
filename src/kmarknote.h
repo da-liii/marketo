@@ -21,12 +21,7 @@
 #define KMARKNOTE_H
 
 #include "mainview.h"
-
 #include <KDE/KXmlGuiWindow>
-#include <KDE/KWebView>
-
-#include <QWidget>
-#include <QModelIndex>
 
 class KMarkNote : public KXmlGuiWindow
 {

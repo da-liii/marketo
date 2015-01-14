@@ -1,6 +1,9 @@
 #include "noteview.h"
 #include <QDir>
 #include <KUrl>
+#include <KTextEditor/Document>
+#include <QVBoxLayout>
+#include <KLineEdit>
 
 NoteView::NoteView(QWidget* parent)
     : QWidget(parent)

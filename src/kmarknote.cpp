@@ -32,9 +32,6 @@
 #include <KDE/KMenuBar>
 #include <KDE/KShortcut>
 
-#include <QTemporaryFile>
-#include <QUrl>
-#include <QTimer>
 #include <QKeySequence>
 
 KMarkNote::KMarkNote(QWidget* parent)

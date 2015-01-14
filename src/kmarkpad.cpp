@@ -1,5 +1,6 @@
 #include "kmarkpad.h"
 #include "markdown.h"
+#include "highlighterbykate.h"
 
 #include <string>
 #include <iostream>
@@ -8,15 +9,19 @@
 #include <KDE/KLocale>
 #include <KTextEditor/Editor>
 #include <KTextEditor/EditorChooser>
-#include <KMessageBox>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <KTextEditor/Cursor>
+#include <KWebView>
+#include <KMessageBox>
 
+#include <QSplitter>
+#include <QHBoxLayout>
 #include <QTimer>
 #include <QList>
 #include <QDir>
 #include <QWebFrame>
+#include <Qt>
 
 KMarkPad::KMarkPad(QWidget *parent)
     : QWidget(parent)
@@ -48,9 +53,9 @@ KMarkPad::KMarkPad(QWidget *parent)
     hs->setSizes(sizeList);
     
     connect(note, SIGNAL(textChanged(KTextEditor::Document *)), 
-        this, SLOT(updatePreviewer()));
+            this, SLOT(updatePreviewer()));
     connect(editor, SIGNAL(cursorPositionChanged(KTextEditor::View *,const KTextEditor::Cursor&)),
-        this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
+            this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
 }
 
 void KMarkPad::preview(bool livePreview)
@@ -71,7 +76,7 @@ void KMarkPad::preview(bool livePreview)
     m_livePreview = livePreview;
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
-        + QString("<link href=\"") + notePath +QString("/css/style.css\" type=\"text/css\">")
+        + QString("<link href=\"file://") + notePath +QString("/css/style.css\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
         + QString("</html>");

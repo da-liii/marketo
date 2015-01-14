@@ -1,28 +1,24 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include "kmarkpad.h"
 #include "noteview.h"
 #include "terminalview.h"
 
-#include <QVariant>
-#include <QAction>
-#include <QApplication>
-#include <QButtonGroup>
-#include <QHeaderView>
-#include <QListView>
-#include <QSplitter>
-#include <QTreeView>
-#include <QVBoxLayout>
-#include <QWidget>
-#include <QFileSystemModel>
-
-#include <KWebView>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
-#include <KDE/KLineEdit>
-#include <KUrl>
-#include <KAction>
+#include <QWidget>
+
+class KUrl;
+class KAction;
+class KWebView;
+
+class QVariant;
+class QApplication;
+class QListView;
+class QSplitter;
+class QFileSystemModel;
+class QTreeView;
+class QModelIndex;
 
 class MainView : public QWidget
 {

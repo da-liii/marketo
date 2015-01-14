@@ -1,15 +1,16 @@
 #ifndef KMARKVIEW_H
 #define KMARKVIEW_H
 
-#include <KWebView>
-#include <QSplitter>
-#include <QHBoxLayout>
-
+#include <QWidget>
+class QHBoxLayout;
+class QSplitter;
+class KWebView;
 namespace KTextEditor {
     class View;
     class Document;
     class Cursor;
-}
+};
+
 class KMarkPad : public QWidget
 {
     Q_OBJECT

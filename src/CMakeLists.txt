@@ -7,6 +7,7 @@ set(kmarknote_SRCS
    mainview.cpp
    noteview.cpp
    terminalview.cpp
+   highlighterbykate.cpp
 )
 
 kde4_add_executable(kmarknote ${kmarknote_SRCS})

@@ -2,10 +2,8 @@
 #define NOTEVIEW_H
 
 #include "kmarkpad.h"
-
-#include <QVBoxLayout>
-#include <KLineEdit>
-#include <KTextEditor/Document>
+class QVBoxLayout;
+class KLineEdit;
 
 class NoteView : public QWidget
 {
