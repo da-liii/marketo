@@ -21,8 +21,8 @@ public:
     KWebView *getPreviewer();
     void unpreview();
     
-    KTextEditor::Document *note;
-    KTextEditor::View *editor;
+    KTextEditor::Document *m_note;
+    KTextEditor::View *m_editor;
  
 public slots:
     void preview(bool livePreview = true);
@@ -30,7 +30,7 @@ public slots:
 private:
     QSplitter *hs;
     QHBoxLayout *hl;
-    KWebView *previewer;
+    KWebView *m_previewer;
     bool m_livePreview;
     
 private slots:

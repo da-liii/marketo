@@ -23,7 +23,7 @@ void NoteView::setupUI()
     vl = new QVBoxLayout(this);
     markPad = new KMarkPad(this);
     title = new KLineEdit(this);
-    note = markPad->note;
+    note = markPad->m_note;
     
     vl->addWidget(title);
     vl->addWidget(markPad);

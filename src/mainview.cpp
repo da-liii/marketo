@@ -112,12 +112,13 @@ void MainView::gotoDir(const QModelIndex& index)
 
 KTextEditor::View* MainView::getEditor()
 {
-    return markPad->editor;
+    return markPad->m_editor;
 }
 
 bool MainView::preview()
 {
     markPad->preview(column == 2);
+    previewAction->setChecked(true);
     return true;
 }
 
@@ -127,6 +128,7 @@ bool MainView::unpreview()
         return true;
     else {
         markPad->unpreview();
+        previewAction->setChecked(false);
         return false;
     }
 }
@@ -139,7 +141,6 @@ void MainView::oneColView()
     
     column = 1;
     unpreview();
-    previewAction->setChecked(false);
 }
 
 void MainView::twoColView()
@@ -154,7 +155,6 @@ void MainView::twoColView()
     
     column = 2;
     preview();
-    previewAction->setChecked(true);
 }
 
 void MainView::threeColView()
@@ -169,7 +169,6 @@ void MainView::threeColView()
     
     column = 3;
     unpreview();
-    previewAction->setChecked(false);
 }
 
 void MainView::showReadme(const QModelIndex &index)
