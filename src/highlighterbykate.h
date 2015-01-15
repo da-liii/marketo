@@ -11,6 +11,8 @@ class QString;
 
 namespace KTextEditor {
     class Document;
+    class Editor;
+    class View;
 };
 
 class HighlighterByKate
@@ -22,6 +24,10 @@ public:
     string highlighted(string plain, string type);
     QString exportDocument(KTextEditor::Document* note);
 private:
+    KTextEditor::Editor* m_new_editor;
+    KTextEditor::Document* m_note;
+    KTextEditor::View* m_editor;
+    
     map<string, string> mimeMap = {
         {"cpp", "C++"},
         {"c", "C"},

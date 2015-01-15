@@ -1,6 +1,8 @@
 #ifndef KMARKVIEW_H
 #define KMARKVIEW_H
 
+#include "htmlgenerator.h"
+
 #include <QWidget>
 class QHBoxLayout;
 class QSplitter;
@@ -9,6 +11,7 @@ namespace KTextEditor {
     class View;
     class Document;
     class Cursor;
+    class Editor;
 };
 
 class KMarkPad : public QWidget
@@ -32,6 +35,8 @@ private:
     QHBoxLayout *hl;
     KWebView *m_previewer;
     bool m_livePreview;
+    KTextEditor::Editor *m_new_editor;
+    HTMLGenerator *m_generator;
     
 private slots:
     void updatePreviewer();

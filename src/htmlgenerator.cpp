@@ -7,17 +7,21 @@
 using std::istringstream;
 using std::ostringstream;
 
-HTMLGenerator::HTMLGenerator(std::string plain)
+HTMLGenerator::HTMLGenerator()
+{
+    m_highlighter = new HighlighterByKate;
+}
+
+std::string HTMLGenerator::generated(string plain)
 {
     istringstream in(plain);
     ostringstream sout;
     ostringstream mid;
-   
     string line;
     string type;
     string tmp;
-    HighlighterByKate highlighter;
     bool inBlock = false;
+    
     while (getline(in, line)) {
         if (line.empty()) {
             sout << "\n";
@@ -25,10 +29,10 @@ HTMLGenerator::HTMLGenerator(std::string plain)
         }
         istringstream stmp(line);
         stmp >> tmp;
-        if (tmp == "'''") {
+        if (tmp == "```") {
             if (inBlock) {
                 inBlock = false;
-                sout << highlighter.highlighted(string(mid.str()), type);
+                sout << m_highlighter->highlighted(string(mid.str()), type);
                 mid.str("");
                 type = "";
             } else {
@@ -45,18 +49,13 @@ HTMLGenerator::HTMLGenerator(std::string plain)
     } // endwhile
     if (inBlock)
         sout << mid.str();
-    markdown::Document processor;
     
+    markdown::Document processor;
     processor.read(string(sout.str()));
     sout.str("");
     processor.write(sout);
-
-    result = string(sout.str());
-}
-
-std::string HTMLGenerator::generated()
-{
-    return result;
+    
+    return string(sout.str());
 }
 
 HTMLGenerator::~HTMLGenerator()

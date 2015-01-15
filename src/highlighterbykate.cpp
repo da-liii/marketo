@@ -10,23 +10,22 @@
 
 HighlighterByKate::HighlighterByKate()
 {
-
+    m_new_editor = KTextEditor::EditorChooser::editor();
+    m_note = m_new_editor->createDocument(0);
+    
+    // NOTE: currently it must be created for acccess of KateDocument::lineAttributes
+    // TODO: should be removed when upstream fix it
+    m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(0));
 }
 
 string HighlighterByKate::highlighted(string plain, string type)
 {
-    KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
-    KTextEditor::Document* note = new_editor->createDocument(0);
+
+    m_note->setText(QString::fromUtf8(plain.c_str()));
+    m_note->setHighlightingMode(QString::fromStdString(type.empty() ? "None" : mimeMap[type]));
+    string ret(exportDocument(m_note).toUtf8().constData());
     
-    // NOTE: currently it must be created for acccess of KateDocument::lineAttributes
-    // TODO: should be removed when upstream fix it
-    KTextEditor::View* editor = qobject_cast<KTextEditor::View*>(note->createView(0));
-    note->setText(QString::fromUtf8(plain.c_str()));
-    note->setHighlightingMode(QString::fromStdString(type.empty() ? "None" : mimeMap[type]));
-    /**
-     * The list of higlighMode:note->highlightingModes();
-     */
-    return string(exportDocument(note).toUtf8().constData());
+    return ret;
 }
 
 void exportText(QString& ret,
