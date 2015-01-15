@@ -1,4 +1,6 @@
-project(kmarknote)
+project(kmarknote CXX)
+
+set(CMAKE_CXX_FLAGS "-std=c++11")
 
 find_package(KDE4 REQUIRED)
 include (KDE4Defaults)

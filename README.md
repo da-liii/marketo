@@ -7,7 +7,8 @@ A KDE application for note taking with the power of lightweight markup language.
 + Support Markdown
 + Live Preview(auto sync between two views)
 + Intergrated Terminal at the bottom
-+ Intergrated into KDE's tag system(planning)
++ github-flavored highlight code syntax (using katepart's highlight library)
++ Intergrated into baloo's tag system(planning)
 + Git support(planning)
 + Jekyll support(planning)
 

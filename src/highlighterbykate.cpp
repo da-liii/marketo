@@ -13,7 +13,7 @@ HighlighterByKate::HighlighterByKate()
 
 }
 
-string HighlighterByKate::highlighted(string plain)
+string HighlighterByKate::highlighted(string plain, string type)
 {
     KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
     KTextEditor::Document* note = new_editor->createDocument(0);
@@ -22,7 +22,7 @@ string HighlighterByKate::highlighted(string plain)
     // TODO: should be removed when upstream fix it
     KTextEditor::View* editor = qobject_cast<KTextEditor::View*>(note->createView(0));
     note->setText(QString::fromUtf8(plain.c_str()));
-    note->setHighlightingMode(QString("Markdown"));
+    note->setHighlightingMode(QString::fromStdString(type.empty() ? "None" : mimeMap[type]));
     /**
      * The list of higlighMode:note->highlightingModes();
      */
@@ -33,8 +33,14 @@ void exportText(QString& ret,
                 const QString& text,
                 const KTextEditor::Attribute::Ptr& attrib)
 {
+    QString tmptext = text;
     if ( !attrib || !attrib->hasAnyProperty()) {
-        ret.append(Qt::escape(text)); // NOTE:in Qt5, use text.toHTMLEscaped()
+        // TODO:dirty hack due to a bug in libmdcpp
+        tmptext.replace(QString("<"), QString("&lt;"), Qt::CaseSensitive);
+        tmptext.replace(QString(">"), QString("&gt;"), Qt::CaseSensitive);
+        tmptext.replace(QString("&lt;"), QString("<a><</a>"), Qt::CaseSensitive);
+        tmptext.replace(QString("&gt;"), QString("<a>></a>"), Qt::CaseSensitive);
+        ret.append(tmptext); // NOTE:in Qt5, use text.toHTMLEscaped()
         return;
     }
 
@@ -59,8 +65,12 @@ void exportText(QString& ret,
                                             + QLatin1Char(';')) 
                                     : QString()));
     }
-
-    ret.append(Qt::escape(text)); // NOTE:in Qt5, use text.toHTMLEscaped()
+    // TODO:dirty hack
+    tmptext.replace(QString("<"), QString("&lt;"), Qt::CaseSensitive);
+    tmptext.replace(QString(">"), QString("&gt;"), Qt::CaseSensitive);
+    tmptext.replace(QString("&lt;"), QString("<a><</a>"), Qt::CaseSensitive);
+    tmptext.replace(QString("&gt;"), QString("<a>></a>"), Qt::CaseSensitive);
+    ret.append(tmptext); // NOTE:in Qt5, use text.toHTMLEscaped()
 
     if ( writeBackground || writeForeground ) {
         ret.append("</span>");
@@ -84,10 +94,9 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
 
     const KTextEditor::Attribute::Ptr noAttrib(0);
     
-    ret.append("<table>");
+    ret.append("<pre><code>");
     for (int i = 0; i < note->lines(); ++i)
     {
-        ret.append("<tr><td>");
         QString content("");
         const QString &line = note->line(i);
 
@@ -128,12 +137,13 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
         if ( handledUntil < lineStart + remainingChars ) {
             exportText(content, line.mid( handledUntil, remainingChars ), noAttrib );
         }
-        ret.append(content.isEmpty() ? "<br />" : content);
-        ret.append("</td></tr>");
-        if (i != range.end().line()) 
+        
+        if (i != range.end().line()) {
+            ret.append(content.isEmpty() ? "\n" : content);
             ret.append("\n");
+        }
     }
-    ret.append("</table>");
+    ret.append("</code></pre>");
     return ret;
 }
 

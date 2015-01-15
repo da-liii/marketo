@@ -1,6 +1,6 @@
 #include "kmarkpad.h"
 #include "markdown.h"
-#include "highlighterbykate.h"
+#include "htmlgenerator.h"
 
 #include <string>
 #include <iostream>
@@ -23,6 +23,8 @@
 #include <QWebFrame>
 #include <Qt>
 
+using std::string;
+
 KMarkPad::KMarkPad(QWidget *parent)
     : QWidget(parent)
 {
@@ -37,8 +39,8 @@ KMarkPad::KMarkPad(QWidget *parent)
     // TODO: new_editor should be carefully handled, may memory leak
     KTextEditor::Editor* new_editor = KTextEditor::EditorChooser::editor();
     if (!new_editor) {
-        KMessageBox::error(this,  i18n("A KDE text-editor component could not be found;\n"
-                                       "please check your KDE installation."));
+        KMessageBox::error(this, i18n("A KDE text-editor component could not be found;\n"
+                                      "please check your KDE installation."));
         m_note = 0;
     } else {
         m_note = new_editor->createDocument(0);
@@ -61,17 +63,18 @@ KMarkPad::KMarkPad(QWidget *parent)
 void KMarkPad::preview(bool livePreview)
 {
     std::stringstream html_ss;
-    std::string html;
+    string html;
     markdown::Document processer;
     QString notePath = QDir::homePath().append("/notes");
     
     // Markdown rendering
-    bool ret = processer.read(std::string(m_note->text().toUtf8().constData()));
-    if (!ret)
-        return ;
-    processer.write(html_ss);
-    html = html_ss.str();
-    
+    //bool ret = processer.read(std::string(m_note->text().toUtf8().constData()));
+    //if (!ret)
+    //    return ;
+    //processer.write(html_ss);
+    //html = html_ss.str();
+    HTMLGenerator gererator(string(m_note->text().toUtf8().constData()));
+    html = gererator.generated();
     // Preview it
     m_livePreview = livePreview;
     QString content = QString::fromUtf8(html.c_str());
