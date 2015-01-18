@@ -1,4 +1,5 @@
 #include "mainview.h"
+#include "kmarknote_generalsettings.h"
 
 #include <QDir>
 #include <QtDebug>
@@ -27,10 +28,28 @@ MainView::MainView(QWidget *parent, KAction *pAction)
 {
     setupUI();
     setupConnect();
-    
+    GeneralSettings* generalSettings = GeneralSettings::self();
+    const bool firstRun = (generalSettings->version() == 0);
+    if (firstRun) {
+        // TODO: let user choose home directory
+        qDebug() << "firstRun of KMarkNote";
+    }
     previewAction = pAction;
-    column = 3;
-    threeColView();
+    column = generalSettings->startViewNumber();
+    switch (column) {
+        case 1:
+            oneColView();
+            break;
+        case 2:
+            twoColView();
+            break;
+        case 3:
+            threeColView();
+            break;
+        default:
+            threeColView();
+            break;
+    }
 }
 
 void MainView::setupUI()
@@ -55,10 +74,10 @@ void MainView::setupUI()
     verticalLayout->addWidget(vsplitter);
     
     tmodel = new QFileSystemModel;
-    tmodel->setRootPath(QDir::homePath());
+    tmodel->setRootPath(GeneralSettings::homeDir());
     tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     treeView->setModel(tmodel);
-    treeView->setRootIndex(tmodel->index(QDir::homePath().append("/notes")));
+    treeView->setRootIndex(tmodel->index(GeneralSettings::homeDir()));
     treeView->resizeColumnToContents(0);
     treeView->setColumnHidden(1, true);
     treeView->setColumnHidden(2, true);
@@ -68,7 +87,7 @@ void MainView::setupUI()
     treeView->setHeaderHidden(true);
 
     lmodel = new QFileSystemModel; 
-    lmodel->setRootPath(QDir::homePath());
+    lmodel->setRootPath(GeneralSettings::homeDir());
     lmodel->setFilter(QDir::Files);
     
     QStringList filters;
@@ -77,7 +96,7 @@ void MainView::setupUI()
     lmodel->setNameFilterDisables(false);
     
     listView->setModel(lmodel);
-    listView->setRootIndex(lmodel->index(QDir::homePath().append("/notes")));
+    listView->setRootIndex(lmodel->index(GeneralSettings::homeDir()));
     listView->setGridSize(QSize(listView->sizeHint().width(), 34));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
