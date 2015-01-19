@@ -1,5 +1,8 @@
 #include "mainview.h"
 #include "kmarknote_generalsettings.h"
+#include "terminalpanel.h"
+#include "navpanel.h"
+#include "listpanel.h"
 
 #include <QDir>
 #include <QtDebug>
@@ -7,10 +10,7 @@
 #include <QVariant>
 #include <QAction>
 #include <QApplication>
-#include <QListView>
 #include <QSplitter>
-#include <QFileSystemModel>
-#include <QTreeView>
 #include <QModelIndex>
 
 #include <KDE/KWebView>
@@ -24,10 +24,9 @@
 
 
 MainView::MainView(QWidget *parent, KAction *pAction)
-    : QWidget(parent)
+    : Panel(parent)
 {
     setupUI();
-    setupConnect();
     GeneralSettings* generalSettings = GeneralSettings::self();
     const bool firstRun = (generalSettings->version() == 0);
     if (firstRun) {
@@ -58,10 +57,17 @@ void MainView::setupUI()
     verticalLayout = new QVBoxLayout(this);
     vsplitter = new QSplitter(Qt::Vertical, this);
     hsplitter = new QSplitter(Qt::Horizontal, this);
-    terminal = new TerminalView(this);
+    
+    terminal = new TerminalPanel(this);
     terminal->hide();
-    treeView = new QTreeView(hsplitter);
-    listView = new QListView(hsplitter);
+    connect(terminal, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    
+    navigator = new Navigator(this);
+    connect(navigator, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    
+    listPanel = new ListPanel(this);
+    connect(listPanel, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    
     noteView = new NoteView(hsplitter);
     note = noteView->note;
     markPad = noteView->markPad;
@@ -72,61 +78,27 @@ void MainView::setupUI()
     sizeList << 800 << 300;
     vsplitter->setSizes(sizeList);
     verticalLayout->addWidget(vsplitter);
-    
-    tmodel = new QFileSystemModel;
-    tmodel->setRootPath(GeneralSettings::homeDir());
-    tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
-    treeView->setModel(tmodel);
-    treeView->setRootIndex(tmodel->index(GeneralSettings::homeDir()));
-    treeView->resizeColumnToContents(0);
-    treeView->setColumnHidden(1, true);
-    treeView->setColumnHidden(2, true);
-    treeView->setColumnHidden(3, true);
-    treeView->setUniformRowHeights(true);
-    treeView->setIconSize(QSize(treeView->sizeHint().width(), 34));
-    treeView->setHeaderHidden(true);
 
-    lmodel = new QFileSystemModel; 
-    lmodel->setRootPath(GeneralSettings::homeDir());
-    lmodel->setFilter(QDir::Files);
-    
-    QStringList filters;
-    filters << "*.md" << "*.markdown";
-    lmodel->setNameFilters(filters);
-    lmodel->setNameFilterDisables(false);
-    
-    listView->setModel(lmodel);
-    listView->setRootIndex(lmodel->index(GeneralSettings::homeDir()));
-    listView->setGridSize(QSize(listView->sizeHint().width(), 34));
-    listView->setIconSize(QSize(listView->sizeHint().width(), 34));
-    listView->setAlternatingRowColors(true);
-    
-    hsplitter->addWidget(treeView);
-    hsplitter->addWidget(listView);
+    hsplitter->addWidget(navigator);
+    hsplitter->addWidget(listPanel);
     hsplitter->addWidget(noteView);
 }
 
-void MainView::setupConnect()
+bool MainView::urlChanged()
 {
-    connect(treeView, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(gotoDir(QModelIndex)));
-    connect(listView, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(open(QModelIndex)));
-    connect(treeView, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(showReadme(QModelIndex)));    
+    terminal->setUrl(url());
+    listPanel->setUrl(url());
+    navigator->setUrl(url());
+    if (!url().toLocalFile().endsWith("/"))
+        noteView->openUrl(url());
+    return true;
 }
 
 void MainView::open(const QModelIndex &index)
 {
-    KUrl url = KUrl(lmodel->filePath(index));
-    note->openUrl(url);
-    noteView->setTitle(url.fileName());
-}
-
-void MainView::gotoDir(const QModelIndex& index)
-{
-    lmodel->setRootPath(tmodel->filePath(index));
-    listView->setRootIndex(lmodel->index(tmodel->filePath(index)));
+    //KUrl url = KUrl(lmodel->filePath(index));
+    //note->openUrl(url);
+    //noteView->setTitle(url.fileName());
 }
 
 KTextEditor::View* MainView::getEditor()
@@ -154,8 +126,8 @@ bool MainView::unpreview()
 
 void MainView::oneColView()
 {
-    treeView->setHidden(true);
-    listView->setHidden(true);
+    navigator->setHidden(true);
+    listPanel->setHidden(true);
     noteView->hideTitleLine();
     
     column = 1;
@@ -168,8 +140,8 @@ void MainView::twoColView()
     sizeList << 0 << 0 << 400;
     hsplitter->setSizes(sizeList);
     
-    treeView->setHidden(true);
-    listView->setHidden(true);
+    navigator->setHidden(true);
+    listPanel->setHidden(true);
     noteView->hideTitleLine();
     
     column = 2;
@@ -178,8 +150,8 @@ void MainView::twoColView()
 
 void MainView::threeColView()
 {
-    treeView->setHidden(false);
-    listView->setHidden(false);
+    navigator->setHidden(false);
+    listPanel->setHidden(false);
     noteView->showTitleLine();
     
     QList<int> sizeList;
@@ -192,17 +164,17 @@ void MainView::threeColView()
 
 void MainView::showReadme(const QModelIndex &index)
 {
-    QString readmePath = tmodel->filePath(index).append("/README.md");
-    note->openUrl(KUrl(readmePath));
-    noteView->setTitle("README.md");
-    unpreview();
+    //QString readmePath = tmodel->filePath(index).append("/README.md");
+    //note->openUrl(KUrl(readmePath));
+    //noteView->setTitle("README.md");
+    //unpreview();
 }
 
 void MainView::openUrl(KUrl url)
 {
     // TODO:if the url is not in the watching dir and is in three column view
     // switch to one column view
-    note->openUrl(url);
+    noteView->openUrl(url);
 }
 
 void MainView::newNote()

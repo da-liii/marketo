@@ -56,6 +56,14 @@ void NoteView::setTitle(const QString& titleOfNote)
     title->setText(titleOfNote);
 }
 
+void NoteView::openUrl(KUrl url)
+{
+    // TODO:if the url is not in the watching dir and is in three column view
+    // switch to one column view
+    title->setText(url.fileName());
+    note->openUrl(url);
+}
+
 NoteView::~NoteView()
 {
 

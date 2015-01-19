@@ -6,7 +6,10 @@ set(kmarknote_SRCS
    kmarkpad.cpp
    mainview.cpp
    noteview.cpp
-   terminalview.cpp
+   panel.cpp
+   terminalpanel.cpp
+   navpanel.cpp
+   listpanel.cpp
    highlighterbykate.cpp
    htmlgenerator.cpp
 )

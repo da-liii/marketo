@@ -2,7 +2,7 @@
 #define MAINVIEW_H
 
 #include "noteview.h"
-#include "terminalview.h"
+#include "panel.h"
 
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
@@ -16,11 +16,9 @@ class QVariant;
 class QApplication;
 class QListView;
 class QSplitter;
-class QFileSystemModel;
-class QTreeView;
 class QModelIndex;
 
-class MainView : public QWidget
+class MainView : public Panel 
 {
     Q_OBJECT
     
@@ -34,18 +32,15 @@ public:
     bool unpreview();
     void openUrl(KUrl url);
     void newNote();
-    void setupConnect();
     void setupUI();
     
 private:
     QVBoxLayout *verticalLayout;
     QSplitter *vsplitter;
     QSplitter *hsplitter;
-    TerminalView *terminal;
-    QListView *listView;
-    QTreeView *treeView;
-    QFileSystemModel *lmodel;
-    QFileSystemModel *tmodel;
+    Panel *terminal;
+    Panel *navigator;
+    Panel *listPanel;
     
     KTextEditor::View *editor;
     NoteView *noteView;
@@ -53,13 +48,15 @@ private:
     int column;
 
 private slots:
-    void gotoDir(const QModelIndex &index);
     void oneColView();
     void twoColView();
     void threeColView();
     void open(const QModelIndex &index);
     void showReadme(const QModelIndex &index);
     void toggleTerminal();
+    
+protected:
+    virtual bool urlChanged();
 };
 
 #endif // MAINVIEW_H
