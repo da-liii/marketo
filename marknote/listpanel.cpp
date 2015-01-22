@@ -15,9 +15,8 @@ ListPanel::ListPanel(QWidget* parent)
     lmodel->setRootPath(GeneralSettings::homeDir());
     lmodel->setFilter(QDir::Files);
     
-    QStringList filters;
-    filters << "*.md" << "*.markdown";
-    lmodel->setNameFilters(filters);
+    m_filters << "*.md" << "*.markdown";
+    lmodel->setNameFilters(m_filters);
     lmodel->setNameFilterDisables(false);
     
     listView = new QListView(this);
@@ -35,15 +34,18 @@ ListPanel::ListPanel(QWidget* parent)
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
-    //lmodel->setRootPath(tmodel->filePath(index));
-    //listView->setRootIndex(lmodel->index(tmodel->filePath(index)));
-    setUrl(KUrl(lmodel->filePath(index)));
+    KUrl url(lmodel->filePath(index));
+    
+    setUrl(url);
 }
 
 bool ListPanel::urlChanged()
 {
-    lmodel->setRootPath(url().directory(KUrl::ObeyTrailingSlash));
-    listView->setRootIndex(lmodel->index(url().directory(KUrl::ObeyTrailingSlash)));
+    if (QFileInfo(url().toLocalFile()).isDir()) {
+        lmodel->setRootPath(url().path());
+        lmodel->setNameFilters(m_filters);
+        listView->setRootIndex(lmodel->index(url().path()));
+    }
     emit changeUrl(url());
     return true;
 }

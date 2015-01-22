@@ -27,6 +27,7 @@ signals:
 
 public slots:
     void terminalExited();
+    void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
     
 protected:
     /** @see QWidget::showEvent() */

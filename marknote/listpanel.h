@@ -20,6 +20,7 @@ private:
     QListView *listView;
     QFileSystemModel *lmodel;
     QVBoxLayout *vl;
+    QStringList m_filters;
     
 private slots:
     void setUrlFromIndex(const QModelIndex& index);

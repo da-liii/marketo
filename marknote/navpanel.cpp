@@ -36,7 +36,7 @@ Navigator::Navigator(Panel* parent)
 
 void Navigator::setUrlFromIndex(const QModelIndex& index)
 {
-    setUrl(KUrl(tmodel->filePath(index).append("/")));
+    setUrl(KUrl(tmodel->filePath(index)));
 }
 
 bool Navigator::urlChanged()

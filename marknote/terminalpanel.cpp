@@ -9,8 +9,10 @@
 #include <KParts/Part>
 #include <KDE/KShell>
 
+#include <QFileInfo>
 #include <QVBoxLayout>
 #include <QShowEvent>
+
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),
@@ -42,6 +44,8 @@ void TerminalPanel::showEvent(QShowEvent* event)
     if (m_terminal) {
         m_terminalWidget->setFocus();
         sendCdToTerminal(m_konsolePartCurrentDirectory);
+        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
+                this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
     }
 }
 
@@ -80,7 +84,10 @@ bool TerminalPanel::urlChanged()
 
     const bool sendInput = m_terminal && (m_terminal->foregroundProcessId() == -1) && isVisible();
     if (sendInput) {
-        sendCdToTerminal(url().toLocalFile());
+        if (QFileInfo(url().path()).isDir())
+            sendCdToTerminal(url().toLocalFile());
+        else
+            sendCdToTerminal(url().directory());
     }
 
     return true;
@@ -90,6 +97,20 @@ void TerminalPanel::terminalExited()
 {
     m_terminal = 0;
     hide();
+}
+
+void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
+{
+    m_konsolePartCurrentDirectory = dir;
+
+    // Only change the view URL if 'dir' is different from the current view URL.
+    // Note that the current view URL could also be a symbolic link to 'dir'
+    // -> use QDir::canonicalPath() to check that.
+    const KUrl oldUrl(url());
+    const KUrl newUrl(dir);
+    if (newUrl != oldUrl && dir != QDir(oldUrl.path()).canonicalPath()) {
+        emit changeUrl(newUrl);
+    }
 }
 
 TerminalPanel::~TerminalPanel()

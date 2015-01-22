@@ -89,7 +89,7 @@ bool MainView::urlChanged()
     terminal->setUrl(url());
     listPanel->setUrl(url());
     navigator->setUrl(url());
-    if (!url().toLocalFile().endsWith("/"))
+    if (QFileInfo(url().toLocalFile()).isFile())
         noteView->openUrl(url());
     return true;
 }
