@@ -82,6 +82,7 @@ void KMarkNote::setupUI()
     setCentralWidget(m_view);
     setupGUI(QSize(500,600), Default, "kmarknote.rc");
     guiFactory()->addClient(m_view->getEditor());
+    setStandardToolBarMenuEnabled(true);
     restoreWindowSize(cg);
  }
 

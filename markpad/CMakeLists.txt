@@ -1,3 +1,5 @@
+project(kmarkpad)
+
 set (kmarkpad_SRCS
     main.cpp
     mainwindow.cpp
@@ -21,5 +23,5 @@ target_link_libraries (kmarkpad
 
 install(TARGETS kmarkpad DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS kmarkpad.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-# install(FILES kmarknote.rc DESTINATION ${DATA_INSTALL_DIR}/kmarknote)
+install(FILES kmarkpad.rc DESTINATION ${DATA_INSTALL_DIR}/kmarkpad)
 # install( FILES kmarknote_generalsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )

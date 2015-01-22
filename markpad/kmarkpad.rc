@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="kmarkpad" version="1">
+
+<MenuBar>
+  <Menu name="file">
+    <Merge />
+    <Action name="file_new"/>
+    <Action name="file_open"/>
+    <Separator/>
+  </Menu>
+  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
+    <DefineGroup name="edit_undo_merge"/>
+    <Separator/>
+    <DefineGroup name="edit_paste_merge"/>
+    <Separator/>
+    <DefineGroup name="edit_select_merge"/>
+    <Separator/>
+    <DefineGroup name="edit_find_merge"/>
+    <Separator/>
+    <Merge/>
+  </Menu>
+  
+  <Menu name="view" noMerge="1"><text>&amp;View</text>
+    <DefineGroup name="view_operations" />
+  </Menu>
+  
+  <Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+    <DefineGroup name="tools_operations" />
+  </Menu>
+  <Merge />
+</MenuBar>
+
+<ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
+  <Action name="file_new" />
+  <Action name="file_open" />
+  <Separator />
+  <DefineGroup name="file_operations" />
+  <Separator />
+  <DefineGroup name="print_merge" />
+  <Separator />
+  <Action name="file_close" />
+  <Separator />
+  <DefineGroup name="edit_operations" />
+  <Separator />
+  <DefineGroup name="find_operations" />
+  <Separator />
+  <DefineGroup name="zoom_operations" />
+</ToolBar>
+
+</gui>
