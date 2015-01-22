@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=KMarkPad
+Name[zh_CN]=KMarkNote
+Name[zh_TW]=KMarkNote
+Exec=kmarkpad %i -caption %c
+Icon=kmarkpad
+Type=Application
+GenericName=Just Another Markdown Editor

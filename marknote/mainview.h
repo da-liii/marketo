@@ -51,8 +51,6 @@ private slots:
     void oneColView();
     void twoColView();
     void threeColView();
-    void open(const QModelIndex &index);
-    void showReadme(const QModelIndex &index);
     void toggleTerminal();
     
 protected:

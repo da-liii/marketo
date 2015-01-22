@@ -53,7 +53,6 @@ KMarkNote::KMarkNote(QWidget* parent)
 void KMarkNote::setupAction()
 {
     KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
-    KStandardAction::open(this, SLOT(open()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
     
     
@@ -99,12 +98,6 @@ void KMarkNote::setupConnect()
 void KMarkNote::newNote()
 {
     m_view->newNote();
-}
-
-void KMarkNote::open()
-{
-    KUrl url = KFileDialog::getOpenFileName(KUrl(),QString() ,this);
-    m_view->openUrl(url);
 }
 
 void KMarkNote::updateCaptionModified()

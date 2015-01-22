@@ -94,13 +94,6 @@ bool MainView::urlChanged()
     return true;
 }
 
-void MainView::open(const QModelIndex &index)
-{
-    //KUrl url = KUrl(lmodel->filePath(index));
-    //note->openUrl(url);
-    //noteView->setTitle(url.fileName());
-}
-
 KTextEditor::View* MainView::getEditor()
 {
     return markPad->m_editor;
@@ -160,14 +153,6 @@ void MainView::threeColView()
     
     column = 3;
     unpreview();
-}
-
-void MainView::showReadme(const QModelIndex &index)
-{
-    //QString readmePath = tmodel->filePath(index).append("/README.md");
-    //note->openUrl(KUrl(readmePath));
-    //noteView->setTitle("README.md");
-    //unpreview();
 }
 
 void MainView::openUrl(KUrl url)

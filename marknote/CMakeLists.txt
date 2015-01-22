@@ -1,24 +1,24 @@
-# In this CMakeLists.txt we define which files
-# are used to compile the application
-set(kmarknote_SRCS
+set (kmarknote_SRCS
    main.cpp
    kmarknote.cpp
-   kmarkpad.cpp
    mainview.cpp
    noteview.cpp
    panel.cpp
    terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
-   highlighterbykate.cpp
-   htmlgenerator.cpp
+   ../markpad/kmarkpad.cpp
+   ../markpad/highlighterbykate.cpp
+   ../markpad/htmlgenerator.cpp
 )
 
-kde4_add_kcfg_files(kmarknote_SRCS kmarknote_generalsettings.kcfgc)
+kde4_add_kcfg_files (kmarknote_SRCS kmarknote_generalsettings.kcfgc)
 
-kde4_add_executable(kmarknote ${kmarknote_SRCS})
+kde4_add_executable (kmarknote ${kmarknote_SRCS})
 
-target_link_libraries(kmarknote
+include_directories (../markpad/)
+
+target_link_libraries (kmarknote
                     ${KDE4_KDEUI_LIBS} 
                     ${KDE4_KTEXTEDITOR_LIBS}
                     ${KDE4_KDEWEBKIT_LIBS}  
