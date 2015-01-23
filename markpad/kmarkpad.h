@@ -23,7 +23,7 @@ public:
     virtual ~KMarkPad();
     KWebView *getPreviewer();
     void unpreview();
-    
+    KTextEditor::View* view();
     KTextEditor::Document *m_note;
     KTextEditor::View *m_editor;
  

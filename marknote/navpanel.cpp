@@ -2,6 +2,8 @@
 #include "kmarknote_generalsettings.h"
 
 #include <QFileSystemModel>
+#include <QItemSelection>
+#include <QItemSelectionModel>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <QModelIndex>
@@ -12,12 +14,14 @@ Navigator::Navigator(Panel* parent)
     : Panel(parent)
 {
     tmodel = new QFileSystemModel;
-    tmodel->setRootPath(GeneralSettings::homeDir());
+    tmodel->setRootPath(GeneralSettings::noteDir());
     tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+    
+    m_selectionModel = new QItemSelectionModel(tmodel);
     
     treeView = new QTreeView(this);
     treeView->setModel(tmodel);
-    treeView->setRootIndex(tmodel->index(GeneralSettings::homeDir()));
+    treeView->setRootIndex(tmodel->index(GeneralSettings::noteDir()));
     treeView->resizeColumnToContents(0);
     treeView->setColumnHidden(1, true);
     treeView->setColumnHidden(2, true);
@@ -25,6 +29,7 @@ Navigator::Navigator(Panel* parent)
     treeView->setUniformRowHeights(true);
     treeView->setIconSize(QSize(treeView->sizeHint().width(), 34));
     treeView->setHeaderHidden(true);
+    treeView->setAnimated(true);
     
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(setUrlFromIndex(QModelIndex)));
@@ -42,6 +47,17 @@ void Navigator::setUrlFromIndex(const QModelIndex& index)
 bool Navigator::urlChanged()
 {
     emit changeUrl(url());
+
+    if (QFileInfo(url().path()).isDir()) {
+        treeView->scrollTo(tmodel->index(url().toLocalFile()));
+        QItemSelection selection(
+            tmodel->index(url().toLocalFile()),
+            tmodel->index(url().toLocalFile())
+        );
+        m_selectionModel->select(selection, QItemSelectionModel::ClearAndSelect);
+        treeView->setSelectionModel(m_selectionModel);
+    }
+
     return true;
 }
 

@@ -23,7 +23,6 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
-    m_konsolePartCurrentDirectory = GeneralSettings::noteDir();
 }
 
 void TerminalPanel::showEvent(QShowEvent* event)
@@ -43,7 +42,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
     }
     if (m_terminal) {
         m_terminalWidget->setFocus();
-        sendCdToTerminal(m_konsolePartCurrentDirectory);
+        urlChanged();
         connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
                 this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
     }

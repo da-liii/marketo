@@ -7,6 +7,8 @@ class QFileSystemModel;
 class QTreeView;
 class QVBoxLayout;
 class QModelIndex;
+class QItemSelection;
+class QItemSelectionModel;
 
 class Navigator : public Panel
 {
@@ -21,6 +23,8 @@ private:
     QTreeView *treeView;
     QFileSystemModel *tmodel;
     QVBoxLayout *vl;
+    QItemSelection *m_selection;
+    QItemSelectionModel *m_selectionModel;
     
 private slots:
     void setUrlFromIndex(const QModelIndex& index);

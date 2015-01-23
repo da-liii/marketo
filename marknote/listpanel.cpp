@@ -12,7 +12,7 @@ ListPanel::ListPanel(QWidget* parent)
     : Panel(parent)
 {
     lmodel = new QFileSystemModel; 
-    lmodel->setRootPath(GeneralSettings::homeDir());
+    lmodel->setRootPath(GeneralSettings::noteDir());
     lmodel->setFilter(QDir::Files);
     
     m_filters << "*.md" << "*.markdown";
@@ -21,7 +21,7 @@ ListPanel::ListPanel(QWidget* parent)
     
     listView = new QListView(this);
     listView->setModel(lmodel);
-    listView->setRootIndex(lmodel->index(GeneralSettings::homeDir()));
+    listView->setRootIndex(lmodel->index(GeneralSettings::noteDir()));
     listView->setGridSize(QSize(listView->sizeHint().width(), 34));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);

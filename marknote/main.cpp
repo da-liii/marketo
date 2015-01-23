@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
 
-    KMarkNote *mainWindow = new KMarkNote();
+    KMarkNote *mainWindow = new KMarkNote;
     mainWindow->show();
     
     return app.exec();

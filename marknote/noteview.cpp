@@ -2,6 +2,7 @@
 #include <QDir>
 #include <KUrl>
 #include <KTextEditor/Document>
+#include <KTextEditor/View>
 #include <QVBoxLayout>
 #include <KLineEdit>
 
@@ -39,6 +40,7 @@ void NoteView::saveNote(QString name)
     QDir dir(url.directory());
     dir.rename(note->url().fileName(), url.fileName());
     note->openUrl(url);
+    markPad->view()->setFocus();
 }
 
 void NoteView::hideTitleLine()
@@ -62,6 +64,11 @@ void NoteView::openUrl(KUrl url)
     // switch to one column view
     title->setText(url.fileName());
     note->openUrl(url);
+}
+
+void NoteView::focusTitle()
+{
+    title->setFocus();
 }
 
 NoteView::~NoteView()

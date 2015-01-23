@@ -19,6 +19,8 @@ public:
     void showTitleLine();
     void setTitle(const QString& titleOfNote);
     void openUrl(KUrl url);    
+    void focusTitle();
+    
 private:
     QVBoxLayout *vl;
     QHBoxLayout *hl;

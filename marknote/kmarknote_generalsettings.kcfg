@@ -13,17 +13,13 @@
             <label>Internal version of KMarkNote, containing 3 digits for major, minor, bugfix</label>
             <default>0</default>
         </entry>
-        <entry name="HomeDir" type="String">
-            <label>Home Dir</label>
-            <default code="true">QDir::homePath().append("/notes")</default>
+        <entry name="NoteDir" type="String">
+            <label>Note Dir</label>
+            <default code="true">QDir::homePath().append("/Note")</default>
         </entry>
         <entry name="CssDir" type="String">
             <label>CSS Dir</label>
-            <default code="true">homeDir().append("/css")</default>
-        </entry>
-        <entry name="NoteDir" type="String">
-            <label>Note Dir</label>
-            <default code="true">homeDir().append("/Note")</default>
+            <default code="true">noteDir().append("/css")</default>
         </entry>
         <entry name="StartViewNumber" type="Int">
             <label>The number of the columns when KMarkNote starts</label>

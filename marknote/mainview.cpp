@@ -27,10 +27,12 @@ MainView::MainView(QWidget *parent, KAction *pAction)
     : Panel(parent)
 {
     setupUI();
+    
+    // TODO:handle GeneralSettings, there may be a memory leak
     GeneralSettings* generalSettings = GeneralSettings::self();
     const bool firstRun = (generalSettings->version() == 0);
     if (firstRun) {
-        // TODO: let user choose home directory
+        // TODO: let user choose note directory
         qDebug() << "firstRun of KMarkNote";
     }
     previewAction = pAction;
@@ -49,6 +51,7 @@ MainView::MainView(QWidget *parent, KAction *pAction)
             threeColView();
             break;
     }
+    setUrl(generalSettings->noteDir());
 }
 
 void MainView::setupUI()
@@ -164,12 +167,16 @@ void MainView::openUrl(KUrl url)
 
 void MainView::newNote()
 {
-    KUrl url;
+    KUrl tmpUrl;
     
-    url = note->url();
-    url = url.directory().append("/Untitle.md");
-    noteView->setTitle(url.fileName());
-    note->openUrl(url);
+    tmpUrl = url();
+    if (QFileInfo(tmpUrl.path()).isDir())
+        tmpUrl = tmpUrl.path().append("/Untitle.md");
+    else
+        tmpUrl = tmpUrl.directory().append("/Untitle.md");
+    noteView->setTitle(tmpUrl.fileName());
+    noteView->focusTitle();
+    note->openUrl(tmpUrl);
 }
 
 void MainView::toggleTerminal()

@@ -111,6 +111,11 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
 }
 
+KTextEditor::View* KMarkPad::view()
+{
+    return m_editor;
+}
+
 KMarkPad::~KMarkPad()
 {
 
