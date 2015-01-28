@@ -4,6 +4,7 @@
 #include "kmarkpad.h"
 class QVBoxLayout;
 class KLineEdit;
+class KUrl;
 
 class NoteView : public QWidget
 {
@@ -17,6 +18,8 @@ public:
     void hideTitleLine();
     void showTitleLine();
     void setTitle(const QString& titleOfNote);
+    void openUrl(KUrl url);    
+    void focusTitle();
     
 private:
     QVBoxLayout *vl;

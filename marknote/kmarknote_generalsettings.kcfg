@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <include>QDir</include>
+    <include>KUrl</include>
+    <include>kglobalsettings.h</include>
+    <kcfgfile name="kmarknoterc"/>
+    <group name="General">
+        <entry name="Version" type="Int">
+            <label>Internal version of KMarkNote, containing 3 digits for major, minor, bugfix</label>
+            <default>0</default>
+        </entry>
+        <entry name="NoteDir" type="String">
+            <label>Note Dir</label>
+            <default code="true">QDir::homePath().append("/Note")</default>
+        </entry>
+        <entry name="CssDir" type="String">
+            <label>CSS Dir</label>
+            <default code="true">noteDir().append("/css")</default>
+        </entry>
+        <entry name="StartViewNumber" type="Int">
+            <label>The number of the columns when KMarkNote starts</label>
+            <default>3</default>
+        </entry>
+    </group>
+</kcfg>

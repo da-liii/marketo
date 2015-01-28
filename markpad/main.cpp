@@ -17,24 +17,23 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-// application header
-#include "kmarknote.h"
-// KDE headers
+#include "mainwindow.h"
+
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
 #include <KDE/KLocale>
 
 static const char description[] =
-    I18N_NOOP("A Markdown based note-taking KDE application");
+    I18N_NOOP("Just Another Markdown Editor");
 
 static const char version[] = "0.1";
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kmarknote", 0, ki18n("KMarkNote"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen1992@gmail.com");
-    about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen1992@gmail.com" );
+    KAboutData about("kmarkpad", 0, ki18n("KMarkPad"), version, ki18n(description),
+                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen@zoho.com");
+    about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen@zoho.com" );
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;
@@ -42,8 +41,6 @@ int main(int argc, char **argv)
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
 
-    KMarkNote *mainWindow = new KMarkNote();
-    mainWindow->show();
-    
+    MainWindow *mainWindow = new MainWindow;
     return app.exec();
 }

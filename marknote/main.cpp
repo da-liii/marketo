@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) %{CURRENT_YEAR} by %{AUTHOR} <%{EMAIL}>                 *
+ *   Copyright (C) 2015 by Darcy Shen <sadhen1992@gmail.com>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KMARKNOTE_H
-#define KMARKNOTE_H
+#include "kmarknote.h"
 
-#include "mainview.h"
-#include <KDE/KXmlGuiWindow>
+#include <KDE/KApplication>
+#include <KDE/KAboutData>
+#include <KDE/KCmdLineArgs>
+#include <KDE/KLocale>
 
-class KMarkNote : public KXmlGuiWindow
+static const char description[] =
+    I18N_NOOP("A Markdown based note-taking KDE application");
+
+static const char version[] = "0.1";
+
+int main(int argc, char **argv)
 {
-    Q_OBJECT
-public:
-    KMarkNote(QWidget *parent = 0);
-    virtual ~KMarkNote();
-    
-    void unpreview();   
-    void setupAction();
-    void setupUI();
-    void setupConnect();
-    
-private slots:
-    void newNote();
-    void open();
-    void updateCaptionModified();
-    void updateCaption();
-    void togglePreview();
-    
-private:
-    KTextEditor::Document *m_note;
-    MainView *m_view;
-    bool isPreview;
-};
+    KAboutData about("kmarknote", 0, ki18n("KMarkNote"), version, ki18n(description),
+                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen1992@gmail.com");
+    about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen1992@gmail.com" );
+    KCmdLineArgs::init(argc, argv, &about);
 
-#endif // _KMARKNOTE_H_
+    KCmdLineOptions options;
+    options.add("+[URL]", ki18n( "Document to open" ));
+    KCmdLineArgs::addCmdLineOptions(options);
+    KApplication app;
+
+    KMarkNote *mainWindow = new KMarkNote;
+    mainWindow->show();
+    
+    return app.exec();
+}

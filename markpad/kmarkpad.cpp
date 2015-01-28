@@ -1,5 +1,6 @@
 #include "kmarkpad.h"
 #include "htmlgenerator.h"
+#include "kmarknote_generalsettings.h"
 
 #include <string>
 #include <iostream>
@@ -36,7 +37,6 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_previewer->setTextSizeMultiplier(0.8);
     hl->setMargin(0);
     
-    // TODO: new_editor should be carefully handled, may memory leak
     m_new_editor = KTextEditor::EditorChooser::editor();
     if (!m_new_editor) {
         KMessageBox::error(this, i18n("A KDE text-editor component could not be found;\n"
@@ -63,14 +63,13 @@ KMarkPad::KMarkPad(QWidget *parent)
 void KMarkPad::preview(bool livePreview)
 {
     string html;
-    QString notePath = QDir::homePath().append("/notes");
     
     html = m_generator->generated(string(m_note->text().toUtf8().constData()));
     
     m_livePreview = livePreview;
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
-        + QString("<link href=\"file://") + notePath +QString("/css/style.css\" rel=\"stylesheet\">")
+        + QString("<link href=\"file://") + GeneralSettings::cssDir() +QString("/style.css\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
         + QString("</html>");
@@ -110,6 +109,11 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     int offset = (sourceCur - sourceTotal/2) * 400 / sourceTotal;
     
     m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
+}
+
+KTextEditor::View* KMarkPad::view()
+{
+    return m_editor;
 }
 
 KMarkPad::~KMarkPad()
