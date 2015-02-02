@@ -6,6 +6,8 @@
 using std::string;
 using std::map;
 
+#include "markdown.h"
+
 class QString;
 
 
@@ -15,13 +17,13 @@ namespace KTextEditor {
     class View;
 };
 
-class HighlighterByKate
+class HighlighterByKate : markdown::SyntaxHighlighter
 {
 public:
     HighlighterByKate();
-    ~HighlighterByKate();
+    virtual ~HighlighterByKate();
     
-    string highlighted(string plain, string type);
+    virtual void highlight(const string& code, const string lang, std::ostream& out);
     QString exportDocument(KTextEditor::Document* note);
 private:
     KTextEditor::Editor* m_new_editor;
@@ -37,6 +39,7 @@ private:
         {"python", "Python"},
         {"py", "Python"},
         {"rb", "Ruby"},
+        {"ruby", "Ruby"},
         {"java", "Java"},
         {"hs", "Haskell"},
         {"haskell", "Haskell"},

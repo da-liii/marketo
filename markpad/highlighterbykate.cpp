@@ -18,28 +18,20 @@ HighlighterByKate::HighlighterByKate()
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(0));
 }
 
-string HighlighterByKate::highlighted(string plain, string type)
+void HighlighterByKate::highlight(const string& plain, const string type, std::ostream& out)
 {
 
     m_note->setText(QString::fromUtf8(plain.c_str()));
     m_note->setHighlightingMode(QString::fromStdString(type.empty() ? "None" : mimeMap[type]));
-    string ret(exportDocument(m_note).toUtf8().constData());
-    
-    return ret;
+    out << exportDocument(m_note).toUtf8().constData();
 }
 
 void exportText(QString& ret,
                 const QString& text,
                 const KTextEditor::Attribute::Ptr& attrib)
 {
-    QString tmptext = text;
     if ( !attrib || !attrib->hasAnyProperty()) {
-        // TODO:dirty hack due to a bug in libmdcpp
-        tmptext.replace(QString("<"), QString("&lt;"), Qt::CaseSensitive);
-        tmptext.replace(QString(">"), QString("&gt;"), Qt::CaseSensitive);
-        tmptext.replace(QString("&lt;"), QString("<a><</a>"), Qt::CaseSensitive);
-        tmptext.replace(QString("&gt;"), QString("<a>></a>"), Qt::CaseSensitive);
-        ret.append(tmptext); // NOTE:in Qt5, use text.toHTMLEscaped()
+        ret.append(text);
         return;
     }
 
@@ -64,12 +56,7 @@ void exportText(QString& ret,
                                             + QLatin1Char(';')) 
                                     : QString()));
     }
-    // TODO:dirty hack
-    tmptext.replace(QString("<"), QString("&lt;"), Qt::CaseSensitive);
-    tmptext.replace(QString(">"), QString("&gt;"), Qt::CaseSensitive);
-    tmptext.replace(QString("&lt;"), QString("<a><</a>"), Qt::CaseSensitive);
-    tmptext.replace(QString("&gt;"), QString("<a>></a>"), Qt::CaseSensitive);
-    ret.append(tmptext); // NOTE:in Qt5, use text.toHTMLEscaped()
+    ret.append(text);
 
     if ( writeBackground || writeForeground ) {
         ret.append("</span>");
@@ -93,7 +80,6 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
 
     const KTextEditor::Attribute::Ptr noAttrib(0);
     
-    ret.append("<pre><code>");
     for (int i = 0; i < note->lines(); ++i)
     {
         QString content("");
@@ -142,7 +128,6 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
             ret.append("\n");
         }
     }
-    ret.append("</code></pre>");
     return ret;
 }
 

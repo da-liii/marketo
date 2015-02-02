@@ -75,9 +75,6 @@ void KMarkPad::preview(bool livePreview)
         + QString("</html>");
     m_previewer->setHtml(content, QUrl());
     
-    // Scroll to the correct position
-    updatePreviewerByCursor(0, m_editor->cursorPosition());
-    
     if (livePreview) {
         m_editor->setHidden(false);
         m_previewer->setHidden(false);
@@ -85,6 +82,9 @@ void KMarkPad::preview(bool livePreview)
         m_editor->setHidden(true);
         m_previewer->setHidden(false);
     }
+    
+    // scroll to the correct position
+    updatePreviewerByCursor(0, m_editor->cursorPosition());
 }
 
 void KMarkPad::unpreview()
@@ -97,7 +97,7 @@ void KMarkPad::unpreview()
 void KMarkPad::updatePreviewer()
 {
     if (m_livePreview)
-        QTimer::singleShot(1000, this, SLOT(preview()));
+        QTimer::singleShot(100, this, SLOT(preview()));
 }
 
 void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
