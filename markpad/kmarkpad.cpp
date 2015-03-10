@@ -14,6 +14,8 @@
 #include <KTextEditor/Cursor>
 #include <KWebView>
 #include <KMessageBox>
+#include <KComponentData>
+#include <KStandardDirs>
 
 #include <QSplitter>
 #include <QHBoxLayout>
@@ -63,13 +65,16 @@ KMarkPad::KMarkPad(QWidget *parent)
 void KMarkPad::preview(bool livePreview)
 {
     string html;
+    KComponentData data(KGlobal::mainComponent());
     
     html = m_generator->generated(string(m_note->text().toUtf8().constData()));
     
     m_livePreview = livePreview;
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
-        + QString("<link href=\"file://") + GeneralSettings::cssDir() +QString("/style.css\" rel=\"stylesheet\">")
+        + QString("<link href=\"file://") 
+        + data.dirs()->locate("data", "kmarkpad/css/style.css") 
+        + QString("\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
         + QString("</html>");
