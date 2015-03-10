@@ -13,12 +13,15 @@ public:
     virtual ~MainWindow();
     
 private:
-    void setupActions();
+    void setupAction();
+    void setupConnect();
     
 private slots:
     void slotNew();
     void slotOpen();
     void slotClose();
+    void updateCaption();
+    void updateCaptionModified();
     
 private:
     KMarkPad *m_markpad;

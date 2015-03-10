@@ -13,10 +13,11 @@
 
 MainWindow::MainWindow()
 {
-    setupActions();
-    
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
+    
+    setupAction();
+    setupConnect();
     
     KConfigGroup cg(KGlobal::config(), "KMarkPad");
     setAutoSaveSettings(cg, true);
@@ -28,11 +29,31 @@ MainWindow::MainWindow()
     show();
 }
 
-void MainWindow::setupActions()
+void MainWindow::setupAction()
 {
     actionCollection()->addAction( KStandardAction::Close, "file_close", this, SLOT(slotClose()) );
     actionCollection()->addAction( KStandardAction::New, "file_new", this, SLOT(slotNew()) );
     actionCollection()->addAction( KStandardAction::Open, "file_open", this, SLOT(slotOpen()) );
+}
+
+void MainWindow::setupConnect()
+{
+    connect(m_markpad->m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
+        this, SLOT(updateCaption()));
+    connect(m_markpad->m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
+        this, SLOT(updateCaption()));
+    connect(m_markpad->m_note, SIGNAL(textChanged(KTextEditor::Document*)),
+        this, SLOT(updateCaptionModified()));
+}
+
+void MainWindow::updateCaptionModified()
+{
+    setCaption(m_markpad->m_note->url().fileName() + " [modified]- KMarkPad");
+}
+
+void MainWindow::updateCaption()
+{
+    setCaption(m_markpad->m_note->url().fileName() + " - KMarkPad");
 }
 
 void MainWindow::slotNew()
