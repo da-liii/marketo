@@ -3,6 +3,6 @@ Name=KMarkPad
 Name[zh_CN]=KMarkPad
 Name[zh_TW]=KMarkPad
 Exec=kmarkpad %i -caption %c
-Icon=kmarknote
+Icon=kmarkpad
 Type=Application
 GenericName=Just Another Markdown Editor

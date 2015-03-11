@@ -31,6 +31,19 @@ make
 sudo make install
 ```
 
+You can also only install the Markdown Editor:
+``` sh
+cd /tmp
+git clone https://github.com/sadhen/KMarkNote.git
+cd KMarkNote
+mkdir $HOME/software
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/software ..
+make
+sudo make install
+```
+
 **NOTE**: `$HOME` is your home directory. The above instructions will install KMarkNote in `$HOME/software`.
 
 ## Run it

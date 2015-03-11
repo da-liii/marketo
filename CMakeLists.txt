@@ -7,6 +7,5 @@ include (KDE4Defaults)
 
 include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
-add_subdirectory (icons)
 add_subdirectory (markpad)
 add_subdirectory (marknote)

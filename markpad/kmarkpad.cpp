@@ -1,6 +1,5 @@
 #include "kmarkpad.h"
 #include "htmlgenerator.h"
-#include "kmarknote_generalsettings.h"
 
 #include <string>
 #include <iostream>
