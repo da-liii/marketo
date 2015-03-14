@@ -8,6 +8,10 @@
 #include <QMenu>
 #include <QAction>
 #include <QContextMenuEvent>
+#include <QApplication>
+#include <QClipboard>
+#include <QTextDocument>
+
 #include <KMessageBox>
 
 #include <KUrl>
@@ -66,8 +70,10 @@ void ListPanel::showContextMenu(const QPoint& pos)
     QMenu *contextMenu = new QMenu();
     QAction *newNoteAction = contextMenu->addAction(QString("New Note"));
     QAction *deleteNoteAction = contextMenu->addAction(QString("Delete Note"));
+    QAction *copyNoteLinkAction = contextMenu->addAction(QString("Copy Note Link"));
     connect(newNoteAction, SIGNAL(triggered()), m_parent, SLOT(newNote()));
     connect(deleteNoteAction, SIGNAL(triggered()), this, SLOT(deleteNote()));
+    connect(copyNoteLinkAction, SIGNAL(triggered()), this, SLOT(copyNoteLink()));
     
     if (contextMenu) {
         contextMenu->exec(QCursor::pos());
@@ -85,6 +91,18 @@ void ListPanel::deleteNote()
         message.setText(QString("Fail to delete") + file);
         message.exec();
     }
+}
+
+void ListPanel::copyNoteLink()
+{
+    QModelIndex index = listView->indexAt(m_pos);
+    QString file(lmodel->filePath(index));
+    KUrl url(file);
+    file.replace(GeneralSettings::noteDir(), "kmark:/");
+    
+    QClipboard *clipBoard = QApplication::clipboard();
+    clipBoard->clear();
+    clipBoard->setText("["+url.fileName()+"]("+file.replace(" ", "%20")+")");
 }
 
 ListPanel::~ListPanel()

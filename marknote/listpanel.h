@@ -30,6 +30,7 @@ private slots:
     void setUrlFromIndex(const QModelIndex& index);
     void showContextMenu(const QPoint& pos);
     void deleteNote();
+    void copyNoteLink();
     
 protected:
     virtual bool urlChanged();
