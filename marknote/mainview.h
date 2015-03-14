@@ -31,7 +31,6 @@ public:
     bool preview();
     bool unpreview();
     void openUrl(KUrl url);
-    void newNote();
     void setupUI();
     
 private:
@@ -47,6 +46,9 @@ private:
     KAction *previewAction;
     int column;
 
+public slots:
+    void newNote();
+    
 private slots:
     void oneColView();
     void twoColView();

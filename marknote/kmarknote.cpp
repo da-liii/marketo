@@ -55,7 +55,6 @@ void KMarkNote::setupAction()
     KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
     
-    
     KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     KAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));

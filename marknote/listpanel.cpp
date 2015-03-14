@@ -5,11 +5,15 @@
 #include <QListView>
 #include <QFileSystemModel>
 #include <QModelIndex>
+#include <QMenu>
+#include <QAction>
+#include <QContextMenuEvent>
 
 #include <KUrl>
 
 ListPanel::ListPanel(QWidget* parent)
-    : Panel(parent)
+    : Panel(parent),
+    m_parent(parent)
 {
     lmodel = new QFileSystemModel; 
     lmodel->setRootPath(GeneralSettings::noteDir());
@@ -48,6 +52,14 @@ bool ListPanel::urlChanged()
     }
     emit changeUrl(url());
     return true;
+}
+
+void ListPanel::contextMenuEvent(QContextMenuEvent* event)
+{
+    QMenu *contextMenu = new QMenu();
+    QAction *newNoteAction = contextMenu->addAction(QString("New Note"));
+    connect(newNoteAction, SIGNAL(triggered()), m_parent, SLOT(newNote()));
+    contextMenu->exec(QCursor::pos());
 }
 
 ListPanel::~ListPanel()
