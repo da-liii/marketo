@@ -25,6 +25,7 @@ class MainView : public Panel
 public:
     KMarkPad *markPad;
     KTextEditor::Document *note;
+    
     MainView(QWidget *parent = 0, KAction *pAction = 0);
     virtual ~MainView();    
     KTextEditor::View *getEditor();
@@ -40,10 +41,10 @@ private:
     Panel *terminal;
     Panel *navigator;
     Panel *listPanel;
+    KAction *previewAction;
     
     KTextEditor::View *editor;
     NoteView *noteView;
-    KAction *previewAction;
     int column;
 
 public slots:

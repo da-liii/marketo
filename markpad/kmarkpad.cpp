@@ -11,10 +11,10 @@
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <KTextEditor/Cursor>
-#include <KWebView>
 #include <KMessageBox>
 #include <KComponentData>
 #include <KStandardDirs>
+#include <KWebView>
 
 #include <QSplitter>
 #include <QHBoxLayout>
@@ -22,6 +22,7 @@
 #include <QList>
 #include <QDir>
 #include <QWebFrame>
+#include <QWebPage>
 #include <Qt>
 
 using std::string;
@@ -31,12 +32,14 @@ KMarkPad::KMarkPad(QWidget *parent)
     , m_generator(new HTMLGenerator)
 {
     hl = new QHBoxLayout(this);
+    hl->setMargin(0);
+    
     hs = new QSplitter(this);
+    
     m_previewer = new KWebView(this);
     m_livePreview = false;
-    
-    m_previewer->setTextSizeMultiplier(0.8);
-    hl->setMargin(0);
+    m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)), parent, SLOT(openUrl(const QUrl&)));
     
     m_new_editor = KTextEditor::EditorChooser::editor();
     if (!m_new_editor) {
@@ -63,12 +66,17 @@ KMarkPad::KMarkPad(QWidget *parent)
 
 void KMarkPad::preview(bool livePreview)
 {
+    m_livePreview = livePreview;
+    preview();
+}
+
+void KMarkPad::preview()
+{
     string html;
     KComponentData data(KGlobal::mainComponent());
     
     html = m_generator->generated(string(m_note->text().toUtf8().constData()));
     
-    m_livePreview = livePreview;
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
         + QString("<link href=\"file://") 
@@ -79,7 +87,7 @@ void KMarkPad::preview(bool livePreview)
         + QString("</html>");
     m_previewer->setHtml(content, QUrl());
     
-    if (livePreview) {
+    if (m_livePreview) {
         m_editor->setHidden(false);
         m_previewer->setHidden(false);
     } else {

@@ -7,6 +7,7 @@
 class QHBoxLayout;
 class QSplitter;
 class KWebView;
+class QUrl;
 namespace KTextEditor {
     class View;
     class Document;
@@ -23,12 +24,13 @@ public:
     virtual ~KMarkPad();
     KWebView *getPreviewer();
     void unpreview();
+    void preview();
     KTextEditor::View* view();
     KTextEditor::Document *m_note;
     KTextEditor::View *m_editor;
  
 public slots:
-    void preview(bool livePreview = true);
+    void preview(bool livePreview);
     
 private:
     QSplitter *hs;

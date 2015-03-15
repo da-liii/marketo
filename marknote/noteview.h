@@ -5,6 +5,8 @@
 class QVBoxLayout;
 class KLineEdit;
 class KUrl;
+class KAction;
+class QUrl;
 
 class NoteView : public QWidget
 {
@@ -13,18 +15,21 @@ public:
     KMarkPad *markPad;
     KTextEditor::Document *note;
     
-    NoteView(QWidget *parent);
+    NoteView(QWidget *parent, KAction *pAction);
     virtual ~NoteView();
     void hideTitleLine();
     void showTitleLine();
     void setTitle(const QString& titleOfNote);
-    void openUrl(KUrl url);    
+    void openUrl(const KUrl& url);
     void focusTitle();
+    
+public slots:
+    void openUrl(const QUrl& url);
     
 private:
     QVBoxLayout *vl;
     QHBoxLayout *hl;
-    
+    KAction *previewAction;
     KLineEdit *title;
     
     void setupUI();

@@ -24,7 +24,9 @@
 
 
 MainView::MainView(QWidget *parent, KAction *pAction)
-    : Panel(parent)
+    : Panel(parent),
+    previewAction(pAction)
+    
 {
     setupUI();
     
@@ -35,7 +37,6 @@ MainView::MainView(QWidget *parent, KAction *pAction)
         // TODO: let user choose note directory
         qDebug() << "firstRun of KMarkNote";
     }
-    previewAction = pAction;
     column = generalSettings->startViewNumber();
     switch (column) {
         case 1:
@@ -71,7 +72,7 @@ void MainView::setupUI()
     listPanel = new ListPanel(this);
     connect(listPanel, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
     
-    noteView = new NoteView(hsplitter);
+    noteView = new NoteView(hsplitter, previewAction);
     note = noteView->note;
     markPad = noteView->markPad;
 

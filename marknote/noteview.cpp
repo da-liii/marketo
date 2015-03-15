@@ -1,13 +1,15 @@
 #include "noteview.h"
 #include <QDir>
+#include <QVBoxLayout>
 #include <KUrl>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
-#include <QVBoxLayout>
 #include <KLineEdit>
+#include <KAction>
 
-NoteView::NoteView(QWidget* parent)
-    : QWidget(parent)
+NoteView::NoteView(QWidget* parent, KAction *pAction)
+    : QWidget(parent),
+    previewAction(pAction)
 {
     setupUI();
     setupConnect();
@@ -58,12 +60,23 @@ void NoteView::setTitle(const QString& titleOfNote)
     title->setText(titleOfNote);
 }
 
-void NoteView::openUrl(KUrl url)
+void NoteView::openUrl(const KUrl& url)
 {
     // TODO:if the url is not in the watching dir and is in three column view
     // switch to one column view
     title->setText(url.fileName());
     note->openUrl(url);
+    if (previewAction->isChecked())
+        markPad->preview();
+    else
+        markPad->unpreview();
+}
+
+void NoteView::openUrl(const QUrl& url)
+{
+    // TODO:the same as above
+    KUrl kUrl(url.toString().replace("%20"," "));
+    openUrl(kUrl);
 }
 
 void NoteView::focusTitle()

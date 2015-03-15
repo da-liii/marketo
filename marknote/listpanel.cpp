@@ -98,7 +98,6 @@ void ListPanel::copyNoteLink()
     QModelIndex index = listView->indexAt(m_pos);
     QString file(lmodel->filePath(index));
     KUrl url(file);
-    file.replace(GeneralSettings::noteDir(), "kmark:/");
     
     QClipboard *clipBoard = QApplication::clipboard();
     clipBoard->clear();
