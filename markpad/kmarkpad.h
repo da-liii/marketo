@@ -24,13 +24,13 @@ public:
     virtual ~KMarkPad();
     KWebView *getPreviewer();
     void unpreview();
-    void preview();
     KTextEditor::View* view();
     KTextEditor::Document *m_note;
     KTextEditor::View *m_editor;
  
 public slots:
     void preview(bool livePreview);
+    void preview();
     
 private:
     QSplitter *hs;

@@ -16,7 +16,16 @@ It is bundled with a Markdown editor named KMarkPad.
 
 ## Install
 
+### Dependencies
+
 You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first.
+
+Then install these packages in **Debian Sid**, other distributions should be 
+similar:
+
+`kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
+
+### Compile
 
 Then follow these instructions:
 ``` sh
