@@ -23,7 +23,11 @@ You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first.
 Then install these packages in **Debian Sid**, other distributions should be 
 similar:
 
-`kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
+`g++, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
+
+If you are using Ubuntu:
+
+`g++, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules
 
 ### Compile
 
@@ -37,7 +41,7 @@ mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=$HOME/software ..
 make
-sudo make install
+make install
 ```
 
 You can also only install the Markdown Editor:
@@ -50,7 +54,7 @@ mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=$HOME/software ..
 make
-sudo make install
+make install
 ```
 
 **NOTE**: `$HOME` is your home directory. The above instructions will install KMarkNote in `$HOME/software`.
