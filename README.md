@@ -23,11 +23,11 @@ You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first.
 Then install these packages in **Debian Sid**, other distributions should be 
 similar:
 
-`g++, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
+`g++, qt4-default, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
 
 If you are using Ubuntu:
 
-`g++, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules
+`g++, qt4-default, kdelibs5-dev, katepart, konsole, git, cmake`
 
 ### Compile
 
