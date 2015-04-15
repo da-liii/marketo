@@ -10,6 +10,7 @@ class MainWindow : public KParts::MainWindow
     
 public:
     MainWindow();
+    MainWindow(const QUrl &);
     virtual ~MainWindow();
     
 private:
@@ -22,6 +23,7 @@ private slots:
     void slotClose();
     void updateCaption();
     void updateCaptionModified();
+    void openUrl(const QUrl&);
     
 private:
     KMarkPad *m_markpad;

@@ -19,20 +19,22 @@
 
 #include "mainwindow.h"
 
+#include <QDebug>
+
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
 #include <KDE/KLocale>
 
 static const char description[] =
-    I18N_NOOP("Just Another Markdown Editor");
+    I18N_NOOP("KMarkPad - Advanced Markdown Editor");
 
 static const char version[] = "0.1";
 
 int main(int argc, char **argv)
 {
     KAboutData about("kmarkpad", 0, ki18n("KMarkPad"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen@zoho.com");
+                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen1992@gmail.com");
     about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen1992@gmail.com" );
     KCmdLineArgs::init(argc, argv, &about);
 
@@ -40,7 +42,13 @@ int main(int argc, char **argv)
     options.add("+[URL]", ki18n( "Document to open" ));
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
+    
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    if (args->count() < 0)
+        MainWindow *mainWindow = new MainWindow;
+    else
+        for (int i=0; i<args->count(); i++)
+            new MainWindow(QUrl(args->arg(i)));
 
-    MainWindow *mainWindow = new MainWindow;
     return app.exec();
 }
