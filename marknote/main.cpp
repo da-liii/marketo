@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Darcy Shen <sadhen1992@gmail.com>               *
+ *   Copyright (C) 2015 by Darcy Shen <sadhen@zoho.com>                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,27 +19,36 @@
 
 #include "kmarknote.h"
 
-#include <KDE/KApplication>
-#include <KDE/KAboutData>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KLocale>
+#include <KAboutData>
+#include <KLocalizedString>
 
-static const char description[] =
-    I18N_NOOP("A Markdown based note-taking KDE application");
+#include <QApplication>
+#include <QCommandLineParser>
 
-static const char version[] = "0.1";
+#define DESCRIPTION "A Markdown based note-taking KDE application"
+#define VERSION "0.1"
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kmarknote", 0, ki18n("KMarkNote"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen1992@gmail.com");
-    about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen1992@gmail.com" );
-    KCmdLineArgs::init(argc, argv, &about);
-
-    KCmdLineOptions options;
-    options.add("+[URL]", ki18n( "Document to open" ));
-    KCmdLineArgs::addCmdLineOptions(options);
-    KApplication app;
+    QApplication app(argc, argv);
+    
+    KAboutData about(QStringLiteral("kmarknote"),
+        i18n("KMarkNote"),
+        QStringLiteral(VERSION),
+        i18n(DESCRIPTION),
+        KAboutLicense::LGPL_V2,
+        i18n("(C) 2015 Darcy Shen"),
+        QString(),
+        QStringLiteral("sadhen1992@gmail.com"));
+    about.addAuthor( i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
+    
+    QCommandLineParser parser;
+    about.setupCommandLine(&parser);
+    parser.setApplicationDescription(about.shortDescription());
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.process(app);
+    about.processCommandLine(&parser);
 
     KMarkNote *mainWindow = new KMarkNote;
     mainWindow->show();

@@ -1,31 +1,6 @@
-cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-
 project(kmarkpad)
 
-find_package (ECM 1.7.0 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
-include (FeatureSummary)
-include (ECMAddAppIcon)
-include (KDEInstallDirs)
-include (KDECMakeSettings)
-include (KDECompilerSettings)
-include (ECMInstallIcons)
-
-find_package(Qt5 REQUIRED
-	Core
-	WebKit
-	WebKitWidgets
-)
-find_package(KF5WebKit)
-find_package (KF5 REQUIRED COMPONENTS
-	I18n
-	TextEditor
-	XmlGui
-	KDELibs4Support
-)
-# include (KDE4Defaults)
-
-include_directories( ${QT_INCLUDES} )
 
 set (kmarkpad_SRCS
     main.cpp
@@ -35,13 +10,11 @@ set (kmarkpad_SRCS
     htmlgenerator.cpp
 )
 
-# kde4_add_kcfg_files (kmarkpad_SRCS kmarknote_generalsettings.kcfgc)
-
 add_executable (kmarkpad ${kmarkpad_SRCS})
 
-include_directories(../marknote/
-    /usr/include/KF5/KDEWebKit
-)
+include_directories(../marknote/)
+include_directories( ${QT_INCLUDES} /usr/include/KF5/KDEWebKit)
+
 
 target_link_libraries (kmarkpad
 	${QT_QTWEBKIT_LIBRARIES}

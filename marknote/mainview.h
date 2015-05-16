@@ -8,10 +8,10 @@
 #include <KTextEditor/Document>
 #include <QWidget>
 
-class KUrl;
-class KAction;
+class QUrl;
 class KWebView;
 
+class QAction;
 class QVariant;
 class QApplication;
 class QListView;
@@ -26,12 +26,12 @@ public:
     KMarkPad *markPad;
     KTextEditor::Document *note;
     
-    MainView(QWidget *parent = 0, KAction *pAction = 0);
+    MainView(QWidget *parent = 0, QAction *pAction = 0);
     virtual ~MainView();    
     KTextEditor::View *getEditor();
     bool preview();
     bool unpreview();
-    void openUrl(KUrl url);
+    void openUrl(QUrl url);
     void setupUI();
     
 private:
@@ -41,7 +41,7 @@ private:
     Panel *terminal;
     Panel *navigator;
     Panel *listPanel;
-    KAction *previewAction;
+    QAction *previewAction;
     
     KTextEditor::View *editor;
     NoteView *noteView;

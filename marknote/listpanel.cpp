@@ -1,5 +1,5 @@
 #include "listpanel.h"
-#include "kmarknote_generalsettings.h"
+// #include "kmarknote_generalsettings.h"
 
 #include <QVBoxLayout>
 #include <QListView>
@@ -14,7 +14,7 @@
 
 #include <KMessageBox>
 
-#include <KUrl>
+#include <QUrl>
 
 ListPanel::ListPanel(QWidget* parent)
     : Panel(parent),
@@ -22,7 +22,8 @@ ListPanel::ListPanel(QWidget* parent)
 {
     m_pos = QPoint(0, 0);
     lmodel = new QFileSystemModel; 
-    lmodel->setRootPath(GeneralSettings::noteDir());
+    //lmodel->setRootPath(GeneralSettings::noteDir());
+    lmodel->setRootPath(QString("/home/sadhen/Note"));
     lmodel->setFilter(QDir::Files);
     
     m_filters << "*.md" << "*.markdown";
@@ -31,7 +32,8 @@ ListPanel::ListPanel(QWidget* parent)
     
     listView = new QListView(this);
     listView->setModel(lmodel);
-    listView->setRootIndex(lmodel->index(GeneralSettings::noteDir()));
+    //listView->setRootIndex(lmodel->index(GeneralSettings::noteDir()));
+    listView->setRootIndex(lmodel->index(QString("/home/sadhen/Note")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 34));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
@@ -48,7 +50,7 @@ ListPanel::ListPanel(QWidget* parent)
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
-    KUrl url(lmodel->filePath(index));
+    QUrl url(lmodel->filePath(index));
     
     setUrl(url);
 }
@@ -97,7 +99,7 @@ void ListPanel::copyNoteLink()
 {
     QModelIndex index = listView->indexAt(m_pos);
     QString file(lmodel->filePath(index));
-    KUrl url(file);
+    QUrl url(file);
     
     QClipboard *clipBoard = QApplication::clipboard();
     clipBoard->clear();

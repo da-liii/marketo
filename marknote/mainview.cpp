@@ -1,9 +1,17 @@
 #include "mainview.h"
-#include "kmarknote_generalsettings.h"
-#include "terminalpanel.h"
+// #include "kmarknote_generalsettings.h"
+// #include "terminalpanel.h"
 #include "navpanel.h"
 #include "listpanel.h"
 
+#include <KDE/KWebView>
+#include <KDE/KLocale>
+#include <KTextEditor/Editor>
+#include <KDE/KLineEdit>
+#include <KDE/KMessageBox>
+
+#include <QUrl>
+#include <QAction>
 #include <QDir>
 #include <QtDebug>
 #include <QVBoxLayout>
@@ -13,17 +21,7 @@
 #include <QSplitter>
 #include <QModelIndex>
 
-#include <KDE/KWebView>
-#include <KDE/KUrl>
-#include <KDE/KAction>
-#include <KDE/KLocale>
-#include <KTextEditor/Editor>
-#include <KTextEditor/EditorChooser>
-#include <KDE/KLineEdit>
-#include <KDE/KMessageBox>
-
-
-MainView::MainView(QWidget *parent, KAction *pAction)
+MainView::MainView(QWidget *parent, QAction *pAction)
     : Panel(parent),
     previewAction(pAction)
     
@@ -31,13 +29,15 @@ MainView::MainView(QWidget *parent, KAction *pAction)
     setupUI();
     
     // TODO:handle GeneralSettings, there may be a memory leak
-    GeneralSettings* generalSettings = GeneralSettings::self();
-    const bool firstRun = (generalSettings->version() == 0);
+    // GeneralSettings* generalSettings = GeneralSettings::self();
+    // const bool firstRun = (generalSettings->version() == 0);
+    const bool firstRun = true;
     if (firstRun) {
         // TODO: let user choose note directory
         qDebug() << "firstRun of KMarkNote";
     }
-    column = generalSettings->startViewNumber();
+    // column = generalSettings->startViewNumber();
+    column = 3;
     switch (column) {
         case 1:
             oneColView();
@@ -52,7 +52,8 @@ MainView::MainView(QWidget *parent, KAction *pAction)
             threeColView();
             break;
     }
-    setUrl(generalSettings->noteDir());
+    // setUrl(generalSettings->noteDir());
+    setUrl(QString("/home/sadhen/Note"));
 }
 
 void MainView::setupUI()
@@ -62,22 +63,22 @@ void MainView::setupUI()
     vsplitter = new QSplitter(Qt::Vertical, this);
     hsplitter = new QSplitter(Qt::Horizontal, this);
     
-    terminal = new TerminalPanel(this);
-    terminal->hide();
-    connect(terminal, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    //terminal = new TerminalPanel(this);
+    //terminal->hide();
+    //connect(terminal, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     navigator = new Navigator(this);
-    connect(navigator, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     listPanel = new ListPanel(this);
-    connect(listPanel, SIGNAL(changeUrl(KUrl)), this, SLOT(setUrl(KUrl)));
+    connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     noteView = new NoteView(hsplitter, previewAction);
     note = noteView->note;
     markPad = noteView->markPad;
 
     vsplitter->addWidget(hsplitter);
-    vsplitter->addWidget(terminal);
+    //vsplitter->addWidget(terminal);
     QList<int> sizeList;
     sizeList << 800 << 300;
     vsplitter->setSizes(sizeList);
@@ -90,7 +91,7 @@ void MainView::setupUI()
 
 bool MainView::urlChanged()
 {
-    terminal->setUrl(url());
+    //terminal->setUrl(url());
     listPanel->setUrl(url());
     navigator->setUrl(url());
     if (QFileInfo(url().toLocalFile()).isFile())
@@ -159,7 +160,7 @@ void MainView::threeColView()
     unpreview();
 }
 
-void MainView::openUrl(KUrl url)
+void MainView::openUrl(QUrl url)
 {
     // TODO:if the url is not in the watching dir and is in three column view
     // switch to one column view
@@ -168,13 +169,13 @@ void MainView::openUrl(KUrl url)
 
 void MainView::newNote()
 {
-    KUrl tmpUrl;
+    QUrl tmpUrl;
     
     tmpUrl = url();
     if (QFileInfo(tmpUrl.path()).isDir())
         tmpUrl = tmpUrl.path().append("/Untitle.md");
     else
-        tmpUrl = tmpUrl.directory().append("/Untitle.md");
+        tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitle.md"));
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     note->openUrl(tmpUrl);
@@ -182,10 +183,12 @@ void MainView::newNote()
 
 void MainView::toggleTerminal()
 {
+    /*
     if (terminal->isVisible())
         terminal->hide();
     else
         terminal->show();
+    */
 }
 
 MainView::~MainView()

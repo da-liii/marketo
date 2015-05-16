@@ -4,8 +4,8 @@
 #include "kmarkpad.h"
 class QVBoxLayout;
 class KLineEdit;
-class KUrl;
-class KAction;
+
+class QAction;
 class QUrl;
 
 class NoteView : public QWidget
@@ -15,12 +15,11 @@ public:
     KMarkPad *markPad;
     KTextEditor::Document *note;
     
-    NoteView(QWidget *parent, KAction *pAction);
+    NoteView(QWidget *parent, QAction *pAction);
     virtual ~NoteView();
     void hideTitleLine();
     void showTitleLine();
     void setTitle(const QString& titleOfNote);
-    void openUrl(const KUrl& url);
     void focusTitle();
     
 public slots:
@@ -29,7 +28,7 @@ public slots:
 private:
     QVBoxLayout *vl;
     QHBoxLayout *hl;
-    KAction *previewAction;
+    QAction *previewAction;
     KLineEdit *title;
     
     void setupUI();

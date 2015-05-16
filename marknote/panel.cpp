@@ -1,5 +1,5 @@
 #include "panel.h"
-#include <KUrl>
+#include <QUrl>
 
 Panel::Panel(QWidget* parent)
     : QWidget(parent)
@@ -11,7 +11,7 @@ Panel::~Panel()
 {
 }
 
-KUrl Panel::url() const
+QUrl Panel::url() const
 {
     return m_url;
 }
@@ -26,13 +26,15 @@ QSize Panel::sizeHint() const
     return QSize(180, 180);
 }
 
-void Panel::setUrl(const KUrl& url)
+void Panel::setUrl(const QUrl& url)
 {
-    if (url.equals(m_url, KUrl::CompareWithoutTrailingSlash)) {
+    // TODO:url and m_url should be compared without
+    // the trailing slash
+    if (url == m_url) {
         return;
     }
 
-    const KUrl oldUrl = m_url;
+    const QUrl oldUrl = m_url;
     m_url = url;
     const bool accepted = urlChanged();
     if (!accepted) {

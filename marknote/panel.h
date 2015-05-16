@@ -2,7 +2,7 @@
 #define PANEL_H
 
 #include <QWidget>
-#include <KUrl>
+#include <QUrl>
 
 class Panel : public QWidget
 {
@@ -13,20 +13,20 @@ public:
     virtual ~Panel();
 
     /** Returns the current set URL of the active Dolphin view. */
-    KUrl url() const;
+    QUrl url() const;
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
 signals:
-    void changeUrl(const KUrl &url);
+    void changeUrl(const QUrl &url);
     
 public slots:
     /**
      * This is invoked every time the folder being displayed in the
      * active Dolphin view changes.
      */
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
     /**
      * Refreshes the view to get synchronized with the settings.
@@ -44,7 +44,7 @@ protected:
     virtual bool urlChanged() = 0;
 
 private:
-    KUrl m_url;
+    QUrl m_url;
 };
 
 #endif // PANEL_H

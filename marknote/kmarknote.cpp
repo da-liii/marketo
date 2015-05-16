@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Darcy Shen <sadhen1992@gmail.com>               *
+ *   Copyright (C) 2015 by Darcy Shen <sadhen@zoho.com>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,26 +19,27 @@
 
 #include "kmarknote.h"
 
-#include <KDE/KLocale>
-#include <KDE/KConfigGroup>
-#include <KDE/KGlobal>
-#include <KDE/KXMLGUIFactory>
-#include <KDE/KStandardAction>
-#include <KDE/KAction>
-#include <KDE/KActionCollection>
-#include <KDE/KFileDialog>
-#include <KDE/KUrl>
-#include <KDE/KWebView>
-#include <KDE/KMenuBar>
-#include <KDE/KShortcut>
+#include <KLocalizedString>
+#include <KConfigGroup>
+#include <KGlobal>
+#include <KXMLGUIFactory>
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KFileDialog>
+#include <QUrl>
+#include <KWebView>
+#include <KMenuBar>
+#include <KShortcut>
+#include <KIcon>
 
+#include <QAction>
 #include <QKeySequence>
 
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
 {
-    KAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
+    QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setIcon(KIcon("document-preview"));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
@@ -55,9 +56,9 @@ void KMarkNote::setupAction()
     KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
     
-    KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
-    KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
-    KAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
+    QAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
+    QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
+    QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
     
     oneColAction->setText(i18n("One Column View"));
     twoColAction->setText(i18n("Two Column View"));
@@ -67,10 +68,8 @@ void KMarkNote::setupAction()
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
     
-    KAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
-    KShortcut terminalShortcut = terminalAction->shortcut();
-    terminalShortcut.setPrimary(QKeySequence("F4"));
-    terminalAction->setShortcut(terminalShortcut);
+    QAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
+    terminalAction->setShortcut(QKeySequence("F4"));
 }
 
 void KMarkNote::setupUI()
