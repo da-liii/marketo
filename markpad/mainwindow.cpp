@@ -1,30 +1,34 @@
 #include "mainwindow.h"
 #include "kmarkpad.h"
 
-#include <KDE/KXMLGUIFactory>
-#include <KDE/KConfigGroup>
-#include <KDE/KGlobal>
-#include <KDE/KStandardAction>
-#include <KDE/KActionCollection>
-#include <KDE/KEncodingFileDialog>
-#include <KDE/KLocale>
+#include <KParts/MainWindow>
+#include <KXMLGUIFactory>
+#include <KGlobal>
+#include <KConfigGroup>
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KIOFileWidgets/KEncodingFileDialog>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
+#include <QUrl>
 
 MainWindow::MainWindow()
 {
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
-    
+
     setupAction();
     setupConnect();
-    
+
+    // FIXME:should not use KGlobal
     KConfigGroup cg(KGlobal::config(), "KMarkPad");
     setAutoSaveSettings(cg, true);
+    
     setCentralWidget(m_markpad);
     setupGUI(QSize(500,600), Default, "kmarkpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
+    
     restoreWindowSize(cg);
 
     show();
@@ -40,10 +44,12 @@ MainWindow::MainWindow(const QUrl& url)
     
     KConfigGroup cg(KGlobal::config(), "KMarkPad");
     setAutoSaveSettings(cg, true);
+    
     setCentralWidget(m_markpad);
     setupGUI(QSize(500,600), Default, "kmarkpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
+    
     restoreWindowSize(cg);
     
     openUrl(url);
@@ -89,13 +95,13 @@ void MainWindow::slotClose()
 
 void MainWindow::slotOpen()
 {
-    KUrl url = KEncodingFileDialog::getOpenUrl();
+    QUrl url = KEncodingFileDialog::getOpenUrlAndEncoding().URLs.first();
     m_markpad->m_note->openUrl(url);
 }
 
 void MainWindow::openUrl(const QUrl &url)
 {
-    m_markpad->m_note->openUrl(KUrl(url.toString()));
+    m_markpad->m_note->openUrl(url);
 }
 
 MainWindow::~MainWindow()

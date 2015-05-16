@@ -1,17 +1,15 @@
 #include <highlighterbykate.h>
 
-#include <KTextEditor/HighlightInterface>
-#include <KTextEditor/EditorChooser>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
+#include <KTextEditor/Editor>
 #include <KTextEditor/Range>
 #include <KTextEditor/Attribute>
 #include <QTextDocument>
 
 HighlighterByKate::HighlighterByKate()
 {
-    m_new_editor = KTextEditor::EditorChooser::editor();
-    m_note = m_new_editor->createDocument(0);
+    m_note = KTextEditor::Editor::instance()->createDocument(0);
     
     // NOTE: currently it must be created for acccess of KateDocument::lineAttributes
     // TODO: should be removed when upstream fix it
@@ -69,6 +67,9 @@ void exportText(QString& ret,
     }
 }
 
+/*
+ * Export documents with kate highlight style
+ */
 QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
 {
     QString ret("");
@@ -76,8 +77,6 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
   
     range = note->documentRange();
   
-    KTextEditor::HighlightInterface* hiface = qobject_cast<KTextEditor::HighlightInterface*>(note);
-
     const KTextEditor::Attribute::Ptr noAttrib(0);
     
     for (int i = 0; i < note->lines(); ++i)
@@ -85,10 +84,7 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
         QString content("");
         const QString &line = note->line(i);
 
-        QList<KTextEditor::HighlightInterface::AttributeBlock> attribs;
-        if ( hiface ) {
-            attribs = hiface->lineAttributes(i);
-        }
+        QList<KTextEditor::AttributeBlock> attribs = m_editor->lineAttributes(i);
 
         int lineStart = 0;
         int remainingChars = line.length();
@@ -103,7 +99,7 @@ QString HighlighterByKate::exportDocument(KTextEditor::Document* note)
 
         int handledUntil = lineStart;
 
-        foreach ( const KTextEditor::HighlightInterface::AttributeBlock& block, attribs ) {
+        foreach ( const KTextEditor::AttributeBlock& block, attribs ) {
             // honor (block-) selections
             if ( block.start + block.length <= lineStart ) {
                 continue;

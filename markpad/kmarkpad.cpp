@@ -5,9 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <KDE/KLocale>
 #include <KTextEditor/Editor>
-#include <KTextEditor/EditorChooser>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <KTextEditor/Cursor>
@@ -15,6 +13,7 @@
 #include <KComponentData>
 #include <KStandardDirs>
 #include <KWebView>
+#include <KGlobal>
 
 #include <QSplitter>
 #include <QHBoxLayout>
@@ -41,15 +40,9 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_previewer, SIGNAL(linkClicked(const QUrl&)), parent, SLOT(openUrl(const QUrl&)));
     
-    m_new_editor = KTextEditor::EditorChooser::editor();
-    if (!m_new_editor) {
-        KMessageBox::error(this, i18n("A KDE text-editor component could not be found;\n"
-                                      "please check your KDE installation."));
-        m_note = 0;
-    } else {
-        m_note = m_new_editor->createDocument(0);
-        m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
-    }
+    m_note = KTextEditor::Editor::instance()->createDocument(0);
+    m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
+    
     hs->addWidget(m_previewer);
     hs->addWidget(m_editor);
     hl->addWidget(hs);
@@ -80,7 +73,7 @@ void KMarkPad::preview()
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
         + QString("<link href=\"file://") 
-        + data.dirs()->locate("data", "kmarkpad/css/style.css") 
+        + KGlobal::dirs()->locate("data", "kmarkpad/css/style.css") 
         + QString("\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
