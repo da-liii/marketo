@@ -67,6 +67,7 @@ void NoteView::openUrl(const QUrl& url)
 {
     // TODO:if the url is not in the watching dir and is in three column view
     // switch to one column view
+    qDebug() << "NoteView::openUrl " << url;
     title->setText(url.fileName());
     note->openUrl(url);
     if (previewAction->isChecked())

@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QTextDocument>
+#include <QDebug>
 
 #include <KMessageBox>
 
@@ -50,9 +51,7 @@ ListPanel::ListPanel(QWidget* parent)
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
-    QUrl url(lmodel->filePath(index));
-    
-    setUrl(url);
+    setUrl(QUrl::fromLocalFile(lmodel->filePath(index)));
 }
 
 bool ListPanel::urlChanged()

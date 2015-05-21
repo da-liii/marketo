@@ -53,7 +53,7 @@ MainView::MainView(QWidget *parent, QAction *pAction)
             break;
     }
     // setUrl(generalSettings->noteDir());
-    setUrl(QString("/home/sadhen/Note"));
+    setUrl(QUrl("file:///home/sadhen/Note"));
 }
 
 void MainView::setupUI()
