@@ -27,6 +27,7 @@ private slots:
     
 private:
     KMarkPad *m_markpad;
+    bool m_firstTime;
 };
 
 #endif

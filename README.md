@@ -20,14 +20,7 @@ It is bundled with a Markdown editor named KMarkPad.
 
 You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first.
 
-Then install these packages in **Debian Sid**, other distributions should be 
-similar:
-
-`g++, qt4-default, kdelibs5-dev, katepart, konsole, git, cmake, extra-cmake-modules`
-
-If you are using Ubuntu:
-
-`g++, qt4-default, kdelibs5-dev, katepart, konsole, git, cmake`
+Also you need to install many other dependencies for compiling. Please see the CMakeLists.txt file for more info.
 
 ### Compile
 

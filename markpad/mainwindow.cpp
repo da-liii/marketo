@@ -16,6 +16,7 @@ MainWindow::MainWindow()
 {
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
+    m_firstTime = false;
 
     setupAction();
     setupConnect();
@@ -75,7 +76,12 @@ void MainWindow::setupConnect()
 
 void MainWindow::updateCaptionModified()
 {
+    if (m_firstTime) {
+        m_firstTime = false;
+        return ;
+    }
     setCaption(m_markpad->m_note->url().fileName() + " [modified]- KMarkPad");
+    
 }
 
 void MainWindow::updateCaption()
@@ -96,6 +102,9 @@ void MainWindow::slotClose()
 void MainWindow::slotOpen()
 {
     QUrl url = KEncodingFileDialog::getOpenUrlAndEncoding().URLs.first();
+    
+    // NOTICE: the order of assigning firstTime and markpad matters
+    m_firstTime = true;
     m_markpad->m_note->openUrl(url);
 }
 
