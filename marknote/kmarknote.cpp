@@ -40,6 +40,7 @@ KMarkNote::KMarkNote(QWidget* parent)
     , isPreview(false)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
+    previewAction->setShortcut(QKeySequence("F8"));
     previewAction->setIcon(KIcon("document-preview"));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
@@ -68,8 +69,8 @@ void KMarkNote::setupAction()
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
     
-    QAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
-    terminalAction->setShortcut(QKeySequence("F4"));
+    //QAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
+    //terminalAction->setShortcut(QKeySequence("F4"));
 }
 
 void KMarkNote::setupUI()
