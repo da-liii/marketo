@@ -35,5 +35,5 @@ target_link_libraries (kmarknote
 
 install(TARGETS kmarknote DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS kmarknote.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES kmarknote.rc DESTINATION ${DATA_INSTALL_DIR}/kmarknote)
+install(FILES kmarknote.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kmarknote)
 # install( FILES kmarknote_generalsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
