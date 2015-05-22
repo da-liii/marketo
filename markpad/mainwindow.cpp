@@ -71,12 +71,12 @@ void MainWindow::setupAction()
 
 void MainWindow::setupConnect()
 {
-    connect(m_markpad->m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
-        this, SLOT(updateCaption()));
-    connect(m_markpad->m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
-        this, SLOT(updateCaption()));
-    connect(m_markpad->m_note, SIGNAL(textChanged(KTextEditor::Document*)),
-        this, SLOT(updateCaptionModified()));
+    connect(m_markpad->m_note, &KTextEditor::Document::modifiedChanged,
+        this, &MainWindow::updateCaption);
+    connect(m_markpad->m_note, &KTextEditor::Document::documentUrlChanged,
+        this, &MainWindow::updateCaption);
+    connect(m_markpad->m_note, &KTextEditor::Document::textChanged,
+        this, &MainWindow::updateCaptionModified);
 }
 
 //common config

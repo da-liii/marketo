@@ -38,7 +38,8 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_previewer = new KWebView(this);
     m_livePreview = false;
     m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)), parent, SLOT(openUrl(const QUrl&)));
+    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)),
+            parent, SLOT(slotOpen(const QUrl&)));
     
     m_note = KTextEditor::Editor::instance()->createDocument(0);
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
@@ -51,10 +52,10 @@ KMarkPad::KMarkPad(QWidget *parent)
     sizeList << 400 << 400;
     hs->setSizes(sizeList);
     
-    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
-            this, SLOT(updatePreviewer()));
-    connect(m_editor, SIGNAL(cursorPositionChanged(KTextEditor::View *,const KTextEditor::Cursor&)),
-            this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
+    connect(m_note, &KTextEditor::Document::textChanged, 
+            this, &KMarkPad::updatePreviewer);
+    connect(m_editor, &KTextEditor::View::cursorPositionChanged,
+            this, &KMarkPad::updatePreviewerByCursor);
 }
 
 void KMarkPad::preview(bool livePreview)

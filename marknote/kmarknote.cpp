@@ -90,12 +90,12 @@ void KMarkNote::setupUI()
 
 void KMarkNote::setupConnect()
 {
-    connect(m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
-            this, SLOT(updateCaption()));
-    connect(m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
-            this, SLOT(slotDocumentUrlChanged()));
-    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
-            this, SLOT(updateCaptionModified()));
+    connect(m_note, &KTextEditor::Document::modifiedChanged,
+            this, &KMarkNote::updateCaption);
+    connect(m_note, &KTextEditor::Document::documentUrlChanged,
+            this, &KMarkNote::slotDocumentUrlChanged);
+    connect(m_note, &KTextEditor::Document::textChanged,
+            this, &KMarkNote::updateCaptionModified);
 }
 
 //common config
