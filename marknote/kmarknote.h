@@ -22,6 +22,8 @@
 
 #include "mainview.h"
 #include <KDE/KXmlGuiWindow>
+#include <KConfigGroup>
+#include <KSharedConfig>
 
 class KRecentFilesAction;
 
@@ -47,8 +49,17 @@ private slots:
 private:
     KTextEditor::Document *m_note;
     MainView *m_view;
-    KRecentFilesAction *m_recentFiles;
     bool isPreview;
+    
+    // session management
+private:
+    void readConfig();
+    void writeConfig();
+    void writeConfig(KSharedConfigPtr config);
+    void readConfig(KSharedConfigPtr config);
+    void readProperties(const KConfigGroup &config) override;
+    void saveProperties(KConfigGroup &config) override;
+    KRecentFilesAction *m_recentFiles;
 };
 
 #endif // _KMARKNOTE_H_

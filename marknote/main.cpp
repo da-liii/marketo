@@ -41,6 +41,19 @@ int main(int argc, char **argv)
         QString(),
         QStringLiteral("sadhen1992@gmail.com"));
     about.addAuthor( i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
+
+    /**
+     * register about data
+     */
+    KAboutData::setApplicationData(about);
+
+    /**
+     * set app stuff from about data component name and org. name from KAboutData
+     */
+    app.setApplicationName(about.componentName());
+    app.setApplicationDisplayName(about.displayName());
+    app.setOrganizationDomain(about.organizationDomain());
+    app.setApplicationVersion(about.version());
     
     QCommandLineParser parser;
     about.setupCommandLine(&parser);

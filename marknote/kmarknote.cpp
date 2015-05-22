@@ -20,8 +20,6 @@
 #include "kmarknote.h"
 
 #include <KLocalizedString>
-#include <KConfigGroup>
-#include <KGlobal>
 #include <KXMLGUIFactory>
 #include <KStandardAction>
 #include <KActionCollection>
@@ -81,14 +79,12 @@ void KMarkNote::setupAction()
 
 void KMarkNote::setupUI()
 {
-    KConfigGroup cg(KGlobal::config(), "KMarkNote");
-    setAutoSaveSettings(cg, true);
-    
     setCentralWidget(m_view);
     setupGUI(QSize(500,600), Default, "kmarknote.rc");
     guiFactory()->addClient(m_view->getEditor());
     setStandardToolBarMenuEnabled(true);
-    restoreWindowSize(cg);
+    setAutoSaveSettings();
+    readConfig();
  }
 
 void KMarkNote::setupConnect()
@@ -99,6 +95,44 @@ void KMarkNote::setupConnect()
             this, SLOT(slotDocumentUrlChanged()));
     connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
             this, SLOT(updateCaptionModified()));
+}
+
+//common config
+void KMarkNote::readConfig(KSharedConfigPtr config)
+{
+    KConfigGroup cfg(config, "General Options");
+
+    m_recentFiles->loadEntries(config->group("Recent Files"));
+}
+
+void KMarkNote::writeConfig(KSharedConfigPtr config)
+{
+    KConfigGroup generalOptions(config, "General Options");
+
+    m_recentFiles->saveEntries(KConfigGroup(config, "Recent Files"));
+
+    config->sync();
+}
+
+//config file
+void KMarkNote::readConfig()
+{
+    readConfig(KSharedConfig::openConfig());
+}
+
+void KMarkNote::writeConfig()
+{
+    writeConfig(KSharedConfig::openConfig());
+}
+
+void KMarkNote::readProperties(const KConfigGroup &config)
+{
+    readConfig();
+}
+
+void KMarkNote::saveProperties(KConfigGroup &cg)
+{
+    writeConfig();
 }
 
 void KMarkNote::newNote()
@@ -134,6 +168,7 @@ void KMarkNote::togglePreview()
 
 KMarkNote::~KMarkNote()
 {
+    writeConfig();
 }
 
 #include "kmarknote.moc"

@@ -3,8 +3,7 @@
 
 #include <KParts/MainWindow>
 #include <KXMLGUIFactory>
-#include <KGlobal>
-#include <KConfigGroup>
+#include <KConfig>
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KIOFileWidgets/KEncodingFileDialog>
@@ -25,16 +24,13 @@ MainWindow::MainWindow()
     setupAction();
     setupConnect();
 
-    // FIXME:should not use KGlobal
-    KConfigGroup cg(KGlobal::config(), "KMarkPad");
-    setAutoSaveSettings(cg, true);
-    
     setCentralWidget(m_markpad);
     setupGUI(QSize(500,600), Default, "kmarkpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
     
-    restoreWindowSize(cg);
+    setAutoSaveSettings();
+    readConfig();
 
     show();
 }
@@ -47,15 +43,17 @@ MainWindow::MainWindow(const QUrl& url)
     setupAction();
     setupConnect();
     
-    KConfigGroup cg(KGlobal::config(), "KMarkPad");
-    setAutoSaveSettings(cg, true);
     
     setCentralWidget(m_markpad);
     setupGUI(QSize(500,600), Default, "kmarkpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
     
-    restoreWindowSize(cg);
+    // FIXME: make sure the config dir exists, any idea how to do it more cleanly?
+    QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).mkpath(QStringLiteral("."));    
+    
+    setAutoSaveSettings();
+    readConfig();
     
     slotOpen(url);
     show();
@@ -79,6 +77,44 @@ void MainWindow::setupConnect()
         this, SLOT(updateCaption()));
     connect(m_markpad->m_note, SIGNAL(textChanged(KTextEditor::Document*)),
         this, SLOT(updateCaptionModified()));
+}
+
+//common config
+void MainWindow::readConfig(KSharedConfigPtr config)
+{
+    KConfigGroup cfg(config, "General Options");
+
+    m_recentFiles->loadEntries(config->group("Recent Files"));
+}
+
+void MainWindow::writeConfig(KSharedConfigPtr config)
+{
+    KConfigGroup generalOptions(config, "General Options");
+
+    m_recentFiles->saveEntries(KConfigGroup(config, "Recent Files"));
+
+    config->sync();
+}
+
+//config file
+void MainWindow::readConfig()
+{
+    readConfig(KSharedConfig::openConfig());
+}
+
+void MainWindow::writeConfig()
+{
+    writeConfig(KSharedConfig::openConfig());
+}
+
+void MainWindow::readProperties(const KConfigGroup &config)
+{
+    readConfig();
+}
+
+void MainWindow::saveProperties(KConfigGroup &cg)
+{
+    writeConfig();
 }
 
 void MainWindow::updateCaptionModified()
@@ -112,16 +148,18 @@ void MainWindow::slotOpen()
     
     // NOTICE: the order of assigning firstTime and markpad matters
     m_firstTime = true;
-    m_markpad->m_note->openUrl(url);
+    slotOpen(url);
 }
 
 void MainWindow::slotOpen(const QUrl &url)
 {
     m_markpad->m_note->openUrl(url);
+    m_recentFiles->addUrl(url);
 }
 
 MainWindow::~MainWindow()
 {
+    writeConfig();
 }
 
 

@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <kparts/mainwindow.h>
+#include <KConfigGroup>
+#include <KSharedConfig>
 class KMarkPad;
 class KRecentFilesAction;
 
@@ -28,6 +30,15 @@ private slots:
     
 private:
     KMarkPad *m_markpad;
+    
+    // session management
+private:
+    void readConfig();
+    void writeConfig();
+    void writeConfig(KSharedConfigPtr config);
+    void readConfig(KSharedConfigPtr config);
+    void readProperties(const KConfigGroup &config) override;
+    void saveProperties(KConfigGroup &config) override;
     KRecentFilesAction *m_recentFiles;
     bool m_firstTime;
 };
