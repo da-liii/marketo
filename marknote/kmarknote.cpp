@@ -23,7 +23,6 @@
 #include <KXMLGUIFactory>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KFileDialog>
 #include <KWebView>
 #include <KMenuBar>
 #include <KShortcut>
@@ -37,8 +36,8 @@
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
-    , m_recentFiles(0)
     , m_firstTextChange(false)
+    , m_recentFiles(0)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setShortcut(QKeySequence("F8"));
@@ -128,11 +127,13 @@ void KMarkNote::writeConfig()
 
 void KMarkNote::readProperties(const KConfigGroup &config)
 {
+    Q_UNUSED(config);
     readConfig();
 }
 
-void KMarkNote::saveProperties(KConfigGroup &cg)
+void KMarkNote::saveProperties(KConfigGroup &config)
 {
+    Q_UNUSED(config);
     writeConfig();
 }
 

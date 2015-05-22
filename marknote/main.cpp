@@ -22,6 +22,7 @@
 #include <KAboutData>
 #include <KLocalizedString>
 
+#include <QFileDialog>
 #include <QApplication>
 #include <QCommandLineParser>
 
@@ -63,6 +64,18 @@ int main(int argc, char **argv)
     parser.process(app);
     about.processCommandLine(&parser);
 
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup cfg(config, "General Options");
+    if (!cfg.hasKey("NoteDir")) {
+        QUrl url = QFileDialog::getExistingDirectoryUrl(0,
+                                            i18n("Choose where your notes save"),
+                                            QDir::homePath(),
+                                            QFileDialog::ShowDirsOnly
+                                            | QFileDialog::DontResolveSymlinks);
+        cfg.writeEntry("NoteDir", url.toLocalFile());
+        config->sync();
+    }
+    
     KMarkNote *mainWindow = new KMarkNote;
     mainWindow->show();
     

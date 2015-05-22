@@ -9,6 +9,7 @@
 #include <KTextEditor/Editor>
 #include <KDE/KLineEdit>
 #include <KDE/KMessageBox>
+#include <KConfigGroup>
 
 #include <QUrl>
 #include <QAction>
@@ -28,15 +29,6 @@ MainView::MainView(QWidget *parent, QAction *pAction)
 {
     setupUI();
     
-    // TODO:handle GeneralSettings, there may be a memory leak
-    // GeneralSettings* generalSettings = GeneralSettings::self();
-    // const bool firstRun = (generalSettings->version() == 0);
-    const bool firstRun = true;
-    if (firstRun) {
-        // TODO: let user choose note directory
-        qDebug() << "firstRun of KMarkNote";
-    }
-    // column = generalSettings->startViewNumber();
     column = 3;
     switch (column) {
         case 1:
@@ -52,8 +44,6 @@ MainView::MainView(QWidget *parent, QAction *pAction)
             threeColView();
             break;
     }
-    // setUrl(generalSettings->noteDir());
-    setUrl(QUrl("file:///home/sadhen/Note"));
 }
 
 void MainView::setupUI()

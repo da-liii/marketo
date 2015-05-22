@@ -21,9 +21,10 @@ public:
     void showTitleLine();
     void setTitle(const QString& titleOfNote);
     void focusTitle();
+    void openUrl(const QUrl& url);
     
 public slots:
-    void openUrl(const QUrl& url);
+    void slotOpen(const QUrl& url);
     
 private:
     QVBoxLayout *vl;

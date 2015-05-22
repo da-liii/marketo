@@ -1,6 +1,10 @@
 #include "listpanel.h"
 // #include "kmarknote_generalsettings.h"
 
+#include <KMessageBox>
+#include <KConfigGroup>
+#include <KSharedConfig>
+
 #include <QVBoxLayout>
 #include <QListView>
 #include <QFileSystemModel>
@@ -12,19 +16,17 @@
 #include <QClipboard>
 #include <QTextDocument>
 #include <QDebug>
-
-#include <KMessageBox>
-
 #include <QUrl>
 
 ListPanel::ListPanel(QWidget* parent)
     : Panel(parent),
     m_parent(parent)
 {
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    
     m_pos = QPoint(0, 0);
     lmodel = new QFileSystemModel; 
-    //lmodel->setRootPath(GeneralSettings::noteDir());
-    lmodel->setRootPath(QString("/home/sadhen/Note"));
+    lmodel->setRootPath(cfg.readEntry("NoteDir"));
     lmodel->setFilter(QDir::Files);
     
     m_filters << "*.md" << "*.markdown";
@@ -33,8 +35,7 @@ ListPanel::ListPanel(QWidget* parent)
     
     listView = new QListView(this);
     listView->setModel(lmodel);
-    //listView->setRootIndex(lmodel->index(GeneralSettings::noteDir()));
-    listView->setRootIndex(lmodel->index(QString("/home/sadhen/Note")));
+    listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 34));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);

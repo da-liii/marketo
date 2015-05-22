@@ -76,6 +76,11 @@ void NoteView::openUrl(const QUrl& url)
         markPad->unpreview();
 }
 
+void NoteView::slotOpen(const QUrl& url)
+{
+    openUrl(url);
+}
+
 void NoteView::focusTitle()
 {
     title->setFocus();
