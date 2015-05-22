@@ -10,9 +10,13 @@
 #include <KIOFileWidgets/KEncodingFileDialog>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
+#include <KRecentFilesAction>
+#include <KLocalizedString>
+
 #include <QUrl>
 
 MainWindow::MainWindow()
+    : m_recentFiles(0)
 {
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
@@ -53,7 +57,7 @@ MainWindow::MainWindow(const QUrl& url)
     
     restoreWindowSize(cg);
     
-    openUrl(url);
+    slotOpen(url);
     show();
 }
 
@@ -62,6 +66,9 @@ void MainWindow::setupAction()
     actionCollection()->addAction( KStandardAction::Close, "file_close", this, SLOT(slotClose()) );
     actionCollection()->addAction( KStandardAction::New, "file_new", this, SLOT(slotNew()) );
     actionCollection()->addAction( KStandardAction::Open, "file_open", this, SLOT(slotOpen()) );
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(slotOpen(QUrl)), this);
+    actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
+    m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
 }
 
 void MainWindow::setupConnect()
@@ -108,7 +115,7 @@ void MainWindow::slotOpen()
     m_markpad->m_note->openUrl(url);
 }
 
-void MainWindow::openUrl(const QUrl &url)
+void MainWindow::slotOpen(const QUrl &url)
 {
     m_markpad->m_note->openUrl(url);
 }

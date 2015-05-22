@@ -55,6 +55,7 @@ private slots:
     void twoColView();
     void threeColView();
     void toggleTerminal();
+    void slotOpen(const QUrl &url);
     
 protected:
     virtual bool urlChanged();

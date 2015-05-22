@@ -26,18 +26,20 @@
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KFileDialog>
-#include <QUrl>
 #include <KWebView>
 #include <KMenuBar>
 #include <KShortcut>
 #include <KIcon>
+#include <KRecentFilesAction>
 
+#include <QUrl>
 #include <QAction>
 #include <QKeySequence>
 
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
+    , m_recentFiles(0)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setShortcut(QKeySequence("F8"));
@@ -69,6 +71,10 @@ void KMarkNote::setupAction()
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
     
+    m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
+    actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
+    m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
+    
     //QAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
     //terminalAction->setShortcut(QKeySequence("F4"));
 }
@@ -90,7 +96,7 @@ void KMarkNote::setupConnect()
     connect(m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
             this, SLOT(updateCaption()));
     connect(m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
-            this, SLOT(updateCaption()));
+            this, SLOT(slotDocumentUrlChanged()));
     connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
             this, SLOT(updateCaptionModified()));
 }
@@ -108,6 +114,13 @@ void KMarkNote::updateCaptionModified()
 void KMarkNote::updateCaption()
 {
     setCaption(m_note->url().fileName() + " - KMarkNote");
+}
+
+void KMarkNote::slotDocumentUrlChanged()
+{
+    updateCaption();
+    if (!m_note->url().isEmpty())
+        m_recentFiles->addUrl(m_note->url());
 }
 
 void KMarkNote::togglePreview()

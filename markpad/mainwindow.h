@@ -3,6 +3,7 @@
 
 #include <kparts/mainwindow.h>
 class KMarkPad;
+class KRecentFilesAction;
 
 class MainWindow : public KParts::MainWindow
 {
@@ -20,13 +21,14 @@ private:
 private slots:
     void slotNew();
     void slotOpen();
+    void slotOpen(const QUrl&);
     void slotClose();
     void updateCaption();
     void updateCaptionModified();
-    void openUrl(const QUrl&);
     
 private:
     KMarkPad *m_markpad;
+    KRecentFilesAction *m_recentFiles;
     bool m_firstTime;
 };
 

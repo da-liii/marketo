@@ -167,6 +167,11 @@ void MainView::openUrl(QUrl url)
     noteView->openUrl(url);
 }
 
+void MainView::slotOpen(const QUrl& url)
+{
+    noteView->openUrl(url);
+}
+
 void MainView::newNote()
 {
     QUrl tmpUrl;

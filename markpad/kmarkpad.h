@@ -4,9 +4,10 @@
 #include "htmlgenerator.h"
 
 #include <QWidget>
+class KWebView;
+
 class QHBoxLayout;
 class QSplitter;
-class KWebView;
 class QUrl;
 namespace KTextEditor {
     class View;

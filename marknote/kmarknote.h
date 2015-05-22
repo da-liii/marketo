@@ -23,6 +23,8 @@
 #include "mainview.h"
 #include <KDE/KXmlGuiWindow>
 
+class KRecentFilesAction;
+
 class KMarkNote : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -40,10 +42,12 @@ private slots:
     void updateCaptionModified();
     void updateCaption();
     void togglePreview();
+    void slotDocumentUrlChanged();
     
 private:
     KTextEditor::Document *m_note;
     MainView *m_view;
+    KRecentFilesAction *m_recentFiles;
     bool isPreview;
 };
 
