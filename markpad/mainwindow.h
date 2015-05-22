@@ -40,7 +40,7 @@ private:
     void readProperties(const KConfigGroup &config) override;
     void saveProperties(KConfigGroup &config) override;
     KRecentFilesAction *m_recentFiles;
-    bool m_firstTime;
+    bool m_firstTextChange;
 };
 
 #endif

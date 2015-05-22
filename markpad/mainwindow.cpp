@@ -16,10 +16,10 @@
 
 MainWindow::MainWindow()
     : m_recentFiles(0)
+    , m_firstTextChange(false)
 {
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
-    m_firstTime = false;
 
     setupAction();
     setupConnect();
@@ -119,12 +119,13 @@ void MainWindow::saveProperties(KConfigGroup &cg)
 
 void MainWindow::updateCaptionModified()
 {
-    if (m_firstTime) {
-        m_firstTime = false;
+    // The first textChanged signal is caused by document loading
+    // Thus, we should ignore it
+    if (m_firstTextChange) {
+        m_firstTextChange = false;
         return ;
     }
     setCaption(m_markpad->m_note->url().fileName() + " [modified]- KMarkPad");
-    
 }
 
 void MainWindow::updateCaption()
@@ -146,13 +147,13 @@ void MainWindow::slotOpen()
 {
     QUrl url = KEncodingFileDialog::getOpenUrlAndEncoding().URLs.first();
     
-    // NOTICE: the order of assigning firstTime and markpad matters
-    m_firstTime = true;
     slotOpen(url);
 }
 
 void MainWindow::slotOpen(const QUrl &url)
 {
+    // NOTICE: the order of assigning m_firstTextChange and markpad matters
+    m_firstTextChange = true;
     m_markpad->m_note->openUrl(url);
     m_recentFiles->addUrl(url);
 }

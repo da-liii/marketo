@@ -50,6 +50,7 @@ private:
     KTextEditor::Document *m_note;
     MainView *m_view;
     bool isPreview;
+    bool m_firstTextChange;
     
     // session management
 private:

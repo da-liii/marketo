@@ -39,7 +39,7 @@ int main(int argc, char **argv)
         KAboutLicense::LGPL_V2,
         i18n("(C) 2015 Darcy Shen"),
         QString(),
-        QStringLiteral("sadhen1992@gmail.com"));
+        QStringLiteral("sadhen@zoho.com"));
     about.addAuthor( i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
 
     /**

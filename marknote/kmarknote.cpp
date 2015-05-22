@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Darcy Shen <sadhen@zoho.com>               *
+ *   Copyright (C) 2015 by Darcy Shen <sadhen@zoho.com>                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,6 +38,7 @@ KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
     , m_recentFiles(0)
+    , m_firstTextChange(false)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setShortcut(QKeySequence("F8"));
@@ -142,6 +143,12 @@ void KMarkNote::newNote()
 
 void KMarkNote::updateCaptionModified()
 {
+    // The first textChanged signal is caused by document loading
+    // Thus, we should ignore it
+    if (m_firstTextChange) {
+        m_firstTextChange = false;
+        return ;
+    }
     setCaption(m_note->url().fileName() + " [modified]- KMarkNote");
 }
 
@@ -152,6 +159,9 @@ void KMarkNote::updateCaption()
 
 void KMarkNote::slotDocumentUrlChanged()
 {
+    // TODO: figure out how Qt signal slot works and make sure
+    // slotDocumentUrlChanged is done before updateCaptionModified
+    m_firstTextChange = true;
     updateCaption();
     if (!m_note->url().isEmpty())
         m_recentFiles->addUrl(m_note->url());
