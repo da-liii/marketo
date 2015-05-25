@@ -44,6 +44,7 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_note = KTextEditor::Editor::instance()->createDocument(0);
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     
+    
     hs->addWidget(m_previewer);
     hs->addWidget(m_editor);
     hl->addWidget(hs);
@@ -91,6 +92,8 @@ void KMarkPad::preview()
     
     // scroll to the correct position
     updatePreviewerByCursor(0, m_editor->cursorPosition());
+    
+    setFocusProxy(m_previewer);
 }
 
 void KMarkPad::unpreview()
@@ -98,6 +101,8 @@ void KMarkPad::unpreview()
     m_editor->setHidden(false);
     m_previewer->setHidden(true);
     m_livePreview = false;
+    
+    setFocusProxy(m_editor);
 }
 
 void KMarkPad::updatePreviewer()

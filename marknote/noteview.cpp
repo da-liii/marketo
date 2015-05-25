@@ -41,10 +41,9 @@ void NoteView::saveNote(QString name)
     if (QFileInfo(url.path()).isDir()) {
         url = QUrl::fromLocalFile(url.path().append("/").append(name));
     } else
-        url.setUrl(url.url(QUrl::RemoveFilename).append("/").append(name));
-    qDebug() << url;
+        url.setUrl(url.url(QUrl::RemoveFilename).append(name));
     
-    QDir dir(url.toString());
+    QDir dir(url.url(QUrl::RemoveFilename | QUrl::PreferLocalFile));
     dir.rename(note->url().fileName(), url.fileName());
     note->openUrl(url);
     markPad->view()->setFocus();
