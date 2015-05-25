@@ -35,11 +35,13 @@ void NoteView::setupUI()
 
 void NoteView::saveNote(QString name)
 {
-    QUrl url;
+    QUrl url = note->url();
     
     note->documentSave();
-    url = note->url().toString().append("/").append(name);
-    
+    if (QFileInfo(url.path()).isDir()) {
+        url = QUrl::fromLocalFile(url.path().append("/").append(name));
+    } else
+        url.setUrl(url.url(QUrl::RemoveFilename).append("/").append(name));
     qDebug() << url;
     
     QDir dir(url.toString());

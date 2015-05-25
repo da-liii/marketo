@@ -168,9 +168,9 @@ void MainView::newNote()
     
     tmpUrl = url();
     if (QFileInfo(tmpUrl.path()).isDir())
-        tmpUrl = tmpUrl.path().append("/Untitle.md");
+        tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.md"));
     else
-        tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitle.md"));
+        tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.md"));
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     note->openUrl(tmpUrl);

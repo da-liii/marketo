@@ -61,9 +61,9 @@ void KMarkNote::setupAction()
     QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
     
-    oneColAction->setText(i18n("One Column View"));
-    twoColAction->setText(i18n("Two Column View"));
-    threeColAction->setText(i18n("Three Column View"));
+    oneColAction->setText(i18n("One Column"));
+    twoColAction->setText(i18n("Two Column"));
+    threeColAction->setText(i18n("Three Column"));
     
     oneColAction->setIcon(KIcon("view-split-top-bottom"));
     twoColAction->setIcon(KIcon("view-split-left-right"));
