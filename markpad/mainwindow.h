@@ -2,7 +2,11 @@
 #define MAINWINDOW_H
 
 #include <kparts/mainwindow.h>
+#include <KDE/KConfigGroup>
+#include <KDE/KSharedConfig>
+
 class KMarkPad;
+class KRecentFilesAction;
 
 class MainWindow : public KParts::MainWindow
 {
@@ -20,13 +24,23 @@ private:
 private slots:
     void slotNew();
     void slotOpen();
+    void slotOpen(const QUrl&);
     void slotClose();
     void updateCaption();
     void updateCaptionModified();
-    void openUrl(const QUrl&);
     
 private:
     KMarkPad *m_markpad;
+
+    // session management
+private:
+    void readConfig();
+    void writeConfig();
+    void writeConfig(KSharedConfigPtr config);
+    void readConfig(KSharedConfigPtr config);
+    void readProperties(const KConfigGroup &config) override;
+    void saveProperties(KConfigGroup &config) override;
+    KRecentFilesAction *m_recentFiles;
 };
 
 #endif
