@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <kparts/mainwindow.h>
-#include <KDE/KConfigGroup>
-#include <KDE/KSharedConfig>
+#include <KConfigGroup>
+#include <KSharedConfig>
+#include <KUrl>
 
 class KMarkPad;
 class KRecentFilesAction;
+class KUrl;
 
 class MainWindow : public KParts::MainWindow
 {
@@ -14,7 +16,7 @@ class MainWindow : public KParts::MainWindow
     
 public:
     MainWindow();
-    MainWindow(const QUrl &);
+    MainWindow(const KUrl &);
     virtual ~MainWindow();
     
 private:
@@ -24,6 +26,7 @@ private:
 private slots:
     void slotNew();
     void slotOpen();
+    void slotOpen(const KUrl&);
     void slotOpen(const QUrl&);
     void slotClose();
     void updateCaption();

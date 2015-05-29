@@ -39,7 +39,7 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_previewer = new KWebView(this);
     m_livePreview = false;
     m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)), parent, SLOT(openUrl(const QUrl&)));
+    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)), parent, SLOT(slotOpen(const QUrl&)));
     
     m_new_editor = KTextEditor::EditorChooser::editor();
     if (!m_new_editor) {

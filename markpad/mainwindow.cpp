@@ -1,13 +1,13 @@
 #include "mainwindow.h"
 #include "kmarkpad.h"
 
-#include <KDE/KXMLGUIFactory>
-#include <KDE/KConfig>
-#include <KDE/KStandardAction>
-#include <KDE/KActionCollection>
-#include <KDE/KEncodingFileDialog>
-#include <KDE/KLocale>
-#include <KDE/KRecentFilesAction>
+#include <KXMLGUIFactory>
+#include <KConfig>
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KEncodingFileDialog>
+#include <KLocale>
+#include <KRecentFilesAction>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 
@@ -31,7 +31,7 @@ MainWindow::MainWindow()
     show();
 }
 
-MainWindow::MainWindow(const QUrl& url)
+MainWindow::MainWindow(const KUrl& url)
 {
     m_markpad = new KMarkPad(this);
     m_markpad->preview(true);
@@ -56,7 +56,7 @@ void MainWindow::setupAction()
     actionCollection()->addAction( KStandardAction::Close, "file_close", this, SLOT(slotClose()) );
     actionCollection()->addAction( KStandardAction::New, "file_new", this, SLOT(slotNew()) );
     actionCollection()->addAction( KStandardAction::Open, "file_open", this, SLOT(slotOpen()) );
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(slotOpen(QUrl)), this);
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(slotOpen(KUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
 }
@@ -135,10 +135,15 @@ void MainWindow::slotOpen()
     slotOpen(url);
 }
 
+void MainWindow::slotOpen(const KUrl &url)
+{
+    m_markpad->m_note->openUrl(url);
+    m_recentFiles->addUrl(url);
+}
+
 void MainWindow::slotOpen(const QUrl &url)
 {
-    m_markpad->m_note->openUrl(KUrl(url.toString()));
-    m_recentFiles->addUrl(url);
+    slotOpen(KUrl(url.toString()));
 }
 
 MainWindow::~MainWindow()

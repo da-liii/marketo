@@ -21,10 +21,11 @@
 
 #include <QDebug>
 
-#include <KDE/KApplication>
-#include <KDE/KAboutData>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KLocale>
+#include <KApplication>
+#include <KAboutData>
+#include <KCmdLineArgs>
+#include <KLocale>
+#include <KUrl>
 
 static const char description[] =
     I18N_NOOP("KMarkPad - Advanced Markdown Editor");
@@ -44,11 +45,11 @@ int main(int argc, char **argv)
     KApplication app;
     
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    if (args->count() < 0)
+    if (args->count() <= 0)
         MainWindow *mainWindow = new MainWindow;
     else
         for (int i=0; i<args->count(); i++)
-            new MainWindow(QUrl(args->arg(i)));
+            new MainWindow(KUrl(args->arg(i)));
 
     return app.exec();
 }
