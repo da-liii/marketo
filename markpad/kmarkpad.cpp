@@ -16,6 +16,7 @@
 #include <KStandardDirs>
 #include <KWebView>
 
+#include <QtGlobal>
 #include <QSplitter>
 #include <QHBoxLayout>
 #include <QTimer>
@@ -114,6 +115,7 @@ void KMarkPad::updatePreviewer()
 
 void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
 {
+    Q_UNUSED(editor);
     int sourceTotal = m_note->lines();
     int sourceCur = cursor.line();
     int targetTotal = m_previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);

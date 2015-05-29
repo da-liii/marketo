@@ -11,6 +11,8 @@
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 
+#include <QtGlobal>
+
 MainWindow::MainWindow()
     : m_recentFiles(0)
 {
@@ -102,11 +104,13 @@ void MainWindow::writeConfig()
 void MainWindow::readProperties(const KConfigGroup &config)
 {
     readConfig();
+    Q_UNUSED(config);
 }
 
 void MainWindow::saveProperties(KConfigGroup &cg)
 {
     writeConfig();
+    Q_UNUSED(cg);
 }
 
 void MainWindow::updateCaptionModified()

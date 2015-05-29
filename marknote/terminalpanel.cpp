@@ -27,6 +27,7 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
 
 void TerminalPanel::showEvent(QShowEvent* event)
 {
+    Q_UNUSED(event);
     if(!m_terminal) {
         KPluginFactory* factory = 0;
         KService::Ptr service = KService::serviceByDesktopName("konsolepart");

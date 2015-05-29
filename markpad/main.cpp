@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 
 #include <QDebug>
+#include <QtGlobal>
 
 #include <KApplication>
 #include <KAboutData>
@@ -45,8 +46,10 @@ int main(int argc, char **argv)
     KApplication app;
     
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    if (args->count() <= 0)
+    if (args->count() <= 0) {
         MainWindow *mainWindow = new MainWindow;
+        Q_UNUSED(mainWindow);
+    }
     else
         for (int i=0; i<args->count(); i++)
             new MainWindow(KUrl(args->arg(i)));
