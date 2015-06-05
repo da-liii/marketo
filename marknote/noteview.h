@@ -25,6 +25,7 @@ public:
     
 public slots:
     void openUrl(const QUrl& url);
+    void slotOpen(const QUrl& url);
     
 private:
     QVBoxLayout *vl;

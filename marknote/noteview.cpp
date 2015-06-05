@@ -79,6 +79,12 @@ void NoteView::openUrl(const QUrl& url)
     openUrl(kUrl);
 }
 
+void NoteView::slotOpen(const QUrl& url)
+{
+    KUrl kUrl(url.toString().replace("%20", " "));
+    openUrl(kUrl);
+}
+
 void NoteView::focusTitle()
 {
     title->setFocus();

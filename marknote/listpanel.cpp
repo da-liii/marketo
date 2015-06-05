@@ -101,7 +101,7 @@ void ListPanel::copyNoteLink()
     
     QClipboard *clipBoard = QApplication::clipboard();
     clipBoard->clear();
-    clipBoard->setText("["+url.fileName()+"]("+file.replace(" ", "%20")+")");
+    clipBoard->setText("[" + url.fileName() + "](" + url.toMimeDataString() + ")");
 }
 
 ListPanel::~ListPanel()
