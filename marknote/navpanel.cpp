@@ -1,5 +1,4 @@
 #include "navpanel.h"
-#include "kmarknote_generalsettings.h"
 
 #include <QFileSystemModel>
 #include <QItemSelection>
@@ -8,20 +7,24 @@
 #include <QVBoxLayout>
 #include <QModelIndex>
 
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <KUrl>
 
 Navigator::Navigator(Panel* parent)
     : Panel(parent)
 {
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    
     tmodel = new QFileSystemModel;
-    tmodel->setRootPath(GeneralSettings::noteDir());
+    tmodel->setRootPath(cfg.readEntry("NoteDir"));
     tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     
     m_selectionModel = new QItemSelectionModel(tmodel);
     
     treeView = new QTreeView(this);
     treeView->setModel(tmodel);
-    treeView->setRootIndex(tmodel->index(GeneralSettings::noteDir()));
+    treeView->setRootIndex(tmodel->index(cfg.readEntry("NoteDir")));
     treeView->resizeColumnToContents(0);
     treeView->setColumnHidden(1, true);
     treeView->setColumnHidden(2, true);

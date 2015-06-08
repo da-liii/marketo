@@ -19,10 +19,11 @@
 
 #include "kmarknote.h"
 
-#include <KDE/KApplication>
-#include <KDE/KAboutData>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KLocale>
+#include <KApplication>
+#include <KAboutData>
+#include <KCmdLineArgs>
+#include <KLocale>
+#include <KFileDialog>
 
 static const char description[] =
     I18N_NOOP("A Markdown based note-taking KDE application");
@@ -41,6 +42,16 @@ int main(int argc, char **argv)
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
 
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup cfg(config, "General Options");
+    if (!cfg.hasKey("NoteDir")) {
+        QUrl url = KFileDialog::getExistingDirectoryUrl(QDir::homePath(),
+                                                        0,
+                                                        i18n("Choose where your notes save"));
+        cfg.writeEntry("NoteDir", url.toLocalFile());
+        config->sync();
+    }
+    
     KMarkNote *mainWindow = new KMarkNote;
     mainWindow->show();
     

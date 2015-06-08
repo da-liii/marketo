@@ -30,14 +30,7 @@ MainView::MainView(QWidget *parent, KAction *pAction)
 {
     setupUI();
     
-    // TODO:handle GeneralSettings, there may be a memory leak
-    GeneralSettings* generalSettings = GeneralSettings::self();
-    const bool firstRun = (generalSettings->version() == 0);
-    if (firstRun) {
-        // TODO: let user choose note directory
-        qDebug() << "firstRun of KMarkNote";
-    }
-    column = generalSettings->startViewNumber();
+    column = 3;
     switch (column) {
         case 1:
             oneColView();
@@ -52,7 +45,6 @@ MainView::MainView(QWidget *parent, KAction *pAction)
             threeColView();
             break;
     }
-    setUrl(generalSettings->noteDir());
 }
 
 void MainView::setupUI()
