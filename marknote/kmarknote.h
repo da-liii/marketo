@@ -22,6 +22,10 @@
 
 #include "mainview.h"
 #include <KDE/KXmlGuiWindow>
+#include <KConfigGroup>
+#include <KSharedConfig>
+
+class KRecentFilesAction;
 
 class KMarkNote : public KXmlGuiWindow
 {
@@ -39,12 +43,23 @@ private slots:
     void newNote();
     void updateCaptionModified();
     void updateCaption();
+    void slotDocumentUrlChanged();
     void togglePreview();
     
 private:
     KTextEditor::Document *m_note;
     MainView *m_view;
     bool isPreview;
+
+    // session management
+private:
+    void readConfig();
+    void writeConfig();
+    void writeConfig(KSharedConfigPtr config);
+    void readConfig(KSharedConfigPtr config);
+    void readProperties(const KConfigGroup &config) override;
+    void saveProperties(KConfigGroup &config) override;
+    KRecentFilesAction *m_recentFiles;
 };
 
 #endif // _KMARKNOTE_H_

@@ -19,24 +19,24 @@
 
 #include "kmarknote.h"
 
-#include <KDE/KLocale>
-#include <KDE/KConfigGroup>
-#include <KDE/KGlobal>
-#include <KDE/KXMLGUIFactory>
-#include <KDE/KStandardAction>
-#include <KDE/KAction>
-#include <KDE/KActionCollection>
-#include <KDE/KFileDialog>
-#include <KDE/KUrl>
-#include <KDE/KWebView>
-#include <KDE/KMenuBar>
-#include <KDE/KShortcut>
+#include <KLocale>
+#include <KConfig>
+#include <KXMLGUIFactory>
+#include <KActionCollection>
+#include <KStandardAction>
+#include <KRecentFilesAction>
+#include <KFileDialog>
+#include <KUrl>
+#include <KWebView>
+#include <KMenuBar>
+#include <KShortcut>
 
 #include <QKeySequence>
 
 KMarkNote::KMarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
+    , m_recentFiles(0)
 {
     KAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setIcon(KIcon("document-preview"));
@@ -58,6 +58,9 @@ void KMarkNote::setupAction()
     KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     KAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
+    m_recentFiles = KStandardAction::openRecent(m_note, SLOT(slotOpen(KUrl)), this);
+    actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
+    m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
     
     oneColAction->setText(i18n("One Column View"));
     twoColAction->setText(i18n("Two Column View"));
@@ -75,14 +78,12 @@ void KMarkNote::setupAction()
 
 void KMarkNote::setupUI()
 {
-    KConfigGroup cg(KGlobal::config(), "KMarkNote");
-    setAutoSaveSettings(cg, true);
-    
     setCentralWidget(m_view);
     setupGUI(QSize(500,600), Default, "kmarknote.rc");
     guiFactory()->addClient(m_view->getEditor());
     setStandardToolBarMenuEnabled(true);
-    restoreWindowSize(cg);
+    setAutoSaveSettings();
+    readConfig();
  }
 
 void KMarkNote::setupConnect()
@@ -90,7 +91,7 @@ void KMarkNote::setupConnect()
     connect(m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
             this, SLOT(updateCaption()));
     connect(m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
-            this, SLOT(updateCaption()));
+            this, SLOT(slotDocumentUrlChanged()));
     connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
             this, SLOT(updateCaptionModified()));
 }
@@ -110,6 +111,13 @@ void KMarkNote::updateCaption()
     setCaption(m_note->url().fileName() + " - KMarkNote");
 }
 
+void KMarkNote::slotDocumentUrlChanged()
+{
+    setCaption(m_note->url().fileName() + " - KMarkNote");
+    if (!m_note->url().isEmpty())
+        m_recentFiles->addUrl(m_note->url());
+}
+
 void KMarkNote::togglePreview()
 {
     if (isPreview)
@@ -119,8 +127,50 @@ void KMarkNote::togglePreview()
     actionCollection()->action("file_preview")->setChecked(isPreview);
 }
 
+//common config
+void KMarkNote::readConfig(KSharedConfigPtr config)
+{
+    KConfigGroup cfg(config, "General Options");
+
+    m_recentFiles->loadEntries(config->group("Recent Files"));
+}
+
+void KMarkNote::writeConfig(KSharedConfigPtr config)
+{
+    KConfigGroup generalOptions(config, "General Options");
+
+    m_recentFiles->saveEntries(KConfigGroup(config, "Recent Files"));
+
+    config->sync();
+}
+
+//config file
+void KMarkNote::readConfig()
+{
+    readConfig(KSharedConfig::openConfig());
+}
+
+void KMarkNote::writeConfig()
+{
+    writeConfig(KSharedConfig::openConfig());
+}
+
+void KMarkNote::readProperties(const KConfigGroup &config)
+{
+    readConfig();
+    Q_UNUSED(config);
+}
+
+void KMarkNote::saveProperties(KConfigGroup &cg)
+{
+    writeConfig();
+    Q_UNUSED(cg);
+}
+
+
 KMarkNote::~KMarkNote()
 {
+    writeConfig();
 }
 
 #include "kmarknote.moc"
