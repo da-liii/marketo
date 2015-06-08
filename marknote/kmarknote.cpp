@@ -42,6 +42,7 @@ KMarkNote::KMarkNote(QWidget* parent)
     previewAction->setIcon(KIcon("document-preview"));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
+    previewAction->setShortcut(QKeySequence("F8"));
     
     m_view = new MainView(parent, previewAction);
     m_note = m_view->note;
@@ -58,13 +59,13 @@ void KMarkNote::setupAction()
     KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     KAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
-    m_recentFiles = KStandardAction::openRecent(m_note, SLOT(slotOpen(KUrl)), this);
+    m_recentFiles = KStandardAction::openRecent(m_note, SLOT(openUrl(KUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
     
-    oneColAction->setText(i18n("One Column View"));
-    twoColAction->setText(i18n("Two Column View"));
-    threeColAction->setText(i18n("Three Column View"));
+    oneColAction->setText(i18n("One Column"));
+    twoColAction->setText(i18n("Two Column"));
+    threeColAction->setText(i18n("Three Column"));
     
     oneColAction->setIcon(KIcon("view-split-top-bottom"));
     twoColAction->setIcon(KIcon("view-split-left-right"));

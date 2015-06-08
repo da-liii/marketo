@@ -98,6 +98,7 @@ KTextEditor::View* MainView::getEditor()
 bool MainView::preview()
 {
     markPad->preview(column == 2);
+    markPad->setFocus();
     previewAction->setChecked(true);
     return true;
 }
@@ -108,6 +109,7 @@ bool MainView::unpreview()
         return true;
     else {
         markPad->unpreview();
+        markPad->setFocus();
         previewAction->setChecked(false);
         return false;
     }
