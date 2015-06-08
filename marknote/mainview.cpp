@@ -1,14 +1,13 @@
 #include "mainview.h"
-// #include "kmarknote_generalsettings.h"
 // #include "terminalpanel.h"
 #include "navpanel.h"
 #include "listpanel.h"
 
-#include <KDE/KWebView>
-#include <KDE/KLocale>
+#include <KWebView>
+#include <KLocale>
 #include <KTextEditor/Editor>
-#include <KDE/KLineEdit>
-#include <KDE/KMessageBox>
+#include <KLineEdit>
+#include <KMessageBox>
 #include <KConfigGroup>
 
 #include <QUrl>

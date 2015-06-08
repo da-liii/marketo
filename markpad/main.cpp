@@ -59,6 +59,7 @@ int main(int argc, char **argv)
     about.processCommandLine(&parser);
     
     MainWindow *mainwindow = new MainWindow();
+    Q_UNUSED(mainwindow);
 
     return app.exec();
 }

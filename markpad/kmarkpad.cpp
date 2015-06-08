@@ -45,16 +45,21 @@ KMarkPad::KMarkPad(QWidget *parent)
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     
     
-    hs->addWidget(m_previewer);
     hs->addWidget(m_editor);
+    hs->addWidget(m_previewer);
     hl->addWidget(hs);
     
     QList<int> sizeList;
     sizeList << 400 << 400;
     hs->setSizes(sizeList);
+
+    setPreview(false);
+    setSplit(false);
     
     connect(m_note, &KTextEditor::Document::textChanged, 
             this, &KMarkPad::updatePreviewer);
+    connect(m_note, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(updatePreviewer()));
     connect(m_editor, &KTextEditor::View::cursorPositionChanged,
             this, &KMarkPad::updatePreviewerByCursor);
 }
@@ -65,7 +70,7 @@ void KMarkPad::preview(bool livePreview)
     preview();
 }
 
-void KMarkPad::preview()
+void KMarkPad::generateHtml()
 {
     string html;
     KComponentData data(KGlobal::mainComponent());
@@ -81,7 +86,10 @@ void KMarkPad::preview()
         + content + QString("</body>")
         + QString("</html>");
     m_previewer->setHtml(content, QUrl());
-    
+}
+
+void KMarkPad::preview()
+{
     if (m_livePreview) {
         m_editor->setHidden(false);
         m_previewer->setHidden(false);
@@ -107,12 +115,13 @@ void KMarkPad::unpreview()
 
 void KMarkPad::updatePreviewer()
 {
-    if (m_livePreview)
-        QTimer::singleShot(100, this, SLOT(preview()));
+    QTimer::singleShot(100, this, SLOT(generateHtml()));
 }
 
 void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
 {
+    Q_UNUSED(editor);
+    
     int sourceTotal = m_note->lines();
     int sourceCur = cursor.line();
     int targetTotal = m_previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
@@ -120,6 +129,25 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     int offset = (sourceCur - sourceTotal/2) * 400 / sourceTotal;
     
     m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
+}
+
+void KMarkPad::setPreview(bool checked)
+{
+    if (checked) {
+        m_editor->setHidden(true);
+        m_previewer->setHidden(false);
+        preview();
+    } else {
+        m_editor->setHidden(false);
+        m_previewer->setHidden(!m_livePreview);
+    }
+}
+
+void KMarkPad::setSplit(bool checked)
+{
+    m_livePreview = checked;
+    m_previewer->setHidden(!checked);
+    m_editor->setHidden(false);
 }
 
 KTextEditor::View* KMarkPad::view()
