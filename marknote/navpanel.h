@@ -9,6 +9,7 @@ class QVBoxLayout;
 class QModelIndex;
 class QItemSelection;
 class QItemSelectionModel;
+class QContextMenuEvent;
 
 class Navigator : public Panel
 {
@@ -25,9 +26,13 @@ private:
     QVBoxLayout *vl;
     QItemSelection *m_selection;
     QItemSelectionModel *m_selectionModel;
+    QPoint m_pos;
     
 private slots:
     void setUrlFromIndex(const QModelIndex& index);
+    void showContextMenu(const QPoint& pos);
+    void slotNewDir();
+    void slotDeleteDir();
     
 protected:
     virtual bool urlChanged();

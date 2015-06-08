@@ -43,7 +43,6 @@ ListPanel::ListPanel(QWidget* parent)
     connect(listView, SIGNAL(customContextMenuRequested(const QPoint&)),
         this, SLOT(showContextMenu(const QPoint&)));
     
-   
     vl = new QVBoxLayout(this);
     vl->addWidget(listView);
 }
