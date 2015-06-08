@@ -29,6 +29,8 @@ private slots:
     void slotOpen(const KUrl&);
     void slotOpen(const QUrl&);
     void slotClose();
+    void slotPreview();
+    void slotSplit();
     void updateCaption();
     void updateCaptionModified();
     

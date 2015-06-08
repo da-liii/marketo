@@ -28,10 +28,13 @@ public:
     KTextEditor::View* view();
     KTextEditor::Document *m_note;
     KTextEditor::View *m_editor;
+    void setPreview(bool checked);
+    void setSplit(bool checked);
  
 public slots:
     void preview(bool livePreview);
     void preview();
+    void generateHtml();
     
 private:
     QSplitter *hs;

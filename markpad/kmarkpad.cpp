@@ -51,16 +51,21 @@ KMarkPad::KMarkPad(QWidget *parent)
         m_note = m_new_editor->createDocument(0);
         m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     }
-    hs->addWidget(m_previewer);
     hs->addWidget(m_editor);
+    hs->addWidget(m_previewer);
     hl->addWidget(hs);
     
     QList<int> sizeList;
     sizeList << 400 << 400;
     hs->setSizes(sizeList);
     
+    setPreview(false);
+    setSplit(false);
+    
     connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
             this, SLOT(updatePreviewer()));
+    connect(m_note, SIGNAL(urlChanged(KUrl)),
+        this, SLOT(updatePreviewer()));
     connect(m_editor, SIGNAL(cursorPositionChanged(KTextEditor::View *,const KTextEditor::Cursor&)),
             this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
 }
@@ -71,7 +76,7 @@ void KMarkPad::preview(bool livePreview)
     preview();
 }
 
-void KMarkPad::preview()
+void KMarkPad::generateHtml()
 {
     string html;
     KComponentData data(KGlobal::mainComponent());
@@ -87,7 +92,10 @@ void KMarkPad::preview()
         + content + QString("</body>")
         + QString("</html>");
     m_previewer->setHtml(content, QUrl());
-    
+}
+
+void KMarkPad::preview()
+{
     if (m_livePreview) {
         m_editor->setHidden(false);
         m_previewer->setHidden(false);
@@ -95,7 +103,6 @@ void KMarkPad::preview()
         m_editor->setHidden(true);
         m_previewer->setHidden(false);
     }
-    
     // scroll to the correct position
     updatePreviewerByCursor(0, m_editor->cursorPosition());
     setFocusProxy(m_previewer);
@@ -112,8 +119,7 @@ void KMarkPad::unpreview()
 
 void KMarkPad::updatePreviewer()
 {
-    if (m_livePreview)
-        QTimer::singleShot(100, this, SLOT(preview()));
+    QTimer::singleShot(100, this, SLOT(generateHtml()));
 }
 
 void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
@@ -126,6 +132,25 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     int offset = (sourceCur - sourceTotal/2) * 400 / sourceTotal;
     
     m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
+}
+
+void KMarkPad::setPreview(bool checked)
+{
+    if (checked) {
+        m_editor->setHidden(true);
+        m_previewer->setHidden(false);
+        preview();
+    } else {
+        m_editor->setHidden(false);
+        m_previewer->setHidden(!m_livePreview);
+    }
+}
+
+void KMarkPad::setSplit(bool checked)
+{
+    m_livePreview = checked;
+    m_previewer->setHidden(!checked);
+    m_editor->setHidden(false);
 }
 
 KTextEditor::View* KMarkPad::view()

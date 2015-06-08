@@ -6,6 +6,7 @@
     <Merge />
     <Action name="file_new"/>
     <Action name="file_open"/>
+    <Action name="file_preview"/>
     <Separator/>
   </Menu>
   <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
@@ -45,6 +46,9 @@
   <DefineGroup name="find_operations" />
   <Separator />
   <DefineGroup name="zoom_operations" />
+  <Separator />
+  <Action name="file_preview"/>
+  <Action name="window_split"/>
 </ToolBar>
 
 </gui>

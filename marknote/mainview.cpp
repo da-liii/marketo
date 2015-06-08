@@ -13,14 +13,14 @@
 #include <QSplitter>
 #include <QModelIndex>
 
-#include <KDE/KWebView>
-#include <KDE/KUrl>
-#include <KDE/KAction>
-#include <KDE/KLocale>
+#include <KWebView>
+#include <KUrl>
+#include <KAction>
+#include <KLocale>
 #include <KTextEditor/Editor>
 #include <KTextEditor/EditorChooser>
-#include <KDE/KLineEdit>
-#include <KDE/KMessageBox>
+#include <KLineEdit>
+#include <KMessageBox>
 
 
 MainView::MainView(QWidget *parent, KAction *pAction)
