@@ -1,5 +1,4 @@
 #include "mainview.h"
-#include "kmarknote_generalsettings.h"
 #include "terminalpanel.h"
 #include "navpanel.h"
 #include "listpanel.h"

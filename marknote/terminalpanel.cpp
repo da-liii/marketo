@@ -1,5 +1,4 @@
 #include "terminalpanel.h"
-#include "kmarknote_generalsettings.h"
 
 #include <signal.h>
 #include <KDE/KPluginLoader>
@@ -12,6 +11,7 @@
 #include <QFileInfo>
 #include <QVBoxLayout>
 #include <QShowEvent>
+#include <QDir>
 
 
 TerminalPanel::TerminalPanel(QWidget* parent) :

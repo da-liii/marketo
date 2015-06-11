@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     }
     else
         for (int i=0; i<args->count(); i++)
-            new MainWindow(KUrl(args->arg(i)));
+            new MainWindow(KUrl::fromLocalFile(args->arg(i)));
 
     return app.exec();
 }
