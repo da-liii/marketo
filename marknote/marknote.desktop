@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=MarkNote
+Exec=marknote %i -caption %c
+Icon=markpad
+Type=Application
+X-DocPath=MarkNote/index.html
+GenericName=A KDE Note-taking Application
+GenericName[en_GB]=A KDE Note-taking Application
+GenericName[zh_CN]=KDE 笔记软件
+GenericName[zh_TW]=KDE 笔记程式

@@ -44,7 +44,8 @@ private:
         {"hs", "Haskell"},
         {"haskell", "Haskell"},
         {"scm", "Scheme"},
-        {"scheme", "Scheme"}
+        {"scheme", "Scheme"},
+        {"sql", "SQL"}
     };
 };
 #endif

@@ -23,7 +23,7 @@ class MainView : public Panel
     Q_OBJECT
     
 public:
-    KMarkPad *markPad;
+    MarkPad *markPad;
     KTextEditor::Document *note;
     
     MainView(QWidget *parent = 0, KAction *pAction = 0);
@@ -32,7 +32,8 @@ public:
     bool preview();
     bool unpreview();
     void openUrl(KUrl url);
-    void setupUI();
+    void 
+setupUI();
     
 private:
     QVBoxLayout *verticalLayout;

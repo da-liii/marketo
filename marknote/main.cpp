@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "kmarknote.h"
+#include "marknote.h"
 
 #include <KApplication>
 #include <KAboutData>
@@ -32,7 +32,7 @@ static const char version[] = "0.1";
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kmarknote", 0, ki18n("KMarkNote"), version, ki18n(description),
+    KAboutData about("marknote", 0, ki18n("MarkNote"), version, ki18n(description),
                      KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen@zoho.com");
     about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen@zoho.com" );
     KCmdLineArgs::init(argc, argv, &about);
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
         config->sync();
     }
     
-    KMarkNote *mainWindow = new KMarkNote;
+    MarkNote *mainWindow = new MarkNote;
     mainWindow->show();
     
     return app.exec();

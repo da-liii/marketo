@@ -1,4 +1,4 @@
-project (kmarknote)
+project (marketo)
 
 set (CMAKE_CXX_FLAGS "-std=c++11")
 

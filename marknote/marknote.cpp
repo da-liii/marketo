@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "kmarknote.h"
+#include "marknote.h"
 
 #include <KLocale>
 #include <KConfig>
@@ -33,7 +33,7 @@
 
 #include <QKeySequence>
 
-KMarkNote::KMarkNote(QWidget* parent)
+MarkNote::MarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
     , m_recentFiles(0)
@@ -43,7 +43,7 @@ KMarkNote::KMarkNote(QWidget* parent)
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     previewAction->setShortcut(QKeySequence("F8"));
-    
+
     m_view = new MainView(parent, previewAction);
     m_note = m_view->note;
     setupAction();
@@ -51,75 +51,75 @@ KMarkNote::KMarkNote(QWidget* parent)
     setupConnect();
 }
 
-void KMarkNote::setupAction()
+void MarkNote::setupAction()
 {
     KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
-    
+
     KAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     KAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     KAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
     m_recentFiles = KStandardAction::openRecent(m_note, SLOT(openUrl(KUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
-    
+
     oneColAction->setText(i18n("One Column"));
     twoColAction->setText(i18n("Two Column"));
     threeColAction->setText(i18n("Three Column"));
-    
+
     oneColAction->setIcon(KIcon("view-split-top-bottom"));
     twoColAction->setIcon(KIcon("view-split-left-right"));
     threeColAction->setIcon(KIcon("view-file-columns"));
-    
+
     KAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
     KShortcut terminalShortcut = terminalAction->shortcut();
     terminalShortcut.setPrimary(QKeySequence("F4"));
     terminalAction->setShortcut(terminalShortcut);
 }
 
-void KMarkNote::setupUI()
+void MarkNote::setupUI()
 {
     setCentralWidget(m_view);
-    setupGUI(QSize(500,600), Default, "kmarknote.rc");
+    setupGUI(QSize(500,600), Default, "marknote.rc");
     guiFactory()->addClient(m_view->getEditor());
     setStandardToolBarMenuEnabled(true);
     setAutoSaveSettings();
     readConfig();
- }
+}
 
-void KMarkNote::setupConnect()
+void MarkNote::setupConnect()
 {
     connect(m_note, SIGNAL(modifiedChanged(KTextEditor::Document*)),
             this, SLOT(updateCaption()));
     connect(m_note, SIGNAL(documentUrlChanged(KTextEditor::Document*)),
             this, SLOT(slotDocumentUrlChanged()));
-    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)), 
+    connect(m_note, SIGNAL(textChanged(KTextEditor::Document *)),
             this, SLOT(updateCaptionModified()));
 }
 
-void KMarkNote::newNote()
+void MarkNote::newNote()
 {
     m_view->newNote();
 }
 
-void KMarkNote::updateCaptionModified()
+void MarkNote::updateCaptionModified()
 {
-    setCaption(m_note->url().fileName() + " [modified]- KMarkNote");
+    setCaption(m_note->url().fileName() + " [modified]- MarkNote");
 }
 
-void KMarkNote::updateCaption()
+void MarkNote::updateCaption()
 {
-    setCaption(m_note->url().fileName() + " - KMarkNote");
+    setCaption(m_note->url().fileName() + " - MarkNote");
 }
 
-void KMarkNote::slotDocumentUrlChanged()
+void MarkNote::slotDocumentUrlChanged()
 {
-    setCaption(m_note->url().fileName() + " - KMarkNote");
+    setCaption(m_note->url().fileName() + " - MarkNote");
     if (!m_note->url().isEmpty())
         m_recentFiles->addUrl(m_note->url());
 }
 
-void KMarkNote::togglePreview()
+void MarkNote::togglePreview()
 {
     if (isPreview)
         isPreview = m_view->unpreview();
@@ -129,14 +129,14 @@ void KMarkNote::togglePreview()
 }
 
 //common config
-void KMarkNote::readConfig(KSharedConfigPtr config)
+void MarkNote::readConfig(KSharedConfigPtr config)
 {
     KConfigGroup cfg(config, "General Options");
 
     m_recentFiles->loadEntries(config->group("Recent Files"));
 }
 
-void KMarkNote::writeConfig(KSharedConfigPtr config)
+void MarkNote::writeConfig(KSharedConfigPtr config)
 {
     KConfigGroup generalOptions(config, "General Options");
 
@@ -146,32 +146,32 @@ void KMarkNote::writeConfig(KSharedConfigPtr config)
 }
 
 //config file
-void KMarkNote::readConfig()
+void MarkNote::readConfig()
 {
     readConfig(KSharedConfig::openConfig());
 }
 
-void KMarkNote::writeConfig()
+void MarkNote::writeConfig()
 {
     writeConfig(KSharedConfig::openConfig());
 }
 
-void KMarkNote::readProperties(const KConfigGroup &config)
+void MarkNote::readProperties(const KConfigGroup &config)
 {
     readConfig();
     Q_UNUSED(config);
 }
 
-void KMarkNote::saveProperties(KConfigGroup &cg)
+void MarkNote::saveProperties(KConfigGroup &cg)
 {
     writeConfig();
     Q_UNUSED(cg);
 }
 
 
-KMarkNote::~KMarkNote()
+MarkNote::~MarkNote()
 {
     writeConfig();
 }
 
-#include "kmarknote.moc"
+#include "marknote.moc"

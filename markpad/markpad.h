@@ -16,13 +16,13 @@ namespace KTextEditor {
     class Editor;
 };
 
-class KMarkPad : public QWidget
+class MarkPad : public QWidget
 {
     Q_OBJECT
     
 public:
-    KMarkPad(QWidget *parent = 0);
-    virtual ~KMarkPad();
+    MarkPad(QWidget *parent = 0);
+    virtual ~MarkPad();
     KWebView *getPreviewer();
     void unpreview();
     KTextEditor::View* view();

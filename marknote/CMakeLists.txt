@@ -1,28 +1,28 @@
-set (kmarknote_SRCS
+set (marknote_SRCS
    main.cpp
-   kmarknote.cpp
+   marknote.cpp
    mainview.cpp
    noteview.cpp
    panel.cpp
    terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
-   ../markpad/kmarkpad.cpp
+   ../markpad/markpad.cpp
    ../markpad/highlighterbykate.cpp
    ../markpad/htmlgenerator.cpp
 )
 
-kde4_add_executable (kmarknote ${kmarknote_SRCS})
+kde4_add_executable (marknote ${marknote_SRCS})
 
 include_directories (../markpad/)
 
-target_link_libraries (kmarknote
+target_link_libraries (marknote
                     ${KDE4_KDEUI_LIBS} 
                     ${KDE4_KTEXTEDITOR_LIBS}
                     ${KDE4_KDEWEBKIT_LIBS}  
                     mdcpp
 )
 
-install(TARGETS kmarknote DESTINATION ${BIN_INSTALL_DIR})
-install(PROGRAMS kmarknote.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES kmarknote.rc DESTINATION ${DATA_INSTALL_DIR}/kmarknote)
+install(TARGETS marknote DESTINATION ${BIN_INSTALL_DIR})
+install(PROGRAMS marknote.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES marknote.rc DESTINATION ${DATA_INSTALL_DIR}/marknote)

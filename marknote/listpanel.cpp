@@ -21,16 +21,16 @@ ListPanel::ListPanel(QWidget* parent)
     m_parent(parent)
 {
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
-    
+
     m_pos = QPoint(0, 0);
-    lmodel = new QFileSystemModel; 
+    lmodel = new QFileSystemModel;
     lmodel->setRootPath(cfg.readEntry("NoteDir"));
     lmodel->setFilter(QDir::Files);
-    
+
     m_filters << "*.md" << "*.markdown";
     lmodel->setNameFilters(m_filters);
     lmodel->setNameFilterDisables(false);
-    
+
     listView = new QListView(this);
     listView->setModel(lmodel);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
@@ -42,7 +42,7 @@ ListPanel::ListPanel(QWidget* parent)
         this, SLOT(setUrlFromIndex(QModelIndex)));
     connect(listView, SIGNAL(customContextMenuRequested(const QPoint&)),
         this, SLOT(showContextMenu(const QPoint&)));
-    
+
     vl = new QVBoxLayout(this);
     vl->addWidget(listView);
 }
@@ -50,7 +50,7 @@ ListPanel::ListPanel(QWidget* parent)
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
     KUrl url(lmodel->filePath(index));
-    
+
     setUrl(url);
 }
 
@@ -75,10 +75,10 @@ void ListPanel::showContextMenu(const QPoint& pos)
     connect(newNoteAction, SIGNAL(triggered()), m_parent, SLOT(newNote()));
     connect(deleteNoteAction, SIGNAL(triggered()), this, SLOT(deleteNote()));
     connect(copyNoteLinkAction, SIGNAL(triggered()), this, SLOT(copyNoteLink()));
-    
+
     if (contextMenu) {
         contextMenu->exec(QCursor::pos());
-    }  
+    }
     delete contextMenu;
 }
 
@@ -86,7 +86,7 @@ void ListPanel::deleteNote()
 {
     QModelIndex index = listView->indexAt(m_pos);
     QString file(lmodel->filePath(index));
-    
+
     if (!file.isEmpty() && !QFile::remove(lmodel->filePath(index))) {
         QMessageBox message;
         message.setText(QString("Fail to delete") + file);
@@ -99,7 +99,7 @@ void ListPanel::copyNoteLink()
     QModelIndex index = listView->indexAt(m_pos);
     QString file(lmodel->filePath(index));
     KUrl url(file);
-    
+
     QClipboard *clipBoard = QApplication::clipboard();
     clipBoard->clear();
     clipBoard->setText("[" + url.fileName() + "](" + url.toMimeDataString() + ")");

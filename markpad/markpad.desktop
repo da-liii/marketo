@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=MarkPad
+Name[zh_CN]=MarkPad
+Name[zh_TW]=MarkPad
+Exec=markpad %i -caption %c
+Icon=markpad
+Type=Application
+GenericName=Just Another Markdown Editor

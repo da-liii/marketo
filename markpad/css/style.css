@@ -1,22 +1,16 @@
 pre, blockquote {
-        font-family: "Courier New", Courier, monospace;
-        font-size: 90%
-        color: black;
-        background-color: #ffe;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        border: 2px solid #ddd;
-        box-shadow: 3px 3px 3px #eee;
-        padding: 1.2em;
+   background-color: #f8f8f8;
+   border: 1px solid #cccccc;
+   font-size: 13px;
+   line-height: 19px;
+   overflow: auto;
+   padding: 6px 10px;
+   border-radius: 3px;
 }
 
-code {
-        font-family: "Courier New", Courier, monospace;
-	font-size: 100%;
-	color: black;
-	background-color: #ffe;
-	border: 1px solid #dedede;
-	padding: 0px 0.2em;
+pre code, pre tt {
+    background-color: transparent;
+    border: none; 
 }
 
 pre code {

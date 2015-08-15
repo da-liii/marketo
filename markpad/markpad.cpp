@@ -1,4 +1,4 @@
-#include "kmarkpad.h"
+#include "markpad.h"
 #include "htmlgenerator.h"
 
 #include <string>
@@ -28,7 +28,7 @@
 
 using std::string;
 
-KMarkPad::KMarkPad(QWidget *parent)
+MarkPad::MarkPad(QWidget *parent)
     : QWidget(parent)
     , m_generator(new HTMLGenerator)
 {
@@ -70,13 +70,13 @@ KMarkPad::KMarkPad(QWidget *parent)
             this, SLOT(updatePreviewerByCursor(KTextEditor::View *, const KTextEditor::Cursor&)));
 }
 
-void KMarkPad::preview(bool livePreview)
+void MarkPad::preview(bool livePreview)
 {
     m_livePreview = livePreview;
     preview();
 }
 
-void KMarkPad::generateHtml()
+void MarkPad::generateHtml()
 {
     string html;
     KComponentData data(KGlobal::mainComponent());
@@ -86,7 +86,7 @@ void KMarkPad::generateHtml()
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
         + QString("<link href=\"file://") 
-        + data.dirs()->locate("data", "kmarkpad/css/style.css") 
+        + data.dirs()->locate("data", "markpad/css/style.css") 
         + QString("\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
@@ -94,7 +94,7 @@ void KMarkPad::generateHtml()
     m_previewer->setHtml(content, QUrl());
 }
 
-void KMarkPad::preview()
+void MarkPad::preview()
 {
     if (m_livePreview) {
         m_editor->setHidden(false);
@@ -108,7 +108,7 @@ void KMarkPad::preview()
     setFocusProxy(m_previewer);
 }
 
-void KMarkPad::unpreview()
+void MarkPad::unpreview()
 {
     m_editor->setHidden(false);
     m_previewer->setHidden(true);
@@ -117,12 +117,12 @@ void KMarkPad::unpreview()
     setFocusProxy(m_editor);
 }
 
-void KMarkPad::updatePreviewer()
+void MarkPad::updatePreviewer()
 {
     QTimer::singleShot(100, this, SLOT(generateHtml()));
 }
 
-void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
+void MarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEditor::Cursor& cursor)
 {
     Q_UNUSED(editor);
     int sourceTotal = m_note->lines();
@@ -134,7 +134,7 @@ void KMarkPad::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
 }
 
-void KMarkPad::setPreview(bool checked)
+void MarkPad::setPreview(bool checked)
 {
     if (checked) {
         m_editor->setHidden(true);
@@ -146,21 +146,21 @@ void KMarkPad::setPreview(bool checked)
     }
 }
 
-void KMarkPad::setSplit(bool checked)
+void MarkPad::setSplit(bool checked)
 {
     m_livePreview = checked;
     m_previewer->setHidden(!checked);
     m_editor->setHidden(false);
 }
 
-KTextEditor::View* KMarkPad::view()
+KTextEditor::View* MarkPad::view()
 {
     return m_editor;
 }
 
-KMarkPad::~KMarkPad()
+MarkPad::~MarkPad()
 {
 
 }
 
-#include "kmarkpad.moc"
+#include "markpad.moc"

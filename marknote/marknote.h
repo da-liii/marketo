@@ -27,12 +27,12 @@
 
 class KRecentFilesAction;
 
-class KMarkNote : public KXmlGuiWindow
+class MarkNote : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    KMarkNote(QWidget *parent = 0);
-    virtual ~KMarkNote();
+    MarkNote(QWidget *parent = 0);
+    virtual ~MarkNote();
     
     void unpreview();   
     void setupAction();

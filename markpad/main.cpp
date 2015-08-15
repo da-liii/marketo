@@ -29,13 +29,13 @@
 #include <KUrl>
 
 static const char description[] =
-    I18N_NOOP("KMarkPad - Advanced Markdown Editor");
+    I18N_NOOP("MarkPad - Advanced Markdown Editor");
 
 static const char version[] = "0.1";
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kmarkpad", 0, ki18n("KMarkPad"), version, ki18n(description),
+    KAboutData about("markpad", 0, ki18n("MarkPad"), version, ki18n(description),
                      KAboutData::License_GPL, ki18n("(C) 2015 Darcy Shen"), KLocalizedString(), 0, "sadhen@zoho.com");
     about.addAuthor( ki18n("Darcy Shen"), KLocalizedString(), "sadhen@zoho.com" );
     KCmdLineArgs::init(argc, argv, &about);
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     options.add("+[URL]", ki18n( "Document to open" ));
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
-    
+
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     if (args->count() <= 0) {
         MainWindow *mainWindow = new MainWindow;

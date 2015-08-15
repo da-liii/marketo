@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "kmarkpad.h"
+#include "markpad.h"
 
 #include <KXMLGUIFactory>
 #include <KConfig>
@@ -18,16 +18,16 @@ MainWindow::MainWindow()
     : m_markpad(0)
     , m_recentFiles(0)
 {
-    m_markpad = new KMarkPad(this);
-    
+    m_markpad = new MarkPad(this);
+
     setupAction();
     setupConnect();
-    
+
     setCentralWidget(m_markpad);
-    setupGUI(QSize(500,600), Default, "kmarkpad.rc");
+    setupGUI(QSize(500,600), Default, "markpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
-    
+
     setAutoSaveSettings();
     readConfig();
 
@@ -38,19 +38,19 @@ MainWindow::MainWindow(const KUrl& url)
     : m_markpad(0)
     , m_recentFiles(0)
 {
-    m_markpad = new KMarkPad(this);
-    
+    m_markpad = new MarkPad(this);
+
     setupAction();
     setupConnect();
-    
+
     setCentralWidget(m_markpad);
-    setupGUI(QSize(500,600), Default, "kmarkpad.rc");
+    setupGUI(QSize(500,600), Default, "markpad.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
-    
+
     setAutoSaveSettings();
     readConfig();
-    
+
     slotOpen(url);
     show();
 }
@@ -60,18 +60,18 @@ void MainWindow::setupAction()
     actionCollection()->addAction( KStandardAction::Close, "file_close", this, SLOT(slotClose()) );
     actionCollection()->addAction( KStandardAction::New, "file_new", this, SLOT(slotNew()) );
     actionCollection()->addAction( KStandardAction::Open, "file_open", this, SLOT(slotOpen()) );
-    
+
     KAction *previewAction = actionCollection()->addAction("file_preview", this, SLOT(slotPreview()));
     previewAction->setIcon(KIcon("document-preview"));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     previewAction->setShortcut(QKeySequence("F8"));
-    
+
     KAction *splitAction = actionCollection()->addAction("window_split", this, SLOT(slotSplit()));
     splitAction->setIcon(KIcon("view-split-left-right"));
     splitAction->setText(i18n("Split"));
     splitAction->setCheckable(true);
-    
+
     m_recentFiles = KStandardAction::openRecent(this, SLOT(slotOpen(KUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
@@ -129,12 +129,12 @@ void MainWindow::saveProperties(KConfigGroup &cg)
 
 void MainWindow::updateCaptionModified()
 {
-    setCaption(m_markpad->m_note->url().fileName() + " [modified]- KMarkPad");
+    setCaption(m_markpad->m_note->url().fileName() + " [modified]- MarkPad");
 }
 
 void MainWindow::updateCaption()
 {
-    setCaption(m_markpad->m_note->url().fileName() + " - KMarkPad");
+    setCaption(m_markpad->m_note->url().fileName() + " - MarkPad");
 }
 
 void MainWindow::slotNew()

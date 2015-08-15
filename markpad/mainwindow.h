@@ -6,7 +6,7 @@
 #include <KSharedConfig>
 #include <KUrl>
 
-class KMarkPad;
+class MarkPad;
 class KRecentFilesAction;
 class KUrl;
 
@@ -35,7 +35,7 @@ private slots:
     void updateCaptionModified();
     
 private:
-    KMarkPad *m_markpad;
+    MarkPad *m_markpad;
 
     // session management
 private:
