@@ -34,7 +34,7 @@ If you are using Ubuntu:
 Then follow these instructions:
 ``` sh
 cd /tmp
-git clone https://github.com/sadhen/Marketo.git
+git clone https://github.com/sadhen/marketo.git
 cd Marketo
 mkdir $HOME/software
 mkdir build
@@ -47,7 +47,7 @@ make install
 You can also only install the Markdown Editor:
 ``` sh
 cd /tmp
-git clone https://github.com/sadhen/Marketo.git
+git clone https://github.com/sadhen/marketo.git
 cd Marketo
 mkdir $HOME/software
 mkdir build
