@@ -1,18 +1,19 @@
-# KMarkNote
+# Marketo
 
 A KDE application for note taking with the power of lightweight markup language.
 
-It is bundled with a Markdown editor named KMarkPad.
+It is bundled with a separated Markdown editor.
 
 ## Features
-+ Use Katepart as the default editor
-+ Support Markdown
++ Use **katepart** as the default editor(**cool** vim mode )
++ Partially support **CommonMark**
++ Highlight fenced code using Kate's Syntax Highlighter
 + Live Preview(auto sync between two views)
-+ Integrated Terminal at the bottom
-+ github-flavored highlight code syntax (using katepart's highlight library)
-+ Integrated into baloo's tag system(planning)
-+ Git support(planning)
-+ Jekyll support(planning)
+
+## Planning
++ Integrated with baloo for search
++ Git support
++ Support blog post generating
 
 ## Install
 
@@ -27,8 +28,8 @@ Also you need to install many other dependencies for compiling. Please see the C
 Then follow these instructions:
 ``` sh
 cd /tmp
-git clone https://github.com/sadhen/KMarkNote.git
-cd KMarkNote
+git clone https://github.com/sadhen/marketo.git
+cd marketo
 mkdir $HOME/software
 mkdir build
 cd build
@@ -40,8 +41,8 @@ make install
 You can also only install the Markdown Editor:
 ``` sh
 cd /tmp
-git clone https://github.com/sadhen/KMarkNote.git
-cd KMarkNote
+git clone https://github.com/sadhen/marketo.git
+cd marketo/markpado
 mkdir $HOME/software
 mkdir build
 cd build
@@ -55,6 +56,6 @@ make install
 ## Run it
 ``` sh
 cd ~/software/bin/
-./kmarknote # this will launch KMarkNote: the note-taking application
-./kmarkpad # this will launch KMarkPad: the Markdown editor
+./marknoto # this will launch the note-taking application
+./markpado # this will launch the Markdown editor
 ```
