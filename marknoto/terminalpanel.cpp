@@ -27,7 +27,7 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
 
 void TerminalPanel::showEvent(QShowEvent* event)
 {
-    if(!m_terminal) {
+    if (!m_terminal) {
         KPluginFactory* factory = 0;
         KService::Ptr service = KService::serviceByDesktopName("konsolepart");
         if (service)
@@ -116,4 +116,5 @@ TerminalPanel::~TerminalPanel()
 {
 
 }
+
 #include "terminalpanel.moc"

@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     
-    KAboutData about(QStringLiteral("marknote"),
-        i18n("Marketo"),
+    KAboutData about(QStringLiteral("marknoto"),
+        i18n("Marknoto"),
         QStringLiteral(VERSION),
         i18n(DESCRIPTION),
         KAboutLicense::LGPL_V2,

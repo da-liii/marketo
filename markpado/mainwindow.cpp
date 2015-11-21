@@ -11,7 +11,6 @@
 #include <KTextEditor/Document>
 #include <KRecentFilesAction>
 #include <KLocalizedString>
-#include <KIcon>
 
 #include <QUrl>
 
@@ -69,13 +68,13 @@ void MainWindow::setupAction()
     actionCollection()->addAction( KStandardAction::Open, "file_open", this, SLOT(slotOpen()) );
 
     QAction *previewAction = actionCollection()->addAction("file_preview", this, SLOT(slotPreview()));
-    previewAction->setIcon(KIcon("document-preview"));
+    previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     previewAction->setShortcut(QKeySequence("F8"));
     
     QAction *splitAction = actionCollection()->addAction("window_split", this, SLOT(slotSplit()));
-    splitAction->setIcon(KIcon("view-split-left-right"));
+    splitAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     splitAction->setText(i18n("Split"));
     splitAction->setCheckable(true);
 

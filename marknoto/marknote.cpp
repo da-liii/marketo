@@ -26,7 +26,6 @@
 #include <KWebView>
 #include <KMenuBar>
 #include <KShortcut>
-#include <KIcon>
 #include <KRecentFilesAction>
 
 #include <QUrl>
@@ -41,7 +40,7 @@ MarkNote::MarkNote(QWidget* parent)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setShortcut(QKeySequence("F8"));
-    previewAction->setIcon(KIcon("document-preview"));
+    previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     
@@ -65,9 +64,9 @@ void MarkNote::setupAction()
     twoColAction->setText(i18n("Two Column"));
     threeColAction->setText(i18n("Three Column"));
     
-    oneColAction->setIcon(KIcon("view-split-top-bottom"));
-    twoColAction->setIcon(KIcon("view-split-left-right"));
-    threeColAction->setIcon(KIcon("view-file-columns"));
+    oneColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-top-bottom")));
+    twoColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-left-right")));
+    threeColAction->setIcon(QIcon::fromTheme(QLatin1String("view-file-columns")));
     
     m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
@@ -80,7 +79,7 @@ void MarkNote::setupAction()
 void MarkNote::setupUI()
 {
     setCentralWidget(m_view);
-    setupGUI(QSize(500,600), Default, "kmarknote.rc");
+    setupGUI(QSize(500,600), Default, "marknoto.rc");
     guiFactory()->addClient(m_view->getEditor());
     setStandardToolBarMenuEnabled(true);
     setAutoSaveSettings();
