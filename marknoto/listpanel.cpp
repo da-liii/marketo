@@ -104,9 +104,13 @@ void ListPanel::copyNoteLink()
     QString file(lmodel->filePath(index));
     QUrl url(file);
     
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    QString rootPath(cfg.readEntry("NoteDir"));
     QClipboard *clipBoard = QApplication::clipboard();
     clipBoard->clear();
-    clipBoard->setText("["+url.fileName()+"]("+file.replace(" ", "%20")+")");
+    clipBoard->setText("[" + url.fileName() + "](" 
+                       + QString(url.toEncoded()).midRef(rootPath.length()).toString()
+                       + ")");
 }
 
 ListPanel::~ListPanel()

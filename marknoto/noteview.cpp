@@ -2,6 +2,8 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KLineEdit>
+#include <KConfigGroup>
+#include <KSharedConfig>
 
 #include <QAction>
 #include <QDir>
@@ -68,7 +70,6 @@ void NoteView::openUrl(const QUrl& url)
 {
     // TODO:if the url is not in the watching dir and is in three column view
     // switch to one column view
-    qDebug() << "NoteView::openUrl " << url;
     title->setText(url.fileName());
     note->openUrl(url);
     if (previewAction->isChecked())
@@ -79,7 +80,15 @@ void NoteView::openUrl(const QUrl& url)
 
 void NoteView::slotOpen(const QUrl& url)
 {
-    openUrl(url);
+    if (url.toString().startsWith("/")) {
+        KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+        QString rootPath(cfg.readEntry("NoteDir"));
+        QString notePath(url.toString());
+        QUrl newUrl("file:/" + rootPath + notePath);
+        openUrl(newUrl);
+    } else {
+        //TODO open using default strategy
+    }
 }
 
 void NoteView::focusTitle()
