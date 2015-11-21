@@ -30,7 +30,10 @@ private:
     KTextEditor::Document* m_note;
     KTextEditor::View* m_editor;
     
+    // see /usr/share/kde4/apps/katepart/syntax/ for more info
     map<string, string> mimeMap = {
+        {"awk", "AWK"},
+        {"bash", "Bash"},
         {"cpp", "C++"},
         {"c", "C"},
         {"zsh", "Zsh"},
@@ -38,13 +41,17 @@ private:
         {"dot", "dot"},
         {"python", "Python"},
         {"py", "Python"},
-        {"rb", "Ruby"},
-        {"ruby", "Ruby"},
         {"java", "Java"},
+        {"javascript", "JavaScript"},
+        {"js", "JavaScript"},
         {"hs", "Haskell"},
         {"haskell", "Haskell"},
+        {"rb", "Ruby"},
+        {"ruby", "Ruby"},
+        {"scala", "Scala"},
         {"scm", "Scheme"},
-        {"scheme", "Scheme"}
+        {"scheme", "Scheme"},
+        {"sh", "Bash"}
     };
 };
 #endif
