@@ -1,6 +1,6 @@
 #include "htmlgenerator.h"
 #include "highlighterbykate.h"
-#include "markdown.h"
+#include "libmdcpp.h"
 
 #include <sstream>
 #include <iostream>
@@ -16,7 +16,8 @@ std::string HTMLGenerator::generated(string plain)
 {
     ostringstream sout;
 
-    markdown::Document processor((markdown::SyntaxHighlighter *) m_highlighter);
+    Procesoro processor((SyntaxHighlighter *) m_highlighter, "markdown");
+    std::cout << "[debug]" << plain;
     processor.read(plain);
     processor.write(sout);
     

@@ -23,7 +23,7 @@ class MainView : public Panel
     Q_OBJECT
     
 public:
-    KMarkPad *markPad;
+    Markpado *markPad;
     KTextEditor::Document *note;
     
     MainView(QWidget *parent = 0, QAction *pAction = 0);

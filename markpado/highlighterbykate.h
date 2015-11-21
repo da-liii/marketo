@@ -6,7 +6,7 @@
 using std::string;
 using std::map;
 
-#include "markdown.h"
+#include "libmdcpp.h"
 
 class QString;
 
@@ -17,7 +17,7 @@ namespace KTextEditor {
     class View;
 };
 
-class HighlighterByKate : markdown::SyntaxHighlighter
+class HighlighterByKate : SyntaxHighlighter
 {
 public:
     HighlighterByKate();

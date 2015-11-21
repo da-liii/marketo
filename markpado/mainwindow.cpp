@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "kmarkpad.h"
+#include "markpado.h"
 
 #include <KParts/MainWindow>
 #include <KXMLGUIFactory>
@@ -20,13 +20,13 @@ MainWindow::MainWindow()
     , m_recentFiles(0)
     , m_firstTextChange(false)
 {
-    m_markpad = new KMarkPad(this);
+    m_markpad = new Markpado(this);
 
     setupAction();
     setupConnect();
 
     setCentralWidget(m_markpad);
-    setupGUI(QSize(500,600), Default, "kmarkpad.rc");
+    setupGUI(QSize(500,600), Default, "markpado.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
     
@@ -41,14 +41,14 @@ MainWindow::MainWindow(const QUrl& url)
     , m_recentFiles(0)
     , m_firstTextChange(false)
 {
-    m_markpad = new KMarkPad(this);
+    m_markpad = new Markpado(this);
     
     setupAction();
     setupConnect();
     
     
     setCentralWidget(m_markpad);
-    setupGUI(QSize(500,600), Default, "kmarkpad.rc");
+    setupGUI(QSize(500,600), Default, "markpado.rc");
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
     
@@ -142,12 +142,12 @@ void MainWindow::updateCaptionModified()
         m_firstTextChange = false;
         return ;
     }
-    setCaption(m_markpad->m_note->url().fileName() + " [modified]- KMarkPad");
+    setCaption(m_markpad->m_note->url().fileName() + " [modified]- markpado");
 }
 
 void MainWindow::updateCaption()
 {
-    setCaption(m_markpad->m_note->url().fileName() + " - KMarkPad");
+    setCaption(m_markpad->m_note->url().fileName() + " - markpado");
 }
 
 void MainWindow::slotNew()

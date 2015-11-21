@@ -25,7 +25,7 @@ void NoteView::setupConnect()
 void NoteView::setupUI()
 {
     vl = new QVBoxLayout(this);
-    markPad = new KMarkPad(this);
+    markPad = new Markpado(this);
     title = new KLineEdit(this);
     note = markPad->m_note;
     

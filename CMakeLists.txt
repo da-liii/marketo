@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
-project (kmarknote)
+project (marketo)
 
 set (CMAKE_CXX_FLAGS "-std=c++11")
 
@@ -27,5 +27,5 @@ find_package (KF5 REQUIRED COMPONENTS
 	KDELibs4Support
 )
 
-add_subdirectory (markpad)
-add_subdirectory (marknote)
+add_subdirectory (markpado)
+add_subdirectory (marknoto)

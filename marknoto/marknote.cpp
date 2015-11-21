@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "kmarknote.h"
+#include "marknote.h"
 
 #include <KLocalizedString>
 #include <KXMLGUIFactory>
@@ -33,7 +33,7 @@
 #include <QAction>
 #include <QKeySequence>
 
-KMarkNote::KMarkNote(QWidget* parent)
+MarkNote::MarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
     , isPreview(false)
     , m_firstTextChange(false)
@@ -52,7 +52,7 @@ KMarkNote::KMarkNote(QWidget* parent)
     setupConnect();
 }
 
-void KMarkNote::setupAction()
+void MarkNote::setupAction()
 {
     KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
     KStandardAction::close(this, SLOT(close()), actionCollection());
@@ -77,7 +77,7 @@ void KMarkNote::setupAction()
     //terminalAction->setShortcut(QKeySequence("F4"));
 }
 
-void KMarkNote::setupUI()
+void MarkNote::setupUI()
 {
     setCentralWidget(m_view);
     setupGUI(QSize(500,600), Default, "kmarknote.rc");
@@ -87,25 +87,25 @@ void KMarkNote::setupUI()
     readConfig();
  }
 
-void KMarkNote::setupConnect()
+void MarkNote::setupConnect()
 {
     connect(m_note, &KTextEditor::Document::modifiedChanged,
-            this, &KMarkNote::updateCaption);
+            this, &MarkNote::updateCaption);
     connect(m_note, &KTextEditor::Document::documentUrlChanged,
-            this, &KMarkNote::slotDocumentUrlChanged);
+            this, &MarkNote::slotDocumentUrlChanged);
     connect(m_note, &KTextEditor::Document::textChanged,
-            this, &KMarkNote::updateCaptionModified);
+            this, &MarkNote::updateCaptionModified);
 }
 
 //common config
-void KMarkNote::readConfig(KSharedConfigPtr config)
+void MarkNote::readConfig(KSharedConfigPtr config)
 {
     KConfigGroup cfg(config, "General Options");
 
     m_recentFiles->loadEntries(config->group("Recent Files"));
 }
 
-void KMarkNote::writeConfig(KSharedConfigPtr config)
+void MarkNote::writeConfig(KSharedConfigPtr config)
 {
     KConfigGroup generalOptions(config, "General Options");
 
@@ -115,34 +115,34 @@ void KMarkNote::writeConfig(KSharedConfigPtr config)
 }
 
 //config file
-void KMarkNote::readConfig()
+void MarkNote::readConfig()
 {
     readConfig(KSharedConfig::openConfig());
 }
 
-void KMarkNote::writeConfig()
+void MarkNote::writeConfig()
 {
     writeConfig(KSharedConfig::openConfig());
 }
 
-void KMarkNote::readProperties(const KConfigGroup &config)
+void MarkNote::readProperties(const KConfigGroup &config)
 {
     Q_UNUSED(config);
     readConfig();
 }
 
-void KMarkNote::saveProperties(KConfigGroup &config)
+void MarkNote::saveProperties(KConfigGroup &config)
 {
     Q_UNUSED(config);
     writeConfig();
 }
 
-void KMarkNote::newNote()
+void MarkNote::newNote()
 {
     m_view->newNote();
 }
 
-void KMarkNote::updateCaptionModified()
+void MarkNote::updateCaptionModified()
 {
     // The first textChanged signal is caused by document loading
     // Thus, we should ignore it
@@ -150,15 +150,15 @@ void KMarkNote::updateCaptionModified()
         m_firstTextChange = false;
         return ;
     }
-    setCaption(m_note->url().fileName() + " [modified]- KMarkNote");
+    setCaption(m_note->url().fileName() + " [modified]- MarkNote");
 }
 
-void KMarkNote::updateCaption()
+void MarkNote::updateCaption()
 {
-    setCaption(m_note->url().fileName() + " - KMarkNote");
+    setCaption(m_note->url().fileName() + " - MarkNote");
 }
 
-void KMarkNote::slotDocumentUrlChanged()
+void MarkNote::slotDocumentUrlChanged()
 {
     // TODO: figure out how Qt signal slot works and make sure
     // slotDocumentUrlChanged is done before updateCaptionModified
@@ -168,7 +168,7 @@ void KMarkNote::slotDocumentUrlChanged()
         m_recentFiles->addUrl(m_note->url());
 }
 
-void KMarkNote::togglePreview()
+void MarkNote::togglePreview()
 {
     if (isPreview)
         isPreview = m_view->unpreview();
@@ -177,9 +177,9 @@ void KMarkNote::togglePreview()
     actionCollection()->action("file_preview")->setChecked(isPreview);
 }
 
-KMarkNote::~KMarkNote()
+MarkNote::~MarkNote()
 {
     writeConfig();
 }
 
-#include "kmarknote.moc"
+#include "marknote.moc"

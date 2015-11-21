@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Darcy Shen <sadhen@zoho.com>                    *
+ *   Copyright (C) %{CURRENT_YEAR} by %{AUTHOR} <%{EMAIL}>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,49 +17,50 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "mainwindow.h"
+#ifndef MARKNOTE_H
+#define MARKNOTE_H
 
-#include <QDebug>
+#include "mainview.h"
+#include <KDE/KXmlGuiWindow>
+#include <KConfigGroup>
+#include <KSharedConfig>
 
-#include <KAboutData>
-#include <KLocalizedString>
+class KRecentFilesAction;
 
-#include <QApplication>
-#include <QCommandLineParser>
-
-#define DESCRIPTION "KMarkPad - Advanced Markdown Editor"
-
-#define VERSION "0.1"
-
-int main(int argc, char **argv)
+class MarkNote : public KXmlGuiWindow
 {
-    QApplication app(argc, argv);
-    /*
-     * enable high dpi support
-     */
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    KLocalizedString::setApplicationDomain("kmarkpad");
-
-    KAboutData about(QStringLiteral("kmarkpad"),
-                i18n("KMarkPad"),
-                QStringLiteral(VERSION),
-                i18n(DESCRIPTION),
-                KAboutLicense::LGPL_V2,
-                i18n("(C) 2015 Darcy Shen"),
-                QString(),
-                QStringLiteral("https://github.com/sadhen/KMarkNote"));
-    about.addAuthor(i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
-
-    QCommandLineParser parser;
-    about.setupCommandLine(&parser);
-    parser.setApplicationDescription(about.shortDescription());
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.process(app);
-    about.processCommandLine(&parser);
+    Q_OBJECT
+public:
+    MarkNote(QWidget *parent = 0);
+    virtual ~MarkNote();
     
-    MainWindow *mainwindow = new MainWindow();
-    Q_UNUSED(mainwindow);
+    void unpreview();   
+    void setupAction();
+    void setupUI();
+    void setupConnect();
+    
+private slots:
+    void newNote();
+    void updateCaptionModified();
+    void updateCaption();
+    void togglePreview();
+    void slotDocumentUrlChanged();
+    
+private:
+    KTextEditor::Document *m_note;
+    MainView *m_view;
+    bool isPreview;
+    bool m_firstTextChange;
+    
+    // session management
+private:
+    void readConfig();
+    void writeConfig();
+    void writeConfig(KSharedConfigPtr config);
+    void readConfig(KSharedConfigPtr config);
+    void readProperties(const KConfigGroup &config) override;
+    void saveProperties(KConfigGroup &config) override;
+    KRecentFilesAction *m_recentFiles;
+};
 
-    return app.exec();
-}
+#endif // _MARKNOTE_H_

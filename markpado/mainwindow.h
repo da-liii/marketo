@@ -4,7 +4,7 @@
 #include <kparts/mainwindow.h>
 #include <KConfigGroup>
 #include <KSharedConfig>
-class KMarkPad;
+class Markpado;
 class KRecentFilesAction;
 
 class MainWindow : public KParts::MainWindow
@@ -31,7 +31,7 @@ private slots:
     void updateCaptionModified();
     
 private:
-    KMarkPad *m_markpad;
+    Markpado *m_markpad;
     
     // session management
 private:

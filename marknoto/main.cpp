@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "kmarknote.h"
+#include "marknote.h"
 
 #include <KAboutData>
 #include <KLocalizedString>
@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     
-    KAboutData about(QStringLiteral("kmarknote"),
-        i18n("KMarkNote"),
+    KAboutData about(QStringLiteral("marknote"),
+        i18n("Marketo"),
         QStringLiteral(VERSION),
         i18n(DESCRIPTION),
         KAboutLicense::LGPL_V2,
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
         config->sync();
     }
     
-    KMarkNote *mainWindow = new KMarkNote;
+    MarkNote *mainWindow = new MarkNote;
     mainWindow->show();
     
     return app.exec();
