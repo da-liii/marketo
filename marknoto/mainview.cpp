@@ -76,6 +76,7 @@ void MainView::setupUI()
     hsplitter->addWidget(navigator);
     hsplitter->addWidget(listPanel);
     hsplitter->addWidget(noteView);
+    hsplitter->setHandleWidth(0);
 }
 
 bool MainView::urlChanged()

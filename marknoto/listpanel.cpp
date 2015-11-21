@@ -1,5 +1,5 @@
 #include "listpanel.h"
-// #include "kmarknote_generalsettings.h"
+#include "iconfilter.h"
 
 #include <KMessageBox>
 #include <KConfigGroup>
@@ -28,15 +28,18 @@ ListPanel::ListPanel(QWidget* parent)
     lmodel = new QFileSystemModel; 
     lmodel->setRootPath(cfg.readEntry("NoteDir"));
     lmodel->setFilter(QDir::Files);
-    
+
     m_filters << "*.md" << "*.markdown";
     lmodel->setNameFilters(m_filters);
     lmodel->setNameFilterDisables(false);
+
+    QFileIconProvider *iconProvider = new IconFilter();
+    lmodel->setIconProvider(iconProvider);
     
     listView = new QListView(this);
     listView->setModel(lmodel);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
-    listView->setGridSize(QSize(listView->sizeHint().width(), 34));
+    listView->setGridSize(QSize(listView->sizeHint().width(), 40));
     listView->setIconSize(QSize(listView->sizeHint().width(), 34));
     listView->setAlternatingRowColors(true);
     listView->setContextMenuPolicy(Qt::CustomContextMenu);

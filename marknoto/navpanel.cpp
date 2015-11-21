@@ -1,4 +1,5 @@
 #include "navpanel.h"
+#include "iconfilter.h"
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -26,6 +27,9 @@ Navigator::Navigator(Panel* parent)
     tmodel = new QFileSystemModel;
     tmodel->setRootPath(cfg.readEntry("NoteDir"));
     tmodel->setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+
+    QFileIconProvider *iconProvider = new IconFilter();
+    tmodel->setIconProvider(iconProvider);
     
     m_selectionModel = new QItemSelectionModel(tmodel);
     
