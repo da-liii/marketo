@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=KMarkPad
-Name[zh_CN]=KMarkPad
-Name[zh_TW]=KMarkPad
-Exec=kmarkpad %i -caption %c
-Icon=kmarkpad
+Name=Markpado
+Name[zh_CN]=Markpado
+Name[zh_TW]=Markpado
+Exec=markpado %i -caption %c
+Icon=markpado
 Type=Application
 GenericName=Just Another Markdown Editor
