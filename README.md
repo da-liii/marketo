@@ -1,5 +1,7 @@
 # Marketo
 
+**Warning**: this branch is abandoned.
+
 A KDE application for note taking with the power of lightweight markup language.
 
 It is bundled with a Markdown editor named MarkPad.
@@ -18,7 +20,7 @@ It is bundled with a Markdown editor named MarkPad.
 
 ### Dependencies
 
-You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first.
+You need to install [libmdcpp](https://github.com/sadhen/libmdcpp) first. **NOTE**: please use this commit https://github.com/sadhen/libmdcpp/commit/fefe00f484f934b79454a649c92e2443a261f311.
 
 Then install these packages in **Debian Sid**, other distributions should be 
 similar:
