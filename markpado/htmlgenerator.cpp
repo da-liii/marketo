@@ -17,7 +17,6 @@ std::string HTMLGenerator::generated(string plain)
     ostringstream sout;
 
     Procesoro processor((SyntaxHighlighter *) m_highlighter, "markdown");
-    std::cout << "[debug]" << plain;
     processor.read(plain);
     processor.write(sout);
     

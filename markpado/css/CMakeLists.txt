@@ -1,1 +1,1 @@
-install(FILES style.css DESTINATION ${DATA_INSTALL_DIR}/kmarkpad/css)
+install(FILES style.css DESTINATION ${DATA_INSTALL_DIR}/markpado/css)
