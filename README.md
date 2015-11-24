@@ -38,20 +38,7 @@ make
 make install
 ```
 
-You can also only install the Markdown Editor:
-``` sh
-cd /tmp
-git clone https://github.com/sadhen/marketo.git
-cd marketo/markpado
-mkdir $HOME/software
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=$HOME/software ..
-make
-make install
-```
-
-**NOTE**: `$HOME` is your home directory. The above instructions will install KMarkNote in `$HOME/software`.
+**NOTE**: `$HOME` is your home directory. The above instructions will install Marketo in `$HOME/software`.
 
 ## Run it
 ``` sh
