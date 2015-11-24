@@ -21,7 +21,7 @@
 #define MARKNOTE_H
 
 #include "mainview.h"
-#include <KDE/KXmlGuiWindow>
+#include <KXmlGuiWindow>
 #include <KConfigGroup>
 #include <KSharedConfig>
 

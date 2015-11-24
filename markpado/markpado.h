@@ -4,7 +4,7 @@
 #include "htmlgenerator.h"
 
 #include <QWidget>
-class KWebView;
+class QWebView;
 
 class QHBoxLayout;
 class QSplitter;
@@ -23,7 +23,7 @@ class Markpado : public QWidget
 public:
     Markpado(QWidget *parent = 0);
     virtual ~Markpado();
-    KWebView *getPreviewer();
+    QWebView *getPreviewer();
     void unpreview();
     KTextEditor::View* view();
     KTextEditor::Document *m_note;
@@ -39,7 +39,7 @@ public slots:
 private:
     QSplitter *hs;
     QHBoxLayout *hl;
-    KWebView *m_previewer;
+    QWebView *m_previewer;
     bool m_livePreview;
     KTextEditor::Editor *m_new_editor;
     HTMLGenerator *m_generator;

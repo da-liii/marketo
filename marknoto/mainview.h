@@ -9,7 +9,6 @@
 #include <QWidget>
 
 class QUrl;
-class KWebView;
 
 class QAction;
 class QVariant;

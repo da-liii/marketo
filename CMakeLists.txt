@@ -13,6 +13,7 @@ include (KDECMakeSettings)
 include (KDECompilerSettings)
 include (ECMInstallIcons)
 
+
 find_package(Qt5 REQUIRED
 	Core
 	WebKit
@@ -24,7 +25,14 @@ find_package (KF5 REQUIRED COMPONENTS
 	CoreAddons
 	XmlGui
 	TextEditor
-	KDELibs4Support
+)
+
+include_directories( ${QT_INCLUDES}
+    /usr/include/KF5/KDEWebKit
+    /usr/include/KF5/KCoreAddons
+    /usr/include/KF5/XmlGui
+    /usr/include/KF5/TextEditor
+    /usr/include/KF5/KI18n
 )
 
 add_subdirectory (markpado)

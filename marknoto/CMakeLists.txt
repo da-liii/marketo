@@ -25,11 +25,11 @@ include_directories( ${QT_INCLUDES} /usr/include/KF5/KDEWebKit)
 
 target_link_libraries (marknoto
     mdcpp
-    ${QT_QTWEBKIT_LIBRARIES}
+    Qt5::WebKit
+    Qt5::WebKitWidgets
     KF5::TextEditor
     KF5::I18n
     KF5::XmlGui
-    KF5::KDELibs4Support
     KF5WebKit
     mdcpp
 )

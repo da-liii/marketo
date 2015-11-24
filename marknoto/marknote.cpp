@@ -23,9 +23,6 @@
 #include <KXMLGUIFactory>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KWebView>
-#include <KMenuBar>
-#include <KShortcut>
 #include <KRecentFilesAction>
 
 #include <QUrl>

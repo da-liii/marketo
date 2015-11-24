@@ -3,8 +3,6 @@
 #include "navpanel.h"
 #include "listpanel.h"
 
-#include <KWebView>
-#include <KLocale>
 #include <KTextEditor/Editor>
 #include <KLineEdit>
 #include <KMessageBox>

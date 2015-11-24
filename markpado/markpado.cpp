@@ -10,19 +10,16 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/Cursor>
 #include <KMessageBox>
-#include <KComponentData>
-#include <KStandardDirs>
-#include <KWebView>
-#include <KGlobal>
 
 #include <QSplitter>
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QList>
 #include <QDir>
-#include <QWebFrame>
-#include <QWebPage>
 #include <Qt>
+#include <QStandardPaths>
+#include <QtWebKitWidgets/QWebView>
+#include <QtWebKitWidgets/QWebFrame>
 
 using std::string;
 
@@ -35,7 +32,7 @@ Markpado::Markpado(QWidget *parent)
     
     hs = new QSplitter(this);
     
-    m_previewer = new KWebView(this);
+    m_previewer = new QWebView(this);
     m_livePreview = false;
     m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect(m_previewer, SIGNAL(linkClicked(const QUrl&)),
@@ -73,14 +70,13 @@ void Markpado::preview(bool livePreview)
 void Markpado::generateHtml()
 {
     string html;
-    KComponentData data(KGlobal::mainComponent());
     
     html = m_generator->generated(string(m_note->text().toUtf8().constData()));
     
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
         + QString("<link href=\"file://") 
-        + KGlobal::dirs()->locate("data", "markpado/css/style.css") 
+        + QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QLatin1String("markpado/css/style.css"))
         + QString("\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
