@@ -56,14 +56,19 @@ void MarkNote::setupAction()
     QAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
+    QAction* addNoteAction = actionCollection()->addAction("add_note", m_view, SLOT(newNote()));
     
     oneColAction->setText(i18n("One Column"));
     twoColAction->setText(i18n("Two Column"));
     threeColAction->setText(i18n("Three Column"));
+
+    addNoteAction->setShortcut(QKeySequence("Ctrl+N"));
     
     oneColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-top-bottom")));
     twoColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-left-right")));
     threeColAction->setIcon(QIcon::fromTheme(QLatin1String("view-file-columns")));
+    addNoteAction->setIcon(QIcon::fromTheme(QLatin1String("list-add")));
+
     
     m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
     actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);

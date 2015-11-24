@@ -13,7 +13,7 @@
   <Merge/>
 </MenuBar>
 <ToolBar name="mainToolBar">
-  <Merge/>
+  <Action name="add_note" />
   <Action name="file_preview"/>
   <Action name="win_onecol" />
   <Action name="win_twocol" />

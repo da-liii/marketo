@@ -6,6 +6,7 @@
 #include <KTextEditor/Editor>
 #include <KLineEdit>
 #include <KMessageBox>
+#include <KSharedConfig>
 #include <KConfigGroup>
 
 #include <QUrl>
@@ -167,10 +168,21 @@ void MainView::newNote()
     QUrl tmpUrl;
     
     tmpUrl = url();
+
+    // avoid empty tmpUrl
+    if (tmpUrl.isEmpty()) {
+        KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+        tmpUrl = QUrl::fromLocalFile(cfg.readEntry("NoteDir"));
+    }
+
+    qDebug() << tmpUrl;
+
     if (QFileInfo(tmpUrl.path()).isDir())
         tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.md"));
     else
         tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.md"));
+
+    qDebug() << tmpUrl;
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     note->openUrl(tmpUrl);
