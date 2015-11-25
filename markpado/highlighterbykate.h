@@ -30,28 +30,46 @@ private:
     KTextEditor::Document* m_note;
     KTextEditor::View* m_editor;
     
-    // see /usr/share/kde4/apps/katepart/syntax/ for more info
+    // see /usr/share/katepart5/syntax/ for more info
     map<string, string> mimeMap = {
-        {"awk", "AWK"},
-        {"bash", "Bash"},
-        {"cpp", "C++"},
-        {"c", "C"},
-        {"zsh", "Zsh"},
-        {"ocaml", "Objective Caml"},
         {"dot", "dot"},
-        {"python", "Python"},
-        {"py", "Python"},
-        {"java", "Java"},
-        {"javascript", "JavaScript"},
-        {"js", "JavaScript"},
+        {"mysql", "SQL (MySQL)"},
+        {"ocaml", "Objective Caml"},
+        // by name
+        {"cmake", "CMake"},
+        {"diff", "Diff"},
+        {"dockerfile", "Dockerfile"},
+        {"PHP", "PHP/PHP"},
+        {"R", "R Script"},
+        // by suffix
+        {"awk", "AWK"},
+        {"c", "C"},
+        {"clj", "Clojure"},
+        {"cpp", "C++"},
+        {"css", "CSS"},
+        {"erl", "Erlang"},
+        {"for", "Fortran"},
+        {"fpp", "Fortran"},
+        {"go", "Go"},
         {"hs", "Haskell"},
-        {"haskell", "Haskell"},
+        {"ini", "INI Files"},
+        {"java", "Java"},
+        {"jl", "Julia"},
+        {"js", "JavaScript"},
+        {"json", "JSON"},
+        {"lua", "Lua"},
+        {"mk", "Makefile"},
+        {"php", "PHP/PHP"},
+        {"py", "Python"},
+        {"qml", "QML"},
+        {"r", "R Script"},
         {"rb", "Ruby"},
-        {"ruby", "Ruby"},
+        {"rs", "Rust"},
         {"scala", "Scala"},
         {"scm", "Scheme"},
-        {"scheme", "Scheme"},
-        {"sh", "Bash"}
+        {"sql", "SQL"},
+        {"sh", "Bash"},
+        {"zsh", "Zsh"}
     };
 };
 #endif

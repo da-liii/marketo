@@ -48,6 +48,7 @@ private:
 
 public slots:
     void newNote();
+    void goHome();
     
 private slots:
     void oneColView();

@@ -46,6 +46,8 @@ MarkNote::MarkNote(QWidget* parent)
     setupAction();
     setupUI();
     setupConnect();
+
+    m_view->goHome();
 }
 
 void MarkNote::setupAction()
@@ -57,6 +59,7 @@ void MarkNote::setupAction()
     QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
     QAction* addNoteAction = actionCollection()->addAction("add_note", m_view, SLOT(newNote()));
+    QAction* goHomeAction = actionCollection()->addAction("go_home", m_view, SLOT(goHome()));
     
     oneColAction->setText(i18n("One Column"));
     twoColAction->setText(i18n("Two Column"));
@@ -68,6 +71,7 @@ void MarkNote::setupAction()
     twoColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-left-right")));
     threeColAction->setIcon(QIcon::fromTheme(QLatin1String("view-file-columns")));
     addNoteAction->setIcon(QIcon::fromTheme(QLatin1String("list-add")));
+    goHomeAction->setIcon(QIcon::fromTheme(QLatin1String("go-home")));
 
     
     m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);

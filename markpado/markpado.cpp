@@ -55,8 +55,8 @@ Markpado::Markpado(QWidget *parent)
     
     connect(m_note, &KTextEditor::Document::textChanged, 
             this, &Markpado::updatePreviewer);
-    connect(m_note, SIGNAL(urlChanged(KUrl)),
-            this, SLOT(updatePreviewer()));
+    //connect(m_note, SIGNAL(urlChanged(KUrl)),
+    //        this, SLOT(updatePreviewer()));
     connect(m_editor, &KTextEditor::View::cursorPositionChanged,
             this, &Markpado::updatePreviewerByCursor);
 }

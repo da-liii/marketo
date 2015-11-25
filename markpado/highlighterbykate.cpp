@@ -18,9 +18,17 @@ HighlighterByKate::HighlighterByKate()
 
 void HighlighterByKate::highlight(const string& plain, const string type, std::ostream& out)
 {
+    QString resultType("None");
+    for (auto it = mimeMap.cbegin(); it != mimeMap.cend(); it++) {
+        if (it->first == type
+            || QString::fromStdString(it->second).compare(QString::fromStdString(type), Qt::CaseInsensitive) == 0) {
+            resultType = QString::fromStdString(it->second);
+            break;
+        }
+    }
 
     m_note->setText(QString::fromUtf8(plain.c_str()));
-    m_note->setHighlightingMode(QString::fromStdString(type.empty() ? "None" : mimeMap[type]));
+    m_note->setHighlightingMode(resultType);
     out << exportDocument(m_note).toUtf8().constData();
 }
 

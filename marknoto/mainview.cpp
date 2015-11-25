@@ -95,6 +95,7 @@ KTextEditor::View* MainView::getEditor()
 
 bool MainView::preview()
 {
+    noteView->hideTitleLine();
     markPad->preview(column == 2);
     markPad->setFocus();
     previewAction->setChecked(true);
@@ -106,6 +107,7 @@ bool MainView::unpreview()
     if (column == 2)
         return true;
     else {
+        noteView->showTitleLine();
         markPad->unpreview();
         markPad->setFocus();
         previewAction->setChecked(false);
@@ -186,6 +188,15 @@ void MainView::newNote()
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     note->openUrl(tmpUrl);
+}
+
+void MainView::goHome()
+{
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    QUrl tmpUrl = QUrl::fromLocalFile(cfg.readEntry("NoteDir") + QString("/Home.md"));
+    note->openUrl(tmpUrl);
+    noteView->setTitle(tmpUrl.fileName());
+    preview();
 }
 
 void MainView::toggleTerminal()
