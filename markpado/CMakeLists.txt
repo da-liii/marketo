@@ -33,3 +33,4 @@ install(FILES markpado.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/markpado)
 
 add_subdirectory (css)
 add_subdirectory (icons)
+add_subdirectory (kate-commonmark)

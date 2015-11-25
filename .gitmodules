@@ -1,0 +1,3 @@
+[submodule "markpado/kate-commonmark"]
+	path = markpado/kate-commonmark
+	url = https://github.com/sadhen/kate-commonmark.git
