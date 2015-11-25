@@ -72,11 +72,11 @@ void Markpado::generateHtml()
     string html;
     
     html = m_generator->generated(string(m_note->text().toUtf8().constData()));
-    
+
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
         + QString("<link href=\"file://") 
-        + QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QLatin1String("markpado/css/style.css"))
+        + QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("markpado/css/style.css"))
         + QString("\" rel=\"stylesheet\">")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
