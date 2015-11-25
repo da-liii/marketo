@@ -29,7 +29,7 @@ ListPanel::ListPanel(QWidget* parent)
     lmodel->setRootPath(cfg.readEntry("NoteDir"));
     lmodel->setFilter(QDir::Files);
 
-    m_filters << "*.md" << "*.markdown";
+    m_filters << "*.md" << "*.cm";
     lmodel->setNameFilters(m_filters);
     lmodel->setNameFilterDisables(false);
 
