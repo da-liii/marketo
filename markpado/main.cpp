@@ -26,6 +26,7 @@
 
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QUrl>
 
 #define DESCRIPTION "markpado - Advanced Markdown Editor"
 
@@ -55,11 +56,23 @@ int main(int argc, char **argv)
     parser.setApplicationDescription(about.shortDescription());
     parser.addHelpOption();
     parser.addVersionOption();
+
+    // urls to open
+    parser.addPositionalArgument(QStringLiteral("urls"), i18n("Documents to open."), QStringLiteral("[urls...]"));
+    
+    // do the commandline parsing
     parser.process(app);
     about.processCommandLine(&parser);
-    
-    MainWindow *mainwindow = new MainWindow();
-    Q_UNUSED(mainwindow);
 
+    if (parser.positionalArguments().count() > 0) {
+        Q_FOREACH(const QString positionalArgument, parser.positionalArguments()) {
+            QUrl url = QUrl::fromLocalFile(positionalArgument);
+            if (url.isLocalFile())
+                new MainWindow(url);
+        }
+    } else {
+        new MainWindow();
+    }
+    
     return app.exec();
 }
