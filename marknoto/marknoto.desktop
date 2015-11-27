@@ -2,7 +2,7 @@
 Name=Marknoto
 Name[zh_CN]=Marknoto
 Name[zh_TW]=Marknoto
-Exec=marknoto %i -caption %c
+Exec=marknoto
 Icon=markpado
 Type=Application
 X-DocPath=Marknoto/index.html

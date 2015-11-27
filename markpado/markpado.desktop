@@ -2,7 +2,7 @@
 Name=Markpado
 Name[zh_CN]=Markpado
 Name[zh_TW]=Markpado
-Exec=markpado %i -caption %c
+Exec=markpado
 Icon=markpado
 Type=Application
 GenericName=Just Another Markdown Editor
