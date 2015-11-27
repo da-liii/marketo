@@ -15,7 +15,9 @@ It is bundled with a separated Markdown editor.
 + Git support
 + Support blog post generating
 
-## Install
+## Compile and Install
+
+If you are not interested in the code, the below text is not helpful for you. See [Install Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
 
 ### Dependencies
 
