@@ -1,0 +1,5 @@
+marketo (0.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Darcy Shen <sadhen@zoho.com>  Thu, 26 Nov 2015 21:26:45 +0800
