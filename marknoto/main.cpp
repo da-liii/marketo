@@ -22,9 +22,11 @@
 #include <KAboutData>
 #include <KLocalizedString>
 
+#include <QFile>
 #include <QFileDialog>
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QStandardPaths>
 
 #define DESCRIPTION "A Markdown based note-taking KDE application"
 #define VERSION "0.1"
@@ -66,7 +68,8 @@ int main(int argc, char **argv)
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup cfg(config, "General Options");
-    if (!cfg.hasKey("NoteDir")) {
+    if ( !cfg.hasKey("NoteDir") || !QFile::exists(cfg.readEntry("NoteDir")) )
+    {
         QUrl url = QFileDialog::getExistingDirectoryUrl(0,
                                             i18n("Choose where your notes save"),
                                             QDir::homePath(),
@@ -74,6 +77,10 @@ int main(int argc, char **argv)
                                             | QFileDialog::DontResolveSymlinks);
         cfg.writeEntry("NoteDir", url.toLocalFile());
         config->sync();
+        if (!QFile::exists(url.toLocalFile() + "/Home.cm"))
+            QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                               QLatin1String("marknoto/Home.cm")),
+                        QString(url.toLocalFile() + "/Home.cm"));
     }
     
     MarkNote *mainWindow = new MarkNote;

@@ -188,15 +188,16 @@ void MainView::newNote()
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     note->openUrl(tmpUrl);
+    unpreview();
 }
 
 void MainView::goHome()
 {
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
-    QUrl tmpUrl = QUrl::fromLocalFile(cfg.readEntry("NoteDir") + QString("/Home.cm"));
+    QString noteDir(cfg.readEntry("NoteDir"));
+    QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.cm"));
     note->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
-    preview();
 }
 
 void MainView::toggleTerminal()

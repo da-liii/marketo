@@ -48,6 +48,7 @@ MarkNote::MarkNote(QWidget* parent)
     setupConnect();
 
     m_view->goHome();
+    m_view->preview();
 }
 
 void MarkNote::setupAction()
