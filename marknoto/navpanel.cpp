@@ -16,6 +16,8 @@
 #include <QContextMenuEvent>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QFile>
+#include <QFileInfo>
 #include <QDebug>
 
 Navigator::Navigator(Panel* parent)
@@ -104,20 +106,25 @@ void Navigator::slotNewDir()
     dir.mkdir(folderName);
 }
 
+/*
+ * move the Notes to Trash, than delete the Directory
+ */
 void Navigator::slotDeleteDir()
 {
-    QModelIndex index = treeView->indexAt(m_pos);
-    QUrl url(tmodel->filePath(index));
-    QDir dir(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     
-    if (!dir.rmdir(url.fileName())) {
-        QMessageBox message;
-        message.setWindowTitle("Delete folder");
-        message.setText(QString("Cannot delete nonempty folder ") + url.fileName());
-        message.exec();
+    QModelIndex index = treeView->indexAt(m_pos);
+    QDir dir(tmodel->filePath(index));
+    QDirIterator it(tmodel->filePath(index), QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QFileInfo fileInfo(it.next());
+        if (fileInfo.isFile()) {
+            QFile file(fileInfo.filePath());
+            file.rename(cfg.readEntry("NoteDir")+"/Trash/"+fileInfo.fileName());
+        }
     }
+    dir.removeRecursively();
 }
-
 
 Navigator::~Navigator()
 {
