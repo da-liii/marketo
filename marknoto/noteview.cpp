@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QVBoxLayout>
 #include <QUrl>
+#include <QDesktopServices>
 
 NoteView::NoteView(QWidget* parent, QAction *pAction)
     : QWidget(parent),
@@ -87,7 +88,7 @@ void NoteView::slotOpen(const QUrl& url)
         QUrl newUrl("file:/" + rootPath + notePath);
         openUrl(newUrl);
     } else {
-        //TODO open using default strategy
+        QDesktopServices::openUrl(url);
     }
 }
 
