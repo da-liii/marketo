@@ -98,8 +98,13 @@ void Navigator::showContextMenu(const QPoint& pos)
 void Navigator::slotNewDir()
 {
     QModelIndex index = treeView->indexAt(m_pos);
-    QDir dir(tmodel->filePath(index));
-
+    QString indexDir(tmodel->filePath(index));
+    QDir dir(indexDir);
+    
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    if (indexDir.isEmpty())
+        dir.setPath(cfg.readEntry("NoteDir"));
+    
     QString folderName = QInputDialog::getText(this,
                                                 QString("Create Folder in ") + tmodel->filePath(index),
                                                 QString("Folder Name"));
@@ -114,12 +119,14 @@ void Navigator::slotDeleteDir()
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     
     QModelIndex index = treeView->indexAt(m_pos);
+    qDebug() << tmodel->filePath(index);
     QDir dir(tmodel->filePath(index));
     QDirIterator it(tmodel->filePath(index), QDirIterator::Subdirectories);
     while (it.hasNext()) {
         QFileInfo fileInfo(it.next());
         if (fileInfo.isFile()) {
             QFile file(fileInfo.filePath());
+            // TODO: what if the target file already exists, currently overwrite
             file.rename(cfg.readEntry("NoteDir")+"/Trash/"+fileInfo.fileName());
         }
     }
