@@ -89,13 +89,19 @@ void ListPanel::showContextMenu(const QPoint& pos)
 void ListPanel::deleteNote()
 {
     QModelIndex index = listView->indexAt(m_pos);
-    QString file(lmodel->filePath(index));
+    QString filePath(lmodel->filePath(index));
     
-    if (!file.isEmpty() && !QFile::remove(lmodel->filePath(index))) {
-        QMessageBox message;
-        message.setText(QString("Fail to delete") + file);
-        message.exec();
-    }
+    if (filePath.isEmpty())
+        return ;
+    
+    QFile file(filePath);
+    QFileInfo fileInfo(filePath);
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    QString trashFileName(cfg.readEntry("NoteDir")+"/Trash/"+ fileInfo.fileName());
+    if (filePath == trashFileName)
+        QFile::remove(filePath);
+    else
+        file.rename(trashFileName);
 }
 
 void ListPanel::copyNoteLink()
