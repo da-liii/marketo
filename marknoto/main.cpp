@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QStandardPaths>
+#include <QDir>
 
 #define DESCRIPTION "A Markdown based note-taking KDE application"
 #define VERSION "0.1"
@@ -77,10 +78,17 @@ int main(int argc, char **argv)
                                             | QFileDialog::DontResolveSymlinks);
         cfg.writeEntry("NoteDir", url.toLocalFile());
         config->sync();
+        
+        // create the Home note
         if (!QFile::exists(url.toLocalFile() + "/Home.cm"))
             QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                                QLatin1String("marknoto/Home.cm")),
                         QString(url.toLocalFile() + "/Home.cm"));
+            
+        // create the Trash dir
+        QDir qDir(url.toLocalFile() + "/Trash");
+        if (!qDir.exists())
+            qDir.mkpath(qDir.path());
     }
     
     MarkNote *mainWindow = new MarkNote;
