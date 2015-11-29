@@ -198,6 +198,8 @@ void MainView::goHome()
     QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.cm"));
     note->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
+    
+    setUrl(QUrl::fromLocalFile(noteDir));
 }
 
 void MainView::toggleTerminal()

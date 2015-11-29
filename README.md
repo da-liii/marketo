@@ -15,9 +15,11 @@ It is bundled with a separated Markdown editor.
 + Git support
 + Support blog post generating
 
-## Compile and Install
+## For User
 
-If you are not interested in the code, the below text is not helpful for you. See [Install Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
+See [Install Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
+
+## For Developer
 
 ### Dependencies
 
@@ -42,7 +44,7 @@ make install
 
 **NOTE**: `$HOME` is your home directory. The above instructions will install Marketo in `$HOME/software`.
 
-## Run it
+### Run it
 ``` sh
 cd ~/software/bin/
 ./marknoto # this will launch the note-taking application
