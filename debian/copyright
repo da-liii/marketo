@@ -4,7 +4,7 @@ Source: https://github.com/sadhen/marketo
 
 Files: *
 Copyright: 2015 Darcy Shen <sadhen@zoho.com>
-License: GPL-2+
+License: GPL-3
 
 Files: debian/*
 Copyright: 2015 Darcy Shen <sadhen@zoho.com>

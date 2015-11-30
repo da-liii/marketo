@@ -50,3 +50,6 @@ cd ~/.local/bin/
 ./marknoto # this will launch the note-taking application
 ./markpado # this will launch the Markdown editor
 ```
+
+## License
+GPL v3

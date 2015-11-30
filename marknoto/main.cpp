@@ -40,7 +40,7 @@ int main(int argc, char **argv)
         i18n("Marknoto"),
         QStringLiteral(VERSION),
         i18n(DESCRIPTION),
-        KAboutLicense::LGPL_V2,
+        KAboutLicense::GPL_V3,
         i18n("(C) 2015 Darcy Shen"),
         QString(),
         QStringLiteral("sadhen@zoho.com"));
