@@ -79,18 +79,21 @@ int main(int argc, char **argv)
         cfg.writeEntry("NoteDir", url.toLocalFile());
         config->sync();
         
-        // create the Home note
-        if (!QFile::exists(url.toLocalFile() + "/Home.cm"))
-            QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                               QLatin1String("marknoto/Home.cm")),
-                        QString(url.toLocalFile() + "/Home.cm"));
-            
-        // create the Trash dir
-        QDir qDir(url.toLocalFile() + "/Trash");
-        if (!qDir.exists())
-            qDir.mkpath(qDir.path());
     }
+
+    QString noteDir(cfg.readEntry("NoteDir"));
     
+    // create the Home note
+    if (!QFile::exists(noteDir + "/Home.cm"))
+        QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                           QLatin1String("marknoto/Home.cm")),
+                    QString(noteDir + "/Home.cm"));
+        
+    // create the Trash dir
+    QDir qDir(noteDir + "/Trash");
+    if (!qDir.exists())
+        qDir.mkpath(qDir.path());
+
     MarkNote *mainWindow = new MarkNote;
     mainWindow->show();
     
