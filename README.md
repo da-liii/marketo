@@ -7,7 +7,7 @@ It is bundled with a separated Markdown editor.
 ## Features
 + Use **katepart** as the default editor(**cool** vim mode )
 + Partially support **CommonMark**
-+ Highlight fenced code using Kate's Syntax Highlighter
++ Real-time fenced-code highlight
 + Live Preview(auto sync between two views)
 
 ## Planning
@@ -37,7 +37,7 @@ cd marketo
 mkdir $HOME/software
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=$HOME/software ..
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local ..
 make
 make install
 ```
@@ -46,7 +46,7 @@ make install
 
 ### Run it
 ``` sh
-cd ~/software/bin/
+cd ~/.local/bin/
 ./marknoto # this will launch the note-taking application
 ./markpado # this will launch the Markdown editor
 ```
