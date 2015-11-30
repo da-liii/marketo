@@ -4,6 +4,7 @@
 #include <KLineEdit>
 #include <KConfigGroup>
 #include <KSharedConfig>
+#include <KActionCollection>
 
 #include <QAction>
 #include <QDir>
@@ -11,12 +12,26 @@
 #include <QUrl>
 #include <QDesktopServices>
 
-NoteView::NoteView(QWidget* parent, QAction *pAction)
+NoteView::NoteView(QWidget* parent, KActionCollection *pActions)
     : QWidget(parent),
-    previewAction(pAction)
+    actions(pActions)
 {
+    done = new QStack<QUrl>();
+    todo = new QStack<QUrl>();
     setupUI();
     setupConnect();
+}
+
+void NoteView::pureOpenUrl(const QUrl& url)
+{
+    // TODO:if the url is not in the watching dir and is in three column view
+    // switch to one column view
+    title->setText(url.fileName());
+    note->openUrl(url);
+    if (actions->action("file_preview")->isChecked())
+        markPad->preview();
+    else
+        markPad->unpreview();
 }
 
 void NoteView::setupConnect()
@@ -67,18 +82,51 @@ void NoteView::setTitle(const QString& titleOfNote)
     title->setText(titleOfNote);
 }
 
-void NoteView::openUrl(const QUrl& url)
+void NoteView::forward()
 {
-    // TODO:if the url is not in the watching dir and is in three column view
-    // switch to one column view
-    title->setText(url.fileName());
-    note->openUrl(url);
-    if (previewAction->isChecked())
-        markPad->preview();
-    else
-        markPad->unpreview();
+    QUrl url(todo->pop());
+    done->push(url);
+    pureOpenUrl(url);
 }
 
+void NoteView::backward()
+{
+    QUrl url(done->pop());
+    todo->push(url);
+    pureOpenUrl(done->top());
+}
+
+bool NoteView::canBackward()
+{
+    if (done->count() > 1)
+        return true;
+    else
+        return false;
+}
+
+bool NoteView::canForward()
+{
+    if (todo->isEmpty())
+        return false;
+    else
+        return true;
+}
+
+void NoteView::openUrl(const QUrl& url)
+{
+    pureOpenUrl(url);
+    done->push(url);
+    delete todo;
+    todo = new QStack<QUrl>();
+    actions->action("go_backward")->setChecked(false);
+    actions->action("go_forward")->setChecked(true);
+    
+    QVectorIterator<QUrl> i(*done);
+    while (i.hasNext())
+        qDebug() << i.next();
+}
+
+// Open url that from the note(links)
 void NoteView::slotOpen(const QUrl& url)
 {
     if (url.toString().startsWith("/")) {
@@ -99,7 +147,8 @@ void NoteView::focusTitle()
 
 NoteView::~NoteView()
 {
-
+    delete done;
+    delete todo;
 }
 
 #include "noteview.moc"

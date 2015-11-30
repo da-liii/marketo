@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "marknote.h"
+#include "marknoto.h"
 
 #include <KLocalizedString>
 #include <KXMLGUIFactory>
@@ -31,8 +31,8 @@
 
 MarkNote::MarkNote(QWidget* parent)
     : KXmlGuiWindow(parent)
-    , isPreview(false)
     , m_firstTextChange(false)
+    , actions(actionCollection())
     , m_recentFiles(0)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
@@ -41,26 +41,33 @@ MarkNote::MarkNote(QWidget* parent)
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     
-    m_view = new MainView(parent, previewAction);
+    m_view = new MainView(parent, actionCollection());
     m_note = m_view->note;
     setupAction();
     setupUI();
     setupConnect();
 
     m_view->goHome();
+    actionCollection()->action("go_backward")->setChecked(true);
     m_view->preview();
 }
 
 void MarkNote::setupAction()
 {
-    KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
-    KStandardAction::close(this, SLOT(close()), actionCollection());
+    //KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
+    //KStandardAction::close(this, SLOT(close()), actionCollection());
     
     QAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
     QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
     QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
     QAction* addNoteAction = actionCollection()->addAction("add_note", m_view, SLOT(newNote()));
     QAction* goHomeAction = actionCollection()->addAction("go_home", m_view, SLOT(goHome()));
+    QAction* backwardAction = actionCollection()->addAction("go_backward", this, SLOT(backward()));
+    QAction* forwardAction = actionCollection()->addAction("go_forward", this, SLOT(forward()));
+    
+    forwardAction->setCheckable(true);
+    forwardAction->setChecked(true);
+    backwardAction->setCheckable(true);
     
     oneColAction->setText(i18n("One Column"));
     twoColAction->setText(i18n("Two Column"));
@@ -73,6 +80,8 @@ void MarkNote::setupAction()
     threeColAction->setIcon(QIcon::fromTheme(QLatin1String("view-file-columns")));
     addNoteAction->setIcon(QIcon::fromTheme(QLatin1String("list-add")));
     goHomeAction->setIcon(QIcon::fromTheme(QLatin1String("go-home")));
+    forwardAction->setIcon(QIcon::fromTheme(QLatin1String("arrow-right")));
+    backwardAction->setIcon(QIcon::fromTheme(QLatin1String("arrow-left")));
 
     
     m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
@@ -156,12 +165,12 @@ void MarkNote::updateCaptionModified()
         m_firstTextChange = false;
         return ;
     }
-    setCaption(m_note->url().fileName() + " [modified]- MarkNote");
+    setCaption(m_note->url().fileName() + " [modified]- Marketo");
 }
 
 void MarkNote::updateCaption()
 {
-    setCaption(m_note->url().fileName() + " - MarkNote");
+    setCaption(m_note->url().fileName() + " - Marketo");
 }
 
 void MarkNote::slotDocumentUrlChanged()
@@ -176,11 +185,34 @@ void MarkNote::slotDocumentUrlChanged()
 
 void MarkNote::togglePreview()
 {
-    if (isPreview)
-        isPreview = m_view->unpreview();
+    if (!actions->action("file_preview")->isChecked())
+        m_view->unpreview();
     else
-        isPreview = m_view->preview();
-    actionCollection()->action("file_preview")->setChecked(isPreview);
+        m_view->preview();
+}
+
+void MarkNote::forward()
+{
+    if (m_view->noteView->canForward()) {
+        m_view->noteView->forward();
+        actionCollection()->action("go_backward")->setChecked(false);
+    }
+    if (m_view->noteView->canForward())
+        actionCollection()->action("go_forward")->setChecked(false);
+    else
+        actionCollection()->action("go_forward")->setChecked(true);
+}
+
+void MarkNote::backward()
+{
+    if (m_view->noteView->canBackward()) {
+        m_view->noteView->backward();
+        actionCollection()->action("go_forward")->setChecked(false);
+    }
+    if (m_view->noteView->canBackward())
+        actionCollection()->action("go_backward")->setChecked(false);
+    else
+        actionCollection()->action("go_backward")->setChecked(true);
 }
 
 MarkNote::~MarkNote()
@@ -188,4 +220,4 @@ MarkNote::~MarkNote()
     writeConfig();
 }
 
-#include "marknote.moc"
+#include "marknoto.moc"

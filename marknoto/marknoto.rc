@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gui name="marknote" version="1">
+<gui name="marknoto" version="1">
 <MenuBar>
   <Menu name="file">
     <Merge/>
@@ -14,8 +14,10 @@
 </MenuBar>
 <ToolBar name="mainToolBar">
   <Action name="go_home" />
+  <Action name="go_backward" />
+  <Action name="go_forward" />
   <Action name="add_note" />
-  <Action name="file_preview"/>
+  <Action name="file_preview" />
   <Action name="win_onecol" />
   <Action name="win_twocol" />
   <Action name="win_threecol" />

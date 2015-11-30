@@ -26,6 +26,7 @@
 #include <KSharedConfig>
 
 class KRecentFilesAction;
+class KActionCollection;
 
 class MarkNote : public KXmlGuiWindow
 {
@@ -45,12 +46,14 @@ private slots:
     void updateCaption();
     void togglePreview();
     void slotDocumentUrlChanged();
+    void forward();
+    void backward();
     
 private:
     KTextEditor::Document *m_note;
     MainView *m_view;
-    bool isPreview;
     bool m_firstTextChange;
+    KActionCollection *actions;
     
     // session management
 private:

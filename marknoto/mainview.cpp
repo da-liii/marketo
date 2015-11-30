@@ -8,6 +8,7 @@
 #include <KMessageBox>
 #include <KSharedConfig>
 #include <KConfigGroup>
+#include <KActionCollection>
 
 #include <QUrl>
 #include <QAction>
@@ -20,9 +21,9 @@
 #include <QSplitter>
 #include <QModelIndex>
 
-MainView::MainView(QWidget *parent, QAction *pAction)
+MainView::MainView(QWidget *parent, KActionCollection *pActions)
     : Panel(parent),
-    previewAction(pAction)
+    actions(pActions)
     
 {
     setupUI();
@@ -61,7 +62,7 @@ void MainView::setupUI()
     listPanel = new ListPanel(this);
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
-    noteView = new NoteView(hsplitter, previewAction);
+    noteView = new NoteView(hsplitter, actions);
     note = noteView->note;
     markPad = noteView->markPad;
 
@@ -98,7 +99,7 @@ bool MainView::preview()
     noteView->hideTitleLine();
     markPad->preview(column == 2);
     markPad->setFocus();
-    previewAction->setChecked(true);
+    actions->action("file_preview")->setChecked(true);
     return true;
 }
 
@@ -110,7 +111,7 @@ bool MainView::unpreview()
         noteView->showTitleLine();
         markPad->unpreview();
         markPad->setFocus();
-        previewAction->setChecked(false);
+        actions->action("file_preview")->setChecked(false);
         return false;
     }
 }
@@ -187,7 +188,7 @@ void MainView::newNote()
     qDebug() << tmpUrl;
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
-    note->openUrl(tmpUrl);
+    noteView->openUrl(tmpUrl);
     unpreview();
 }
 
@@ -196,7 +197,7 @@ void MainView::goHome()
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     QString noteDir(cfg.readEntry("NoteDir"));
     QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.cm"));
-    note->openUrl(tmpUrl);
+    noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     
     setUrl(QUrl::fromLocalFile(noteDir));

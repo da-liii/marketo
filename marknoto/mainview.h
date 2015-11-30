@@ -8,9 +8,9 @@
 #include <KTextEditor/Document>
 #include <QWidget>
 
-class QUrl;
+class KActionCollection;
 
-class QAction;
+class QUrl;
 class QVariant;
 class QApplication;
 class QListView;
@@ -24,8 +24,9 @@ class MainView : public Panel
 public:
     Markpado *markPad;
     KTextEditor::Document *note;
+    NoteView *noteView;
     
-    MainView(QWidget *parent = 0, QAction *pAction = 0);
+    MainView(QWidget *parent = 0, KActionCollection *actions = 0);
     virtual ~MainView();    
     KTextEditor::View *getEditor();
     bool preview();
@@ -40,10 +41,9 @@ private:
     Panel *terminal;
     Panel *navigator;
     Panel *listPanel;
-    QAction *previewAction;
+    KActionCollection *actions;
     
     KTextEditor::View *editor;
-    NoteView *noteView;
     int column;
 
 public slots:

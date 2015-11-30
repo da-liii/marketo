@@ -2,7 +2,7 @@ set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 set (marknoto_SRCS
    main.cpp
-   marknote.cpp
+   marknoto.cpp
    mainview.cpp
    noteview.cpp
    panel.cpp
