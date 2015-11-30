@@ -5,12 +5,17 @@
     <Merge/>
     <Action name="file_preview"/>
   </Menu>
+  <Menu name="go"><text>&amp;Go</text>
+    <Action name="go_home" />
+    <Action name="go_backward" />
+    <Action name="go_forward" />
+  </Menu>
+  <Merge/>
   <Menu name="window"><text>&amp;Window</text>
     <Action name="win_onecol" />
     <Action name="win_twocol" />
     <Action name="win_threecol" />  
   </Menu>
-  <Merge/>
 </MenuBar>
 <ToolBar name="mainToolBar">
   <Action name="go_home" />

@@ -75,6 +75,7 @@ void MarkNote::setupAction()
     addNoteAction->setText(i18n("New Note"));
     forwardAction->setText(i18n("Forward"));
     backwardAction->setText(i18n("Backward"));
+    goHomeAction->setText(i18n("Home"));
 
     actions->setDefaultShortcut(addNoteAction, QKeySequence("Ctrl+N"));
     actions->setDefaultShortcut(forwardAction, QKeySequence("Alt+Right"));
