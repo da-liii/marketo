@@ -36,10 +36,10 @@ MarkNote::MarkNote(QWidget* parent)
     , m_recentFiles(0)
 {
     QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
-    previewAction->setShortcut(QKeySequence("F8"));
     previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
+    actions->setDefaultShortcut(previewAction, QKeySequence("F8"));
     
     m_view = new MainView(parent, actionCollection());
     m_note = m_view->note;
@@ -69,11 +69,16 @@ void MarkNote::setupAction()
     forwardAction->setChecked(true);
     backwardAction->setCheckable(true);
     
-    oneColAction->setText(i18n("One Column"));
-    twoColAction->setText(i18n("Two Column"));
-    threeColAction->setText(i18n("Three Column"));
+    oneColAction->setText(i18n("Focus"));
+    twoColAction->setText(i18n("Split"));
+    threeColAction->setText(i18n("Browse"));
+    addNoteAction->setText(i18n("New Note"));
+    forwardAction->setText(i18n("Forward"));
+    backwardAction->setText(i18n("Backward"));
 
-    addNoteAction->setShortcut(QKeySequence("Ctrl+N"));
+    actions->setDefaultShortcut(addNoteAction, QKeySequence("Ctrl+N"));
+    actions->setDefaultShortcut(forwardAction, QKeySequence("Alt+Right"));
+    actions->setDefaultShortcut(backwardAction, QKeySequence("Alt+Left"));
     
     oneColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-top-bottom")));
     twoColAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-left-right")));
