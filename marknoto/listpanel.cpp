@@ -40,7 +40,7 @@ ListPanel::ListPanel(QWidget* parent)
     listView->setModel(lmodel);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 40));
-    listView->setIconSize(QSize(listView->sizeHint().width(), 34));
+    listView->setIconSize(QSize(32, 32));
     listView->setAlternatingRowColors(true);
     listView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(listView, SIGNAL(clicked(QModelIndex)),

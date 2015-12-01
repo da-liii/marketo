@@ -28,6 +28,7 @@
 #include <QCommandLineParser>
 #include <QStandardPaths>
 #include <QDir>
+#include <QIcon>
 
 #define DESCRIPTION "A Markdown based note-taking KDE application"
 #define VERSION "0.1"
@@ -93,6 +94,8 @@ int main(int argc, char **argv)
     QDir qDir(noteDir + "/Trash");
     if (!qDir.exists())
         qDir.mkpath(qDir.path());
+
+    QIcon::setThemeName(QStringLiteral("breeze"));
 
     MarkNote *mainWindow = new MarkNote;
     mainWindow->show();

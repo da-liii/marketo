@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QUrl>
+#include <QIcon>
 
 #define DESCRIPTION "markpado - Advanced Markdown Editor"
 
@@ -48,7 +49,7 @@ int main(int argc, char **argv)
                 KAboutLicense::GPL_V3,
                 i18n("(C) 2015 Darcy Shen"),
                 QString(),
-                QStringLiteral("https://github.com/sadhen/KMarkNote"));
+                QStringLiteral("https://github.com/sadhen/marketo"));
     about.addAuthor(i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
 
     QCommandLineParser parser;
@@ -63,6 +64,8 @@ int main(int argc, char **argv)
     // do the commandline parsing
     parser.process(app);
     about.processCommandLine(&parser);
+
+    QIcon::setThemeName(QStringLiteral("breeze"));
 
     if (parser.positionalArguments().count() > 0) {
         Q_FOREACH(const QString positionalArgument, parser.positionalArguments()) {
