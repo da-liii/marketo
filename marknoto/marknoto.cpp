@@ -91,7 +91,7 @@ void MarkNote::setupAction()
     backwardAction->setIcon(QIcon::fromTheme(QLatin1String("arrow-left")));
 
     
-    m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
+    m_recentFiles = KStandardAction::openRecent(m_view, SLOT(setUrl(QUrl)), this);
     actions->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
     

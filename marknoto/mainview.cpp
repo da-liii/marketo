@@ -153,17 +153,12 @@ void MainView::threeColView()
     column = 3;
     unpreview();
 }
-
-void MainView::openUrl(QUrl url)
-{
-    // TODO:if the url is not in the watching dir and is in three column view
-    // switch to one column view
-    noteView->openUrl(url);
-}
-
+/*
+ * only called by Markpado, for separating pado and noto
+ */
 void MainView::slotOpen(const QUrl& url)
 {
-    noteView->openUrl(url);
+    setUrl(url);
 }
 
 void MainView::newNote()
