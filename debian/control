@@ -4,16 +4,16 @@ Priority: optional
 Maintainer: Darcy Shen <sadhen@zoho.com>
 Build-Depends: debhelper (>= 9), cmake
 Standards-Version: 3.9.6
-Homepage: https://github.com/sadhen/marketo.git
+Homepage: https://github.com/sadhen/marketo
 #Vcs-Git: git://anonscm.debian.org/collab-maint/marketo.git
 #Vcs-Browser: https://anonscm.debian.org/gitweb/?p=collab-maint/marketo.git;a=summary
 
 Package: marketo
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: breeze-icon-theme, ${shlibs:Depends}, ${misc:Depends}
 Description: A note-taking KDE application with the power of lightweight markup language
  Marketo is a note-taking app using Markdown with the features:
-  * Use katepart as the default editor(cool vim mode )
+  * Use katepart as the default editor(cool vim mode)
   * Support CommonMark
   * Highlight fenced code using Kate's Syntax Highlighter
   * Live Preview(auto sync between two views)
