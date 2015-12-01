@@ -29,7 +29,7 @@
 #include <QUrl>
 #include <QIcon>
 
-#define DESCRIPTION "markpado - Advanced Markdown Editor"
+#define DESCRIPTION "Markpado - Editor Part of Marketo"
 
 #define VERSION "0.1"
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     KLocalizedString::setApplicationDomain("markpado");
 
     KAboutData about(QStringLiteral("markpado"),
-                i18n("markpado"),
+                i18n("Markpado"),
                 QStringLiteral(VERSION),
                 i18n(DESCRIPTION),
                 KAboutLicense::GPL_V3,
@@ -51,6 +51,13 @@ int main(int argc, char **argv)
                 QString(),
                 QStringLiteral("https://github.com/sadhen/marketo"));
     about.addAuthor(i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
+
+    KAboutData::setApplicationData(about);
+
+    app.setApplicationName(about.componentName());
+    app.setApplicationDisplayName(about.displayName());
+    app.setOrganizationDomain(about.organizationDomain());
+    app.setApplicationVersion(about.version());
 
     QCommandLineParser parser;
     about.setupCommandLine(&parser);

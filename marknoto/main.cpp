@@ -30,7 +30,7 @@
 #include <QDir>
 #include <QIcon>
 
-#define DESCRIPTION "A Markdown based note-taking KDE application"
+#define DESCRIPTION "Marknoto - Note-taking Part of Marketo"
 #define VERSION "0.1"
 
 int main(int argc, char **argv)
@@ -44,17 +44,11 @@ int main(int argc, char **argv)
         KAboutLicense::GPL_V3,
         i18n("(C) 2015 Darcy Shen"),
         QString(),
-        QStringLiteral("sadhen@zoho.com"));
+        QStringLiteral("https://github.com/sadhen/marketo"));
     about.addAuthor( i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
 
-    /**
-     * register about data
-     */
     KAboutData::setApplicationData(about);
 
-    /**
-     * set app stuff from about data component name and org. name from KAboutData
-     */
     app.setApplicationName(about.componentName());
     app.setApplicationDisplayName(about.displayName());
     app.setOrganizationDomain(about.organizationDomain());

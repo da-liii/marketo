@@ -71,7 +71,7 @@ void MainWindow::setupAction()
     previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
-    previewAction->setShortcut(QKeySequence("F8"));
+    actionCollection()->setDefaultShortcut(previewAction, QKeySequence("F8"));
     
     QAction *splitAction = actionCollection()->addAction("window_split", this, SLOT(slotSplit()));
     splitAction->setIcon(QIcon::fromTheme(QLatin1String("view-split-left-right")));
