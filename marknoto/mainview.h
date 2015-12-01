@@ -31,7 +31,6 @@ public:
     KTextEditor::View *getEditor();
     bool preview();
     bool unpreview();
-    void openUrl(QUrl url);
     void setupUI();
     
 private:
