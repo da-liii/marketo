@@ -115,15 +115,19 @@ bool NoteView::canForward()
 void NoteView::openUrl(const QUrl& url)
 {
     pureOpenUrl(url);
-    done->push(url);
+    if (done->isEmpty() || url != done->top())
+        done->push(url);
+    if (canBackward())
+        actions->action("go_backward")->setChecked(false);
     delete todo;
     todo = new QStack<QUrl>();
-    actions->action("go_backward")->setChecked(false);
     actions->action("go_forward")->setChecked(true);
     
+    /*
     QVectorIterator<QUrl> i(*done);
     while (i.hasNext())
         qDebug() << i.next();
+    */
 }
 
 // Open url that from the note(links)

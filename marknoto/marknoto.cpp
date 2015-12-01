@@ -35,20 +35,21 @@ MarkNote::MarkNote(QWidget* parent)
     , actions(actionCollection())
     , m_recentFiles(0)
 {
-    QAction* previewAction = actionCollection()->addAction("file_preview", this, SLOT(togglePreview()));
+    QAction* previewAction = actions->addAction("file_preview", this, SLOT(togglePreview()));
     previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview")));
     previewAction->setText(i18n("Preview"));
     previewAction->setCheckable(true);
     actions->setDefaultShortcut(previewAction, QKeySequence("F8"));
     
-    m_view = new MainView(parent, actionCollection());
+    m_view = new MainView(parent, actions);
     m_note = m_view->note;
     setupAction();
     setupUI();
     setupConnect();
 
     m_view->goHome();
-    actionCollection()->action("go_backward")->setChecked(true);
+    actions->action("go_backward")->setChecked(true);
+
     m_view->preview();
 }
 
@@ -57,13 +58,13 @@ void MarkNote::setupAction()
     //KStandardAction::openNew(this, SLOT(newNote()), actionCollection());
     //KStandardAction::close(this, SLOT(close()), actionCollection());
     
-    QAction* oneColAction = actionCollection()->addAction("win_onecol", m_view, SLOT(oneColView()));
-    QAction* twoColAction = actionCollection()->addAction("win_twocol", m_view, SLOT(twoColView()));
-    QAction* threeColAction = actionCollection()->addAction("win_threecol", m_view, SLOT(threeColView()));
-    QAction* addNoteAction = actionCollection()->addAction("add_note", m_view, SLOT(newNote()));
-    QAction* goHomeAction = actionCollection()->addAction("go_home", m_view, SLOT(goHome()));
-    QAction* backwardAction = actionCollection()->addAction("go_backward", this, SLOT(backward()));
-    QAction* forwardAction = actionCollection()->addAction("go_forward", this, SLOT(forward()));
+    QAction* oneColAction = actions->addAction("win_onecol", m_view, SLOT(oneColView()));
+    QAction* twoColAction = actions->addAction("win_twocol", m_view, SLOT(twoColView()));
+    QAction* threeColAction = actions->addAction("win_threecol", m_view, SLOT(threeColView()));
+    QAction* addNoteAction = actions->addAction("add_note", m_view, SLOT(newNote()));
+    QAction* goHomeAction = actions->addAction("go_home", m_view, SLOT(goHome()));
+    QAction* backwardAction = actions->addAction("go_backward", this, SLOT(backward()));
+    QAction* forwardAction = actions->addAction("go_forward", this, SLOT(forward()));
     
     forwardAction->setCheckable(true);
     forwardAction->setChecked(true);
@@ -91,7 +92,7 @@ void MarkNote::setupAction()
 
     
     m_recentFiles = KStandardAction::openRecent(m_view, SLOT(slotOpen(QUrl)), this);
-    actionCollection()->addAction(m_recentFiles->objectName(), m_recentFiles);
+    actions->addAction(m_recentFiles->objectName(), m_recentFiles);
     m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
     
     //QAction* terminalAction = actionCollection()->addAction("toggle_terminal", m_view, SLOT(toggleTerminal()));
@@ -201,24 +202,24 @@ void MarkNote::forward()
 {
     if (m_view->noteView->canForward()) {
         m_view->noteView->forward();
-        actionCollection()->action("go_backward")->setChecked(false);
+        actions->action("go_backward")->setChecked(false);
     }
     if (m_view->noteView->canForward())
-        actionCollection()->action("go_forward")->setChecked(false);
+        actions->action("go_forward")->setChecked(false);
     else
-        actionCollection()->action("go_forward")->setChecked(true);
+        actions->action("go_forward")->setChecked(true);
 }
 
 void MarkNote::backward()
 {
     if (m_view->noteView->canBackward()) {
         m_view->noteView->backward();
-        actionCollection()->action("go_forward")->setChecked(false);
+        actions->action("go_forward")->setChecked(false);
     }
     if (m_view->noteView->canBackward())
-        actionCollection()->action("go_backward")->setChecked(false);
+        actions->action("go_backward")->setChecked(false);
     else
-        actionCollection()->action("go_backward")->setChecked(true);
+        actions->action("go_backward")->setChecked(true);
 }
 
 MarkNote::~MarkNote()

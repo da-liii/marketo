@@ -178,14 +178,11 @@ void MainView::newNote()
         tmpUrl = QUrl::fromLocalFile(cfg.readEntry("NoteDir"));
     }
 
-    qDebug() << tmpUrl;
-
     if (QFileInfo(tmpUrl.path()).isDir())
         tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.cm"));
     else
         tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.cm"));
 
-    qDebug() << tmpUrl;
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
     noteView->openUrl(tmpUrl);
