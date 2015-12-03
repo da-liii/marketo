@@ -81,7 +81,7 @@ void Markpado::generateHtml()
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
         + QString("</html>");
-    m_previewer->setHtml(content, QUrl());
+    m_previewer->setHtml(content, QUrl(m_note->url()));
 }
 
 void Markpado::preview()
