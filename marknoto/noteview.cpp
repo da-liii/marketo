@@ -139,7 +139,17 @@ void NoteView::slotOpen(const QUrl& url)
         QString notePath(url.toString());
         QUrl newUrl("file:/" + rootPath + notePath);
         openUrl(newUrl);
-    } else {
+    } else if (!url.toString().contains(QChar(':'))) {
+        QUrl baseUrl = note->url();
+    
+        if (QFileInfo(baseUrl.path()).isDir()) {
+            baseUrl = QUrl::fromLocalFile(url.path().append("/").append(url.toString()));
+        } else
+            baseUrl.setUrl(baseUrl.url(QUrl::RemoveFilename).append(url.toString()));
+
+        openUrl(baseUrl);
+    }
+    else {
         QDesktopServices::openUrl(url);
     }
 }
