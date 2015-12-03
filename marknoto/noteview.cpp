@@ -133,23 +133,21 @@ void NoteView::openUrl(const QUrl& url)
 // Open url that from the note(links)
 void NoteView::slotOpen(const QUrl& url)
 {
-    if (url.toString().startsWith("/")) {
+    if (url.toString().startsWith("file:///")) {
+        // case1: fake root link
         KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
         QString rootPath(cfg.readEntry("NoteDir"));
-        QString notePath(url.toString());
-        QUrl newUrl("file:/" + rootPath + notePath);
-        openUrl(newUrl);
-    } else if (!url.toString().contains(QChar(':'))) {
-        QUrl baseUrl = note->url();
-    
-        if (QFileInfo(baseUrl.path()).isDir()) {
-            baseUrl = QUrl::fromLocalFile(url.path().append("/").append(url.toString()));
-        } else
-            baseUrl.setUrl(baseUrl.url(QUrl::RemoveFilename).append(url.toString()));
+        QString notePath(url.toString().replace("file:///", "/"));
+        QUrl newUrl("file://" + rootPath + notePath);
+        qDebug() << newUrl;
+        if (QFileInfo(newUrl.path()).exists()) {
+            openUrl(newUrl);
+            return ;
+        }
 
-        openUrl(baseUrl);
-    }
-    else {
+        // case2: relative path link(automatically handled by API)
+        openUrl(url);
+    } else {
         QDesktopServices::openUrl(url);
     }
 }
