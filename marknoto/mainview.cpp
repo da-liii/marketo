@@ -57,12 +57,15 @@ void MainView::setupUI()
     //connect(terminal, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     navigator = new Navigator(this);
+    navigator->setContentsMargins(0, -5, -15, 0);
     connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     listPanel = new ListPanel(this);
+    listPanel->setContentsMargins(0, -5, -15, 0);
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
-    noteView = new NoteView(hsplitter, actions);
+    noteView = new NoteView(this, actions);
+    noteView->setContentsMargins(0, -5, 0, 0);
     note = noteView->note;
     markPad = noteView->markPad;
 
