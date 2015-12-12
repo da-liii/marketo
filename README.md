@@ -42,7 +42,7 @@ make
 make install
 ```
 
-**NOTE**: `$HOME` is your home directory. The above instructions will install Marketo in `$HOME/software`.
+**NOTE**: `$HOME` is your home directory. The above instructions will install Marketo in `$HOME/.local`.
 
 ### Run it
 ``` sh

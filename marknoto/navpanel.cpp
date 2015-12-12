@@ -43,7 +43,7 @@ Navigator::Navigator(Panel* parent)
     treeView->setColumnHidden(2, true);
     treeView->setColumnHidden(3, true);
     treeView->setUniformRowHeights(true);
-    treeView->setIconSize(QSize(treeView->sizeHint().width(), 34));
+    treeView->setIconSize(QSize(16, 16));
     treeView->setHeaderHidden(true);
     treeView->setAnimated(true);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
