@@ -78,7 +78,7 @@ void NoteView::setupUI()
     tagList->setFixedHeight(24);
     tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
     tagList->setFrameShape(QFrame::NoFrame);
-    tagEdit->setText("Click here to add tags separated by comma");
+    tagEdit->setPlaceholderText("Click here to add tags separated by comma");
     tagEdit->setFixedHeight(24);
     
     label->setPixmap(QIcon::fromTheme(QLatin1String("tag")).pixmap(24, 24));
