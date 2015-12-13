@@ -4,12 +4,13 @@
 #include "markpado.h"
 
 #include <QStack>
+#include <Baloo/TagWidget>
 
 class QVBoxLayout;
-class KLineEdit;
+class QLineEdit;
 class KActionCollection;
 class QListWidget;
-class QPushButton;
+class QLabel;
 
 class QUrl;
 
@@ -39,9 +40,10 @@ private:
     KActionCollection *actions;
     QVBoxLayout *vl;
     QHBoxLayout *hl;
-    KLineEdit *title;
+    QLineEdit *title;
     QListWidget *tagList;
-    QPushButton *tagButton;
+    QLabel *label;
+    Baloo::TagWidget *tagWidget;
     QStack<QUrl> *done;
     QStack<QUrl> *todo;
     

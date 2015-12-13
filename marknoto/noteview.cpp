@@ -1,10 +1,10 @@
 #include "noteview.h"
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
-#include <KLineEdit>
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <KActionCollection>
+#include <KFileMetaData/UserMetaData>
 
 #include <QAction>
 #include <QDir>
@@ -12,7 +12,8 @@
 #include <QUrl>
 #include <QDesktopServices>
 #include <QListWidget>
-#include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
 
 NoteView::NoteView(QWidget* parent, KActionCollection *pActions)
     : QWidget(parent),
@@ -34,6 +35,11 @@ void NoteView::pureOpenUrl(const QUrl& url)
         markPad->preview();
     else
         markPad->unpreview();
+    
+    KFileMetaData::UserMetaData metaData(url.toLocalFile());
+    const QStringList list = metaData.tags();
+    for (int i=0; i<list.size(); i++)
+        tagList->addItem(list.at(i));
 }
 
 void NoteView::setupConnect()
@@ -46,38 +52,33 @@ void NoteView::setupUI()
 {
     vl = new QVBoxLayout(this);
     hl = new QHBoxLayout(this);
-    title = new KLineEdit(this);
+    title = new QLineEdit(this);
     tagList = new QListWidget(this);
-    tagButton = new QPushButton("", this);
-    hl->addWidget(title);
+    label = new QLabel(this);
+    hl->addWidget(label);
     hl->addWidget(tagList);
-    hl->addWidget(tagButton);
     
     markPad = new Markpado(this);
     note = markPad->m_note;
     
-    vl->addLayout(hl);
+    vl->addWidget(title);
     vl->addWidget(markPad);
+    vl->addLayout(hl);
     
     title->setFixedHeight(24);
     title->setContentsMargins(0, 0, 0, 0);
     title->sizePolicy().setHorizontalPolicy(QSizePolicy::Maximum);
+    title->setAlignment(Qt::AlignHCenter);
+    title->setStyleSheet("QLineEdit { border: 1px solid lightskyblue; border-radius: 2px; }");
     
     tagList->setContentsMargins(0, 0, 0, 0);
     tagList->setFixedHeight(24);
     tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
-    tagList->addItem("hello");
-    tagList->addItem("world");
-    
-    tagButton->setFixedHeight(24);
-    tagButton->setContentsMargins(0, 0, 0, 0);
     tagList->setFrameShape(QFrame::NoFrame);
-    tagButton->setIcon(QIcon::fromTheme(QLatin1String("tag")));
+    
+    label->setPixmap(QIcon::fromTheme(QLatin1String("tag")).pixmap(24, 24));
     
     hl->setSpacing(0);
-    hl->setStretchFactor(title, 78);
-    hl->setStretchFactor(tagList, 12);
-    hl->setStretchFactor(tagButton, 5);
     vl->setSpacing(0);
     
     tagList->setFlow(QListView::LeftToRight);
@@ -191,6 +192,7 @@ void NoteView::focusTitle()
 
 NoteView::~NoteView()
 {
+    delete tagWidget;
     delete done;
     delete todo;
 }

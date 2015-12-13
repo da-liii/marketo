@@ -20,7 +20,10 @@ set (marknoto_SRCS
 add_executable (marknoto ${marknoto_SRCS})
 
 include_directories (../markpado/)
-include_directories( ${QT_INCLUDES} /usr/include/KF5/KDEWebKit)
+include_directories( ${QT_INCLUDES}
+    /usr/include/KF5/KDEWebKit
+    /usr/include/KF5/KFileMetaData
+    /usr/include/KF5/BalooWidgets)
 
 
 target_link_libraries (marknoto
@@ -30,6 +33,7 @@ target_link_libraries (marknoto
     KF5::TextEditor
     KF5::I18n
     KF5::XmlGui
+    KF5::FileMetaData
     KF5WebKit
     mdcpp
 )

@@ -25,6 +25,7 @@ find_package (KF5 REQUIRED COMPONENTS
 	CoreAddons
 	XmlGui
 	TextEditor
+	FileMetaData
 )
 
 include_directories( ${QT_INCLUDES}
