@@ -44,7 +44,6 @@ private:
     QListWidget *tagList;
     QLineEdit *tagEdit;
     QLabel *label;
-    Baloo::TagWidget *tagWidget;
     QStack<QUrl> *done;
     QStack<QUrl> *todo;
     

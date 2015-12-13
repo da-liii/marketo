@@ -114,9 +114,11 @@ void NoteView::addTags()
  
     tagEdit->clear();
     for (auto tag : tagsList)
-        tagList->addItem(tag);
+        if (tagList->findItems(tag, Qt::MatchExactly).isEmpty())
+            tagList->addItem(tag);
     for (int i=0; i<tagList->count(); i++)
         tags.append(tagList->item(i)->text());
+    tags.sort();
     metaData.setTags(tags);
 }
 
@@ -212,7 +214,6 @@ void NoteView::focusTitle()
 
 NoteView::~NoteView()
 {
-    delete tagWidget;
     delete done;
     delete todo;
 }
