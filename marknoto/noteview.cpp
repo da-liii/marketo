@@ -36,17 +36,18 @@ void NoteView::pureOpenUrl(const QUrl& url)
     else
         markPad->unpreview();
     
-    KFileMetaData::UserMetaData metaData(url.toLocalFile());
     tagList->clear();
-    const QStringList list = metaData.tags();
-    for (int i=0; i<list.size(); i++)
-        tagList->addItem(list.at(i));
+    KFileMetaData::UserMetaData metaData(url.toLocalFile());
+    for (auto tag : metaData.tags())
+        tagList->addItem(tag);
 }
 
 void NoteView::setupConnect()
 {
-    connect(title, SIGNAL(returnPressed(QString)),
-        this, SLOT(saveNote(QString)));
+    connect(title, &QLineEdit::returnPressed,
+        this, &NoteView::saveNote);
+    connect(tagEdit, &QLineEdit::returnPressed,
+            this, &NoteView::addTags);
 }
 
 void NoteView::setupUI()
@@ -54,13 +55,14 @@ void NoteView::setupUI()
     vl = new QVBoxLayout(this);
     hl = new QHBoxLayout(this);
     title = new QLineEdit(this);
-    tagList = new QListWidget(this);
-    label = new QLabel(this);
-    hl->addWidget(label);
-    hl->addWidget(tagList);
-    
     markPad = new Markpado(this);
     note = markPad->m_note;
+    label = new QLabel(this);
+    tagList = new QListWidget(this);
+    tagEdit = new QLineEdit(this);
+    hl->addWidget(label);
+    hl->addWidget(tagList);
+    hl->addWidget(tagEdit);
     
     vl->addWidget(title);
     vl->addWidget(markPad);
@@ -68,14 +70,16 @@ void NoteView::setupUI()
     
     title->setFixedHeight(24);
     title->setContentsMargins(0, 0, 0, 0);
-    title->sizePolicy().setHorizontalPolicy(QSizePolicy::Maximum);
     title->setAlignment(Qt::AlignHCenter);
     title->setStyleSheet("QLineEdit { border: 1px solid lightskyblue; border-radius: 2px; }");
     
+   
     tagList->setContentsMargins(0, 0, 0, 0);
     tagList->setFixedHeight(24);
     tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
     tagList->setFrameShape(QFrame::NoFrame);
+    tagEdit->setText("Click here to add tags separated by comma");
+    tagEdit->setFixedHeight(24);
     
     label->setPixmap(QIcon::fromTheme(QLatin1String("tag")).pixmap(24, 24));
     
@@ -85,8 +89,9 @@ void NoteView::setupUI()
     tagList->setFlow(QListView::LeftToRight);
 }
 
-void NoteView::saveNote(QString name)
+void NoteView::saveNote()
 {
+    QString name(title->text());
     QUrl url = note->url();
     
     note->documentSave();
@@ -99,6 +104,19 @@ void NoteView::saveNote(QString name)
     dir.rename(note->url().fileName(), url.fileName());
     note->openUrl(url);
     markPad->view()->setFocus();
+}
+
+void NoteView::addTags()
+{
+    QStringList tagsList(tagEdit->text().split(";"));
+ 
+    for (auto tag : tagsList)
+        tagList->addItem(tag);
+    KFileMetaData::UserMetaData metaData(note->url().toLocalFile());
+    QStringList tags;
+    for (int i=0; i<tagList->count(); i++)
+        tags.append(tagList->item(i)->text());
+    metaData.setTags(tags);
 }
 
 void NoteView::hideTitleLine()

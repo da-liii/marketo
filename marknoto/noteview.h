@@ -42,6 +42,7 @@ private:
     QHBoxLayout *hl;
     QLineEdit *title;
     QListWidget *tagList;
+    QLineEdit *tagEdit;
     QLabel *label;
     Baloo::TagWidget *tagWidget;
     QStack<QUrl> *done;
@@ -52,7 +53,8 @@ private:
     void pureOpenUrl(const QUrl& url);
     
 private slots:
-    void saveNote(QString name);
+    void saveNote();
+    void addTags();
 };
 
 #endif
