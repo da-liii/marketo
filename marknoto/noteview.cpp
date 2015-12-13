@@ -37,6 +37,7 @@ void NoteView::pureOpenUrl(const QUrl& url)
         markPad->unpreview();
     
     KFileMetaData::UserMetaData metaData(url.toLocalFile());
+    tagList->clear();
     const QStringList list = metaData.tags();
     for (int i=0; i<list.size(); i++)
         tagList->addItem(list.at(i));
