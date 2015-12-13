@@ -109,11 +109,12 @@ void NoteView::saveNote()
 void NoteView::addTags()
 {
     QStringList tagsList(tagEdit->text().split(";"));
- 
-    for (auto tag : tagsList)
-        tagList->addItem(tag);
     KFileMetaData::UserMetaData metaData(note->url().toLocalFile());
     QStringList tags;
+ 
+    tagEdit->clear();
+    for (auto tag : tagsList)
+        tagList->addItem(tag);
     for (int i=0; i<tagList->count(); i++)
         tags.append(tagList->item(i)->text());
     metaData.setTags(tags);
