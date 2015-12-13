@@ -5,10 +5,13 @@ A KDE application for note taking with the power of lightweight markup language.
 It is bundled with a separated Markdown editor.
 
 ## Features
-+ Use **katepart** as the default editor(**cool** vim mode )
++ Use **katepart** as the default editor (cool **vim mode**)
 + Partially support **CommonMark**
-+ Real-time fenced-code highlight
 + Live Preview(auto sync between two views)
++ Real-time fenced-code highlight
+
+  ![Rendering when editing](screenshot/render_code.png)
+
 
 ## Planning
 + Integrated with baloo for search
@@ -17,7 +20,7 @@ It is bundled with a separated Markdown editor.
 
 ## For User
 
-See [Install Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
+See [Installation Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
 
 ## For Developer
 
@@ -52,4 +55,6 @@ cd ~/.local/bin/
 ```
 
 ## License
-GPL v3
+![GPL v3](http://www.gnu.org/graphics/gplv3-127x51.png)
+
+Copyright © 2014,2015 Darcy Shen
