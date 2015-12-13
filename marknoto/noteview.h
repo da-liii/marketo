@@ -8,6 +8,8 @@
 class QVBoxLayout;
 class KLineEdit;
 class KActionCollection;
+class QListWidget;
+class QPushButton;
 
 class QUrl;
 
@@ -34,10 +36,12 @@ public slots:
     void slotOpen(const QUrl& url);
     
 private:
+    KActionCollection *actions;
     QVBoxLayout *vl;
     QHBoxLayout *hl;
-    KActionCollection *actions;
     KLineEdit *title;
+    QListWidget *tagList;
+    QPushButton *tagButton;
     QStack<QUrl> *done;
     QStack<QUrl> *todo;
     

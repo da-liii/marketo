@@ -11,6 +11,8 @@
 #include <QVBoxLayout>
 #include <QUrl>
 #include <QDesktopServices>
+#include <QListWidget>
+#include <QPushButton>
 
 NoteView::NoteView(QWidget* parent, KActionCollection *pActions)
     : QWidget(parent),
@@ -43,12 +45,42 @@ void NoteView::setupConnect()
 void NoteView::setupUI()
 {
     vl = new QVBoxLayout(this);
-    markPad = new Markpado(this);
+    hl = new QHBoxLayout(this);
     title = new KLineEdit(this);
+    tagList = new QListWidget(this);
+    tagButton = new QPushButton("", this);
+    hl->addWidget(title);
+    hl->addWidget(tagList);
+    hl->addWidget(tagButton);
+    
+    markPad = new Markpado(this);
     note = markPad->m_note;
     
-    vl->addWidget(title);
+    vl->addLayout(hl);
     vl->addWidget(markPad);
+    
+    title->setFixedHeight(24);
+    title->setContentsMargins(0, 0, 0, 0);
+    title->sizePolicy().setHorizontalPolicy(QSizePolicy::Maximum);
+    
+    tagList->setContentsMargins(0, 0, 0, 0);
+    tagList->setFixedHeight(24);
+    tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
+    tagList->addItem("hello");
+    tagList->addItem("world");
+    
+    tagButton->setFixedHeight(24);
+    tagButton->setContentsMargins(0, 0, 0, 0);
+    tagList->setFrameShape(QFrame::NoFrame);
+    tagButton->setIcon(QIcon::fromTheme(QLatin1String("tag")));
+    
+    hl->setSpacing(0);
+    hl->setStretchFactor(title, 78);
+    hl->setStretchFactor(tagList, 12);
+    hl->setStretchFactor(tagButton, 5);
+    vl->setSpacing(0);
+    
+    tagList->setFlow(QListView::LeftToRight);
 }
 
 void NoteView::saveNote(QString name)
