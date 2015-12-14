@@ -41,7 +41,7 @@ void NoteView::pureOpenUrl(const QUrl& url)
     tagList->clear();
     KFileMetaData::UserMetaData metaData(url.toLocalFile());
     for (auto tag : metaData.tags())
-        tagList->addItem(tag);
+        tagList->addTags(tag);
     tagList->stretchWidth();
 }
 

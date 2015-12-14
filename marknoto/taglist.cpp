@@ -19,14 +19,8 @@ TagList::TagList(QWidget* parent)
 void TagList::stretchWidth()
 {
     int size = 0;
-    for (auto item : findItems("*", Qt::MatchWildcard)) {
-        if (!item->text().isEmpty()) {
-            setItemWidget(item, new QLabel(item->text()));
-            item->setText("");
-            item->setSizeHint(itemWidget(item)->sizeHint() + QSize(5, 5));
-        }
+    for (auto item : findItems("*", Qt::MatchWildcard))
         size += itemWidget(item)->sizeHint().width() + 5;
-    }
     
     setFixedWidth(size);
 }
@@ -37,21 +31,31 @@ QString TagList::tagText(int i) const {
 
 void TagList::addTags(const QString &tags)
 {
-    QList<QListWidgetItem *> *list = new QList<QListWidgetItem *>;
-    for (auto tag : tags.split(";")) {
+    qDebug() << "add " + tags + " to tagList";
+    QStringListIterator tagIter(tags.split(";", QString::SkipEmptyParts));
+    while (tagIter.hasNext()) {
+        QString tag(tagIter.next());
+        QListWidgetItem *item = nullptr;
+        
+        // the full item list is a set
         for (auto iter : findItems("*", Qt::MatchWildcard))
-            if (tag == tagText(row(iter)))
-                list->append(iter);
-        if (list->isEmpty())
-            addItem(tag);
-        else
-            for (auto iter=list->cbegin(); iter!=list->cend(); iter++) {
-                auto itemToDelete = takeItem(row(*iter));
-                delete itemWidget(itemToDelete);
-                delete itemToDelete;
+            if (tag == tagText(row(iter))) {
+                item = iter;
+                break;
             }
-    }
-    delete list;
+            
+        if (item == nullptr) {
+            QListWidgetItem *newItem = new QListWidgetItem(this);
+            setItemWidget(newItem, new QLabel(tag));
+            newItem->setText("");
+            newItem->setSizeHint(itemWidget(newItem)->sizeHint() + QSize(5, 5));
+            addItem(newItem);
+        } else {
+            auto itemToDelete = takeItem(row(item));
+            delete itemWidget(itemToDelete);
+            delete itemToDelete;
+        }
+    } // end of outer while
 }
 
 TagList::~TagList()
