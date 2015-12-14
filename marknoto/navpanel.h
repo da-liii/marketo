@@ -2,6 +2,7 @@
 #define NAVPANEL_H
 
 #include "panel.h"
+#include <QList>
 
 class QFileSystemModel;
 class QTreeView;
@@ -10,6 +11,10 @@ class QModelIndex;
 class QItemSelection;
 class QItemSelectionModel;
 class QContextMenuEvent;
+class QTabWidget;
+class QTreeWidget;
+class QUrl;
+class QStringList;
 
 class Navigator : public Panel
 {
@@ -18,11 +23,16 @@ class Navigator : public Panel
 public:
     Navigator(Panel *parent=0);
     virtual ~Navigator();
+    void buildTagStaffs();
     
 private:
     Panel *m_parent;
     QTreeView *treeView;
+    QTabWidget *tabWidget;
+    QTreeWidget *tagTree;
     QFileSystemModel *tmodel;
+    QStringList *tagRoots;
+    QList<QUrl> *tagPaths;
     QVBoxLayout *vl;
     QItemSelection *m_selection;
     QItemSelectionModel *m_selectionModel;
