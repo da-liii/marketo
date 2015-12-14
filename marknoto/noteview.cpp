@@ -76,11 +76,6 @@ void NoteView::setupUI()
     title->setAlignment(Qt::AlignHCenter);
     title->setStyleSheet("QLineEdit { border: 1px solid lightskyblue; border-radius: 2px; }");
     
-   
-    tagList->setContentsMargins(0, 0, 0, 0);
-    tagList->setFixedHeight(24);
-    tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
-    
     tagEdit->setPlaceholderText("Click here to add tags separated by comma");
     tagEdit->setFixedHeight(24);
     
@@ -110,24 +105,16 @@ void NoteView::saveNote()
 
 void NoteView::addTags()
 {
-    QStringList tagsList(tagEdit->text().split(";"));
-    KFileMetaData::UserMetaData metaData(note->url().toLocalFile());
-    QStringList tags;
- 
-    tagEdit->clear();
-    for (auto tag : tagsList) {
-        QList<QListWidgetItem *> list = tagList->findItems(tag, Qt::MatchExactly);
-        if (list.isEmpty())
-            tagList->addItem(tag);
-        else
-            for (auto iter : list)
-                tagList->takeItem(tagList->row(iter));
-    }
-    for (int i=0; i<tagList->count(); i++)
-        tags.append(tagList->item(i)->text());
-    tags.sort();
-    metaData.setTags(tags);
+    tagList->addTags(tagEdit->text());
     tagList->stretchWidth();
+    tagEdit->clear();
+    
+    QStringList tags;
+    for (int i=0; i<tagList->count(); i++)
+        tags.append(tagList->tagText(i));
+    tags.sort();
+    KFileMetaData::UserMetaData metaData(note->url().toLocalFile());
+    metaData.setTags(tags);
 }
 
 void NoteView::hideTitleLine()
