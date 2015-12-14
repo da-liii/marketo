@@ -11,6 +11,7 @@ class QLineEdit;
 class KActionCollection;
 class QListWidget;
 class QLabel;
+class TagList;
 
 class QUrl;
 
@@ -41,7 +42,7 @@ private:
     QVBoxLayout *vl;
     QHBoxLayout *hl;
     QLineEdit *title;
-    QListWidget *tagList;
+    TagList *tagList;
     QLineEdit *tagEdit;
     QLabel *label;
     QStack<QUrl> *done;

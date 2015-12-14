@@ -1,4 +1,6 @@
 #include "noteview.h"
+#include "taglist.h"
+
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KConfigGroup>
@@ -40,6 +42,7 @@ void NoteView::pureOpenUrl(const QUrl& url)
     KFileMetaData::UserMetaData metaData(url.toLocalFile());
     for (auto tag : metaData.tags())
         tagList->addItem(tag);
+    tagList->stretchWidth();
 }
 
 void NoteView::setupConnect()
@@ -58,7 +61,7 @@ void NoteView::setupUI()
     markPad = new Markpado(this);
     note = markPad->m_note;
     label = new QLabel(this);
-    tagList = new QListWidget(this);
+    tagList = new TagList(this);
     tagEdit = new QLineEdit(this);
     hl->addWidget(label);
     hl->addWidget(tagList);
@@ -77,7 +80,7 @@ void NoteView::setupUI()
     tagList->setContentsMargins(0, 0, 0, 0);
     tagList->setFixedHeight(24);
     tagList->sizePolicy().setHorizontalPolicy(QSizePolicy::MinimumExpanding);
-    tagList->setFrameShape(QFrame::NoFrame);
+    
     tagEdit->setPlaceholderText("Click here to add tags separated by comma");
     tagEdit->setFixedHeight(24);
     
@@ -86,7 +89,6 @@ void NoteView::setupUI()
     hl->setSpacing(0);
     vl->setSpacing(0);
     
-    tagList->setFlow(QListView::LeftToRight);
 }
 
 void NoteView::saveNote()
@@ -113,13 +115,19 @@ void NoteView::addTags()
     QStringList tags;
  
     tagEdit->clear();
-    for (auto tag : tagsList)
-        if (tagList->findItems(tag, Qt::MatchExactly).isEmpty())
+    for (auto tag : tagsList) {
+        QList<QListWidgetItem *> list = tagList->findItems(tag, Qt::MatchExactly);
+        if (list.isEmpty())
             tagList->addItem(tag);
+        else
+            for (auto iter : list)
+                tagList->takeItem(tagList->row(iter));
+    }
     for (int i=0; i<tagList->count(); i++)
         tags.append(tagList->item(i)->text());
     tags.sort();
     metaData.setTags(tags);
+    tagList->stretchWidth();
 }
 
 void NoteView::hideTitleLine()

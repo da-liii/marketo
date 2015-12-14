@@ -7,6 +7,7 @@ set (marknoto_SRCS
    noteview.cpp
    panel.cpp
    iconfilter.cpp
+   taglist.cpp
    #terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
