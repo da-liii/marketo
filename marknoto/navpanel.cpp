@@ -75,12 +75,13 @@ void Navigator::buildTagStaffs()
     tagPaths = new QList<QUrl>();
     tagRoots = new QStringList();
     
-    QDirIterator it(noteDir, QStringList() << "*.cm" << ".md", QDir::Files, QDirIterator::Subdirectories);
+    QDirIterator it(noteDir, QStringList() << "*.cm" << "*.md", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
-        KFileMetaData::UserMetaData metaData(it.next());
+        QString file(it.next());
+        KFileMetaData::UserMetaData metaData(file);
         QStringList tags = metaData.tags();
         if (!tags.isEmpty()) {
-            tagPaths->append(QUrl(it.next()));
+            tagPaths->append(QUrl(file));
             *tagRoots += tags;
         }
     }

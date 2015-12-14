@@ -31,7 +31,6 @@ QString TagList::tagText(int i) const {
 
 void TagList::addTags(const QString &tags)
 {
-    qDebug() << "add " + tags + " to tagList";
     QStringListIterator tagIter(tags.split(";", QString::SkipEmptyParts));
     while (tagIter.hasNext()) {
         QString tag(tagIter.next());
