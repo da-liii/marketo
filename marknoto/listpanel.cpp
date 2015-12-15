@@ -62,7 +62,6 @@ void ListPanel::setDisplayMode(int index)
         displayByTag = false;
     else
         displayByTag = true;
-    qDebug() << displayByTag;
 }
 
 void ListPanel::setTaggedList(const QStringList& list)
@@ -70,6 +69,12 @@ void ListPanel::setTaggedList(const QStringList& list)
     smodel->setStringList(list);
     listView->setModel(smodel);
     displayByTag = true;
+}
+
+void ListPanel::goHome()
+{
+    displayByTag = false;
+    listView->setModel(lmodel);
 }
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)

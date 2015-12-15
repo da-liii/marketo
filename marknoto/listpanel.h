@@ -19,6 +19,7 @@ public:
     ListPanel(QWidget *parent = 0);
     virtual ~ListPanel();
     void setTaggedList(const QStringList& list);
+    void goHome();
     
 private:
     QListView *listView;

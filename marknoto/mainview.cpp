@@ -67,7 +67,7 @@ void MainView::setupUI()
     listPanel->setContentsMargins(0, -5, -15, 0);
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     connect(navigator->tabWidget, SIGNAL(tabBarClicked(int)),
-            listPanel, SLOT(setDisplayByDir(int)));
+            listPanel, SLOT(setDisplayMode(int)));
     
     noteView = new NoteView(this, actions);
     noteView->setContentsMargins(0, -5, 0, 0);
@@ -200,7 +200,7 @@ void MainView::goHome()
     noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     
-    listPanel->setDisplayMode(0);
+    listPanel->goHome();
     navigator->tabWidget->setCurrentIndex(0);
     
     setUrl(QUrl::fromLocalFile(noteDir));
