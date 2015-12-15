@@ -81,7 +81,10 @@ void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
     if (displayByTag) {
         listView->setModel(smodel);    
-        setUrl(QUrl::fromLocalFile(smodel->data(index, Qt::DisplayRole).toString()));
+        KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+        QString halfPath = smodel->data(index, Qt::DisplayRole).toString();
+        halfPath = cfg.readEntry("NoteDir") + halfPath;
+        setUrl(QUrl::fromLocalFile(halfPath));
     } else {
         listView->setModel(lmodel);
         setUrl(QUrl::fromLocalFile(lmodel->filePath(index)));

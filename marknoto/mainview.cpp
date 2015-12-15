@@ -209,7 +209,14 @@ void MainView::goHome()
 void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
 {
     QString tag(item->text(row));
-    listPanel->setTaggedList(navigator->getFilesByTag(tag));
+    QStringList halfPathList;
+    QStringListIterator iter(navigator->getFilesByTag(tag));
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    int len = cfg.readEntry("NoteDir").length();
+    
+    while(iter.hasNext())
+        halfPathList.append(iter.next().midRef(len).toString());
+    listPanel->setTaggedList(halfPathList);
 }
 
 void MainView::toggleTerminal()
