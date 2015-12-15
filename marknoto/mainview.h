@@ -16,6 +16,9 @@ class QApplication;
 class QListView;
 class QSplitter;
 class QModelIndex;
+class QTreeWidgetItem;
+class Navigator;
+class ListPanel;
 
 class MainView : public Panel 
 {
@@ -38,8 +41,8 @@ private:
     QSplitter *vsplitter;
     QSplitter *hsplitter;
     Panel *terminal;
-    Panel *navigator;
-    Panel *listPanel;
+    Navigator *navigator;
+    ListPanel *listPanel;
     KActionCollection *actions;
     
     KTextEditor::View *editor;
@@ -55,6 +58,7 @@ private slots:
     void threeColView();
     void toggleTerminal();
     void slotOpen(const QUrl &url);
+    void showTaggedFiles(QTreeWidgetItem*, int);
     
 protected:
     virtual bool urlChanged();

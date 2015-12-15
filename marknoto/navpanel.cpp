@@ -72,7 +72,7 @@ void Navigator::buildTagStaffs()
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     QString noteDir(cfg.readEntry("NoteDir"));
     
-    tagPaths = new QList<QUrl>();
+    tagPaths = new QStringList();
     tagRoots = new QStringList();
     
     QDirIterator it(noteDir, QStringList() << "*.cm" << "*.md", QDir::Files, QDirIterator::Subdirectories);
@@ -81,12 +81,13 @@ void Navigator::buildTagStaffs()
         KFileMetaData::UserMetaData metaData(file);
         QStringList tags = metaData.tags();
         if (!tags.isEmpty()) {
-            tagPaths->append(QUrl(file));
+            tagPaths->append(file);
             *tagRoots += tags;
         }
     }
     tagRoots->removeDuplicates();
     tagRoots->sort();
+    
     tagTree = new QTreeWidget(this);
     QStringListIterator iter(*tagRoots);
     while (iter.hasNext()) {
@@ -94,6 +95,19 @@ void Navigator::buildTagStaffs()
         item->setText(0, iter.next());
         tagTree->addTopLevelItem(item);
     }
+}
+
+QStringList Navigator::getFilesByTag(const QString& tag)
+{
+    QStringList list;
+    QStringListIterator iter(*tagPaths);
+    while (iter.hasNext()) {
+        QString curPath(iter.next());
+        KFileMetaData::UserMetaData metaData(curPath);
+        if (metaData.tags().contains(tag))
+            list.append(curPath);
+    }
+    return list;
 }
 
 void Navigator::setUrlFromIndex(const QModelIndex& index)

@@ -23,16 +23,17 @@ class Navigator : public Panel
 public:
     Navigator(Panel *parent=0);
     virtual ~Navigator();
+    QTreeWidget *tagTree;
     void buildTagStaffs();
+    QStringList getFilesByTag(const QString &);
+    QTabWidget *tabWidget;
     
 private:
     Panel *m_parent;
     QTreeView *treeView;
-    QTabWidget *tabWidget;
-    QTreeWidget *tagTree;
     QFileSystemModel *tmodel;
     QStringList *tagRoots;
-    QList<QUrl> *tagPaths;
+    QStringList *tagPaths;
     QVBoxLayout *vl;
     QItemSelection *m_selection;
     QItemSelectionModel *m_selectionModel;

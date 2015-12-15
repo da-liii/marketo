@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QSplitter>
 #include <QModelIndex>
+#include <QTreeWidgetItem>
 
 MainView::MainView(QWidget *parent, KActionCollection *pActions)
     : Panel(parent),
@@ -59,10 +60,14 @@ void MainView::setupUI()
     navigator = new Navigator(this);
     navigator->setContentsMargins(0, -5, -15, 0);
     connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
+    connect(navigator->tagTree, SIGNAL(itemClicked(QTreeWidgetItem *, int )),
+            this, SLOT(showTaggedFiles(QTreeWidgetItem *, int )));
     
     listPanel = new ListPanel(this);
     listPanel->setContentsMargins(0, -5, -15, 0);
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
+    connect(navigator->tabWidget, SIGNAL(tabBarClicked(int)),
+            listPanel, SLOT(setDisplayByDir(int)));
     
     noteView = new NoteView(this, actions);
     noteView->setContentsMargins(0, -5, 0, 0);
@@ -195,7 +200,16 @@ void MainView::goHome()
     noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     
+    listPanel->setDisplayMode(0);
+    navigator->tabWidget->setCurrentIndex(0);
+    
     setUrl(QUrl::fromLocalFile(noteDir));
+}
+
+void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
+{
+    QString tag(item->text(row));
+    listPanel->setTaggedList(navigator->getFilesByTag(tag));
 }
 
 void MainView::toggleTerminal()
