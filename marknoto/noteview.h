@@ -4,10 +4,14 @@
 #include "markpado.h"
 
 #include <QStack>
+#include <Baloo/TagWidget>
 
 class QVBoxLayout;
-class KLineEdit;
+class QLineEdit;
 class KActionCollection;
+class QListWidget;
+class QLabel;
+class TagList;
 
 class QUrl;
 
@@ -34,10 +38,13 @@ public slots:
     void slotOpen(const QUrl& url);
     
 private:
+    KActionCollection *actions;
     QVBoxLayout *vl;
     QHBoxLayout *hl;
-    KActionCollection *actions;
-    KLineEdit *title;
+    QLineEdit *title;
+    TagList *tagList;
+    QLineEdit *tagEdit;
+    QLabel *label;
     QStack<QUrl> *done;
     QStack<QUrl> *todo;
     
@@ -46,7 +53,8 @@ private:
     void pureOpenUrl(const QUrl& url);
     
 private slots:
-    void saveNote(QString name);
+    void saveNote();
+    void addTags();
 };
 
 #endif

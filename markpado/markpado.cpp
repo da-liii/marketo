@@ -41,14 +41,12 @@ Markpado::Markpado(QWidget *parent)
     m_note = KTextEditor::Editor::instance()->createDocument(0);
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     
-    
     hs->addWidget(m_editor);
     hs->addWidget(m_previewer);
     hl->addWidget(hs);
     
-    QList<int> sizeList;
-    sizeList << 400 << 400;
-    hs->setSizes(sizeList);
+    hs->setStretchFactor(0, 16);
+    hs->setStretchFactor(1, 10);
 
     setPreview(false);
     setSplit(false);

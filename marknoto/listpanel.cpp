@@ -17,10 +17,12 @@
 #include <QTextDocument>
 #include <QDebug>
 #include <QUrl>
+#include <QStringListModel>
 
 ListPanel::ListPanel(QWidget* parent)
     : Panel(parent),
-    m_parent(parent)
+    m_parent(parent),
+    displayByTag(false)
 {
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     
@@ -36,6 +38,8 @@ ListPanel::ListPanel(QWidget* parent)
     QFileIconProvider *iconProvider = new IconFilter();
     lmodel->setIconProvider(iconProvider);
     
+    smodel = new QStringListModel(QStringList(), this);
+    
     listView = new QListView(this);
     listView->setModel(lmodel);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
@@ -48,19 +52,52 @@ ListPanel::ListPanel(QWidget* parent)
     connect(listView, SIGNAL(customContextMenuRequested(const QPoint&)),
         this, SLOT(showContextMenu(const QPoint&)));
     
-   
     vl = new QVBoxLayout(this);
     vl->addWidget(listView);
 }
 
+void ListPanel::setDisplayMode(int index)
+{
+    if (index == 0)
+        displayByTag = false;
+    else
+        displayByTag = true;
+}
+
+void ListPanel::setTaggedList(const QStringList& list)
+{
+    smodel->setStringList(list);
+    listView->setModel(smodel);
+    displayByTag = true;
+}
+
+void ListPanel::goHome()
+{
+    displayByTag = false;
+    listView->setModel(lmodel);
+}
+
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
-    setUrl(QUrl::fromLocalFile(lmodel->filePath(index)));
+    if (displayByTag) {
+        listView->setModel(smodel);    
+        KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+        QString halfPath = smodel->data(index, Qt::DisplayRole).toString();
+        halfPath = cfg.readEntry("NoteDir") + halfPath;
+        setUrl(QUrl::fromLocalFile(halfPath));
+    } else {
+        listView->setModel(lmodel);
+        setUrl(QUrl::fromLocalFile(lmodel->filePath(index)));
+    }
 }
 
 bool ListPanel::urlChanged()
 {
-    if (QFileInfo(url().toLocalFile()).isDir()) {
+    if (displayByTag)
+        listView->setModel(smodel);    
+    else
+        listView->setModel(lmodel);
+    if (QFileInfo(url().toLocalFile()).isDir() && !displayByTag) {
         lmodel->setRootPath(url().path());
         lmodel->setNameFilters(m_filters);
         listView->setRootIndex(lmodel->index(url().path()));
@@ -71,6 +108,8 @@ bool ListPanel::urlChanged()
 
 void ListPanel::showContextMenu(const QPoint& pos)
 {
+    if (displayByTag)
+        return;
     m_pos = pos;
     QMenu *contextMenu = new QMenu();
     QAction *newNoteAction = contextMenu->addAction(QString("New Note"));

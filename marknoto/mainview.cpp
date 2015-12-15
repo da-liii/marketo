@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QSplitter>
 #include <QModelIndex>
+#include <QTreeWidgetItem>
 
 MainView::MainView(QWidget *parent, KActionCollection *pActions)
     : Panel(parent),
@@ -57,12 +58,16 @@ void MainView::setupUI()
     //connect(terminal, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     navigator = new Navigator(this);
-    navigator->setContentsMargins(0, -5, -15, 0);
+    navigator->setContentsMargins(0, -5, -65, 0);
     connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
+    connect(navigator->tagTree, SIGNAL(itemClicked(QTreeWidgetItem *, int )),
+            this, SLOT(showTaggedFiles(QTreeWidgetItem *, int )));
     
     listPanel = new ListPanel(this);
     listPanel->setContentsMargins(0, -5, -15, 0);
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
+    connect(navigator->tabWidget, SIGNAL(tabBarClicked(int)),
+            listPanel, SLOT(setDisplayMode(int)));
     
     noteView = new NoteView(this, actions);
     noteView->setContentsMargins(0, -5, 0, 0);
@@ -71,15 +76,15 @@ void MainView::setupUI()
 
     vsplitter->addWidget(hsplitter);
     //vsplitter->addWidget(terminal);
-    QList<int> sizeList;
-    sizeList << 800 << 300;
-    vsplitter->setSizes(sizeList);
     verticalLayout->addWidget(vsplitter);
 
     hsplitter->addWidget(navigator);
     hsplitter->addWidget(listPanel);
     hsplitter->addWidget(noteView);
     hsplitter->setHandleWidth(0);
+    QList<int> sizeList;
+    sizeList << 100 << 100 << 800;
+    hsplitter->setSizes(sizeList);
 }
 
 bool MainView::urlChanged()
@@ -195,7 +200,23 @@ void MainView::goHome()
     noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     
+    listPanel->goHome();
+    navigator->tabWidget->setCurrentIndex(0);
+    
     setUrl(QUrl::fromLocalFile(noteDir));
+}
+
+void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
+{
+    QString tag(item->text(row));
+    QStringList halfPathList;
+    QStringListIterator iter(navigator->getFilesByTag(tag));
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    int len = cfg.readEntry("NoteDir").length();
+    
+    while(iter.hasNext())
+        halfPathList.append(iter.next().midRef(len).toString());
+    listPanel->setTaggedList(halfPathList);
 }
 
 void MainView::toggleTerminal()

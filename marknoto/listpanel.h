@@ -9,6 +9,7 @@ class QVBoxLayout;
 class QModelIndex;
 class QContextMenuEvent;
 class QPoint;
+class QStringListModel;
 
 class ListPanel : public Panel
 {
@@ -17,14 +18,21 @@ class ListPanel : public Panel
 public:
     ListPanel(QWidget *parent = 0);
     virtual ~ListPanel();
+    void setTaggedList(const QStringList& list);
+    void goHome();
     
 private:
     QListView *listView;
     QFileSystemModel *lmodel;
+    QStringListModel *smodel;
     QVBoxLayout *vl;
     QPoint m_pos;
     QStringList m_filters;
     QWidget *m_parent;
+    bool displayByTag;
+    
+public slots:
+    void setDisplayMode(int);
     
 private slots:
     void setUrlFromIndex(const QModelIndex& index);

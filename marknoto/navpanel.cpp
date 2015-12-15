@@ -3,6 +3,7 @@
 
 #include <KConfigGroup>
 #include <KSharedConfig>
+#include <KFileMetaData/UserMetaData>
 
 #include <QFileSystemModel>
 #include <QItemSelection>
@@ -19,6 +20,8 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDebug>
+#include <QTreeWidget>
+#include <QDirIterator>
 
 Navigator::Navigator(Panel* parent)
     : Panel(parent)
@@ -46,17 +49,66 @@ Navigator::Navigator(Panel* parent)
     treeView->setIconSize(QSize(16, 16));
     treeView->setHeaderHidden(true);
     treeView->setAnimated(true);
+    treeView->setContentsMargins(-5, -5, 0, 0);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     
     connect(treeView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(setUrlFromIndex(QModelIndex)));
     connect(treeView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(showContextMenu(const QPoint&))); 
-
+ 
+    buildTagStaffs();
+    
+    tabWidget = new QTabWidget(this);
+    tabWidget->addTab(treeView, QString("Folder"));
+    tabWidget->addTab(tagTree, QString("Tag"));
+    tabWidget->setContentsMargins(0, 0, 0, 0);
     vl = new QVBoxLayout(this);
-    vl->addWidget(treeView);
+    vl->addWidget(tabWidget);
 }
 
+void Navigator::buildTagStaffs()
+{
+    KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
+    QString noteDir(cfg.readEntry("NoteDir"));
+    
+    tagPaths = new QStringList();
+    tagRoots = new QStringList();
+    
+    QDirIterator it(noteDir, QStringList() << "*.cm" << "*.md", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString file(it.next());
+        KFileMetaData::UserMetaData metaData(file);
+        QStringList tags = metaData.tags();
+        if (!tags.isEmpty()) {
+            tagPaths->append(file);
+            *tagRoots += tags;
+        }
+    }
+    tagRoots->removeDuplicates();
+    tagRoots->sort();
+    
+    tagTree = new QTreeWidget(this);
+    QStringListIterator iter(*tagRoots);
+    while (iter.hasNext()) {
+        QTreeWidgetItem *item = new QTreeWidgetItem;
+        item->setText(0, iter.next());
+        tagTree->addTopLevelItem(item);
+    }
+}
+
+QStringList Navigator::getFilesByTag(const QString& tag)
+{
+    QStringList list;
+    QStringListIterator iter(*tagPaths);
+    while (iter.hasNext()) {
+        QString curPath(iter.next());
+        KFileMetaData::UserMetaData metaData(curPath);
+        if (metaData.tags().contains(tag))
+            list.append(curPath);
+    }
+    return list;
+}
 
 void Navigator::setUrlFromIndex(const QModelIndex& index)
 {
