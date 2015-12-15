@@ -58,7 +58,7 @@ void MainView::setupUI()
     //connect(terminal, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     navigator = new Navigator(this);
-    navigator->setContentsMargins(0, -5, -15, 0);
+    navigator->setContentsMargins(0, -5, -65, 0);
     connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     connect(navigator->tagTree, SIGNAL(itemClicked(QTreeWidgetItem *, int )),
             this, SLOT(showTaggedFiles(QTreeWidgetItem *, int )));
@@ -76,15 +76,15 @@ void MainView::setupUI()
 
     vsplitter->addWidget(hsplitter);
     //vsplitter->addWidget(terminal);
-    QList<int> sizeList;
-    sizeList << 800 << 300;
-    vsplitter->setSizes(sizeList);
     verticalLayout->addWidget(vsplitter);
 
     hsplitter->addWidget(navigator);
     hsplitter->addWidget(listPanel);
     hsplitter->addWidget(noteView);
     hsplitter->setHandleWidth(0);
+    QList<int> sizeList;
+    sizeList << 100 << 100 << 800;
+    hsplitter->setSizes(sizeList);
 }
 
 bool MainView::urlChanged()
