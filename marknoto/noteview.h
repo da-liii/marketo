@@ -24,8 +24,8 @@ public:
     
     NoteView(QWidget *parent, KActionCollection *pActions);
     virtual ~NoteView();
-    void hideTitleLine();
-    void showTitleLine();
+    void hideMetaData();
+    void showMetaData();
     void setTitle(const QString& titleOfNote);
     void focusTitle();
     void openUrl(const QUrl& url);

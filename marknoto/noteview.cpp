@@ -117,14 +117,20 @@ void NoteView::addTags()
     metaData.setTags(tags);
 }
 
-void NoteView::hideTitleLine()
+void NoteView::hideMetaData()
 {
     title->setHidden(true);
+    label->setHidden(true);
+    tagEdit->setHidden(true);
+    tagList->setHidden(true);
 }
 
-void NoteView::showTitleLine()
+void NoteView::showMetaData()
 {
     title->setHidden(false);
+    label->setHidden(false);
+    tagEdit->setHidden(false);
+    tagList->setHidden(false);
 }
 
 void NoteView::setTitle(const QString& titleOfNote)

@@ -104,7 +104,7 @@ KTextEditor::View* MainView::getEditor()
 
 bool MainView::preview()
 {
-    noteView->hideTitleLine();
+    noteView->hideMetaData();
     markPad->preview(column == 2);
     markPad->setFocus();
     actions->action("file_preview")->setChecked(true);
@@ -116,7 +116,8 @@ bool MainView::unpreview()
     if (column == 2)
         return true;
     else {
-        noteView->showTitleLine();
+        if (column == 3)
+            noteView->showMetaData();
         markPad->unpreview();
         markPad->setFocus();
         actions->action("file_preview")->setChecked(false);
@@ -128,7 +129,7 @@ void MainView::oneColView()
 {
     navigator->setHidden(true);
     listPanel->setHidden(true);
-    noteView->hideTitleLine();
+    noteView->hideMetaData();
     
     column = 1;
     unpreview();
@@ -142,7 +143,7 @@ void MainView::twoColView()
     
     navigator->setHidden(true);
     listPanel->setHidden(true);
-    noteView->hideTitleLine();
+    noteView->hideMetaData();
     
     column = 2;
     preview();
@@ -152,7 +153,7 @@ void MainView::threeColView()
 {
     navigator->setHidden(false);
     listPanel->setHidden(false);
-    noteView->showTitleLine();
+    noteView->showMetaData();
     
     QList<int> sizeList;
     sizeList << 50 << 50<< 300;
