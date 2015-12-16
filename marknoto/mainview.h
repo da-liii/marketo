@@ -59,6 +59,10 @@ private slots:
     void toggleTerminal();
     void slotOpen(const QUrl &url);
     void showTaggedFiles(QTreeWidgetItem*, int);
+    void setDisplayMode(int mode);
+   
+private:
+    void showTaggedFiles(const QString &);
     
 protected:
     virtual bool urlChanged();

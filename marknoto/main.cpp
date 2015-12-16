@@ -21,6 +21,7 @@
 
 #include <KAboutData>
 #include <KLocalizedString>
+#include <KFileMetaData/UserMetaData>
 
 #include <QFile>
 #include <QFileDialog>
@@ -79,10 +80,13 @@ int main(int argc, char **argv)
     QString noteDir(cfg.readEntry("NoteDir"));
     
     // create the Home note
-    if (!QFile::exists(noteDir + "/Home.cm"))
+    if (!QFile::exists(noteDir + "/Home.cm")) {
         QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                            QLatin1String("marknoto/Home.cm")),
                     QString(noteDir + "/Home.cm"));
+        KFileMetaData::UserMetaData metaData(noteDir + "/Home.cm");
+        metaData.setTags(QStringList() << QString("@todo"));
+    }
         
     // create the Trash dir
     QDir qDir(noteDir + "/Trash");

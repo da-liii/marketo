@@ -68,6 +68,8 @@ void MainView::setupUI()
     connect(listPanel, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     connect(navigator->tabWidget, SIGNAL(tabBarClicked(int)),
             listPanel, SLOT(setDisplayMode(int)));
+    connect(navigator->tabWidget, SIGNAL(tabBarClicked(int)),
+            this, SLOT(setDisplayMode(int)));
     
     noteView = new NoteView(this, actions);
     noteView->setContentsMargins(0, -5, 0, 0);
@@ -207,9 +209,8 @@ void MainView::goHome()
     setUrl(QUrl::fromLocalFile(noteDir));
 }
 
-void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
+void MainView::showTaggedFiles(const QString& tag)
 {
-    QString tag(item->text(row));
     QStringList halfPathList;
     QStringListIterator iter(navigator->getFilesByTag(tag));
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
@@ -218,6 +219,20 @@ void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
     while(iter.hasNext())
         halfPathList.append(iter.next().midRef(len).toString());
     listPanel->setTaggedList(halfPathList);
+}
+
+void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
+{
+    QString tag(item->text(row));
+    showTaggedFiles(tag);
+}
+
+void MainView::setDisplayMode(int mode) {
+    if (mode == 0) {
+        goHome();
+    } else {
+        showTaggedFiles(QString("@todo"));
+    }
 }
 
 void MainView::toggleTerminal()

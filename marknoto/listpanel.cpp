@@ -58,10 +58,7 @@ ListPanel::ListPanel(QWidget* parent)
 
 void ListPanel::setDisplayMode(int index)
 {
-    if (index == 0)
-        displayByTag = false;
-    else
-        displayByTag = true;
+   displayByTag = (index!=0);
 }
 
 void ListPanel::setTaggedList(const QStringList& list)
