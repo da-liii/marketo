@@ -95,6 +95,7 @@ void Navigator::buildTagStaffs()
     while (iter.hasNext()) {
         QTreeWidgetItem *item = new QTreeWidgetItem;
         item->setText(0, iter.next());
+        item->setIcon(0, QIcon::fromTheme(QLatin1String("tag")));
         tagTree->addTopLevelItem(item);
     }
 }
@@ -124,6 +125,7 @@ void Navigator::addNewTags(const QStringList &list, const QUrl & url)
             tagRoots->append(tag);
             QTreeWidgetItem *item = new QTreeWidgetItem;
             item->setText(0, tag);
+            item->setIcon(0, QIcon::fromTheme(QLatin1String("tag")));
             tagTree->addTopLevelItem(item);
             tagTree->sortItems(0, Qt::AscendingOrder);
         }
