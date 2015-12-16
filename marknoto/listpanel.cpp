@@ -72,6 +72,9 @@ void ListPanel::goHome()
 {
     displayByTag = false;
     listView->setModel(lmodel);
+    lmodel->setRootPath(url().path());
+    lmodel->setNameFilters(m_filters);
+    listView->setRootIndex(lmodel->index(url().path()));
 }
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)

@@ -202,14 +202,16 @@ void MainView::goHome()
 {
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     QString noteDir(cfg.readEntry("NoteDir"));
+    
     QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.cm"));
     noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     
-    listPanel->goHome();
     navigator->tabWidget->setCurrentIndex(0);
     
     setUrl(QUrl::fromLocalFile(noteDir));
+    
+    listPanel->goHome();
 }
 
 void MainView::showTaggedFiles(const QString& tag)
