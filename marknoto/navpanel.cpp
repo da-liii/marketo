@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QTreeWidget>
 #include <QDirIterator>
+#include <QHeaderView>
 
 Navigator::Navigator(Panel* parent)
     : Panel(parent)
@@ -89,6 +90,7 @@ void Navigator::buildTagStaffs()
     tagRoots->sort();
     
     tagTree = new QTreeWidget(this);
+    tagTree->header()->close();
     QStringListIterator iter(*tagRoots);
     while (iter.hasNext()) {
         QTreeWidgetItem *item = new QTreeWidgetItem;

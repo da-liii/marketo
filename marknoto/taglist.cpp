@@ -63,6 +63,4 @@ TagList::~TagList()
         delete itemWidget(item);
 }
 
-
-
 #include "taglist.moc"
