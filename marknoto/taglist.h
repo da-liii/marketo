@@ -11,7 +11,7 @@ public:
     ~TagList();
     QString tagText(int i) const;
     void stretchWidth();
-    void addTags(const QString &);
+    QStringList addTags(const QString &);
 };
 
 #endif

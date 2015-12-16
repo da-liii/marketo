@@ -106,10 +106,28 @@ QStringList Navigator::getFilesByTag(const QString& tag)
     while (iter.hasNext()) {
         QString curPath(iter.next());
         KFileMetaData::UserMetaData metaData(curPath);
-        if (metaData.tags().contains(tag))
+        if (metaData.tags().contains(tag)) {
             list.append(curPath);
+        }
     }
     return list;
+}
+
+void Navigator::addNewTags(const QStringList &list, const QUrl & url)
+{
+    if (!tagPaths->contains(url.toLocalFile()))
+        tagPaths->append(url.toLocalFile());
+    QStringListIterator iter(list);
+    while(iter.hasNext()) {
+        QString tag(iter.next());
+        if (!tagRoots->contains(tag)) {
+            tagRoots->append(tag);
+            QTreeWidgetItem *item = new QTreeWidgetItem;
+            item->setText(0, tag);
+            tagTree->addTopLevelItem(item);
+            tagTree->sortItems(0, Qt::AscendingOrder);
+        }
+    }
 }
 
 void Navigator::setUrlFromIndex(const QModelIndex& index)

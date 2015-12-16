@@ -39,6 +39,9 @@ private:
     QItemSelectionModel *m_selectionModel;
     QPoint m_pos;
     
+public slots:
+    void addNewTags(const QStringList &, const QUrl &);
+    
 private slots:
     void setUrlFromIndex(const QModelIndex& index);
     void showContextMenu(const QPoint& pos);

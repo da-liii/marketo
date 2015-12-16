@@ -29,8 +29,9 @@ QString TagList::tagText(int i) const {
     return (dynamic_cast<QLabel*> (itemWidget(item(i))))->text();
 }
 
-void TagList::addTags(const QString &tags)
+QStringList TagList::addTags(const QString &tags)
 {
+    QStringList listOfTags;
     QStringListIterator tagIter(tags.split(";", QString::SkipEmptyParts));
     while (tagIter.hasNext()) {
         QString tag(tagIter.next());
@@ -44,6 +45,7 @@ void TagList::addTags(const QString &tags)
             }
             
         if (item == nullptr) {
+            listOfTags << tag;
             QListWidgetItem *newItem = new QListWidgetItem(this);
             setItemWidget(newItem, new QLabel(tag));
             newItem->setText("");
@@ -55,6 +57,7 @@ void TagList::addTags(const QString &tags)
             delete itemToDelete;
         }
     } // end of outer while
+    return listOfTags;
 }
 
 TagList::~TagList()

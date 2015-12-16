@@ -21,6 +21,7 @@
 #include <QSplitter>
 #include <QModelIndex>
 #include <QTreeWidgetItem>
+#include <QStringList>
 
 MainView::MainView(QWidget *parent, KActionCollection *pActions)
     : Panel(parent),
@@ -75,6 +76,8 @@ void MainView::setupUI()
     noteView->setContentsMargins(0, -5, 0, 0);
     note = noteView->note;
     markPad = noteView->markPad;
+    connect(noteView, SIGNAL(tagsAdded(const QStringList &, const QUrl &)),
+            navigator, SLOT(addNewTags(const QStringList &, const QUrl &)));
 
     vsplitter->addWidget(hsplitter);
     //vsplitter->addWidget(terminal);

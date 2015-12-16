@@ -105,7 +105,11 @@ void NoteView::saveNote()
 
 void NoteView::addTags()
 {
-    tagList->addTags(tagEdit->text());
+    QStringList listOfTags = tagList->addTags(tagEdit->text());
+    if (!listOfTags.isEmpty()) {
+        emit(tagsAdded(listOfTags, note->url()));
+    }
+    
     tagList->stretchWidth();
     tagEdit->clear();
     

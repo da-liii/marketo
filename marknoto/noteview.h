@@ -34,6 +34,9 @@ public:
     bool canForward();
     bool canBackward();
     
+signals:
+    void tagsAdded(const QStringList &, const QUrl &);
+    
 public slots:
     void slotOpen(const QUrl& url);
     
