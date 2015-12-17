@@ -1,0 +1,19 @@
+#ifndef LISTITEMDELEGATE_H
+#define LISTITEMDELEGATE_H
+
+#include <QStyledItemDelegate>
+
+class ListPanel;
+
+class ListItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit ListItemDelegate(ListPanel *parent);
+    virtual void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
+    
+private:
+    ListPanel *m_parent;
+};
+
+#endif

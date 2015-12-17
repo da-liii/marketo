@@ -11,6 +11,7 @@ set (marknoto_SRCS
    #terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
+   listitemdelegate.cpp
    ../markpado/markpado.cpp
    ../markpado/highlighterbykate.cpp
    ../markpado/htmlgenerator.cpp

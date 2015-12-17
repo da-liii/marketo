@@ -19,6 +19,7 @@ public:
     ListPanel(QWidget *parent = 0);
     virtual ~ListPanel();
     void setTaggedList(const QStringList& list);
+    QString getTitleByIndex(const QModelIndex& index);
     void goHome();
     
 private:

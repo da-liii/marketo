@@ -1,5 +1,6 @@
 #include "listpanel.h"
 #include "iconfilter.h"
+#include "listitemdelegate.h"
 
 #include <KMessageBox>
 #include <KConfigGroup>
@@ -35,16 +36,13 @@ ListPanel::ListPanel(QWidget* parent)
     lmodel->setNameFilters(m_filters);
     lmodel->setNameFilterDisables(false);
 
-    QFileIconProvider *iconProvider = new IconFilter();
-    lmodel->setIconProvider(iconProvider);
-    
     smodel = new QStringListModel(QStringList(), this);
     
     listView = new QListView(this);
     listView->setModel(lmodel);
+    listView->setItemDelegate(new ListItemDelegate(this));
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 24));
-    listView->setIconSize(QSize(16, 16));
     listView->setAlternatingRowColors(true);
     listView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(listView, SIGNAL(clicked(QModelIndex)),
@@ -88,6 +86,16 @@ void ListPanel::setUrlFromIndex(const QModelIndex& index)
     } else {
         listView->setModel(lmodel);
         setUrl(QUrl::fromLocalFile(lmodel->filePath(index)));
+    }
+}
+
+QString ListPanel::getTitleByIndex(const QModelIndex& index)
+{
+    if (displayByTag) {
+        QString halfPath = smodel->data(index, Qt::DisplayRole).toString();
+        return QUrl::fromLocalFile(halfPath).fileName();
+    } else {
+        return lmodel->fileName(index);
     }
 }
 
