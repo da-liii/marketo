@@ -22,6 +22,8 @@ It is bundled with a separated Markdown editor.
 
 See [Installation Guide](https://github.com/sadhen/marketo/wiki/Install-Guide) to install Marketo.
 
+Starting Marknoto, you will see the guide - [The Home Note](marknoto/Home.md).
+
 ## For Developer
 
 ### Dependencies

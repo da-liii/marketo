@@ -80,11 +80,11 @@ int main(int argc, char **argv)
     QString noteDir(cfg.readEntry("NoteDir"));
     
     // create the Home note
-    if (!QFile::exists(noteDir + "/Home.cm")) {
+    if (!QFile::exists(noteDir + "/Home.md")) {
         QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                           QLatin1String("marknoto/Home.cm")),
-                    QString(noteDir + "/Home.cm"));
-        KFileMetaData::UserMetaData metaData(noteDir + "/Home.cm");
+                                           QLatin1String("marknoto/Home.md")),
+                    QString(noteDir + "/Home.md"));
+        KFileMetaData::UserMetaData metaData(noteDir + "/Home.md");
         metaData.setTags(QStringList() << QString("@todo"));
     }
         

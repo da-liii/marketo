@@ -33,6 +33,7 @@ void NoteView::pureOpenUrl(const QUrl& url)
     // switch to one column view
     title->setText(url.fileName());
     note->openUrl(url);
+    note->setHighlightingMode("CommonMark");
     if (actions->action("file_preview")->isChecked())
         markPad->preview();
     else

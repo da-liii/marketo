@@ -188,9 +188,9 @@ void MainView::newNote()
     }
 
     if (QFileInfo(tmpUrl.path()).isDir())
-        tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.cm"));
+        tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.md"));
     else
-        tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.cm"));
+        tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.md"));
 
     noteView->setTitle(tmpUrl.fileName());
     noteView->focusTitle();
@@ -203,7 +203,7 @@ void MainView::goHome()
     KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
     QString noteDir(cfg.readEntry("NoteDir"));
     
-    QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.cm"));
+    QUrl tmpUrl = QUrl::fromLocalFile(noteDir + QString("/Home.md"));
     noteView->openUrl(tmpUrl);
     noteView->setTitle(tmpUrl.fileName());
     

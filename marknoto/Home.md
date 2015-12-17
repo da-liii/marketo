@@ -16,7 +16,12 @@ Hi, this is the home of Marketo. When you first start Marketo or click the home 
 ### DONE List
    
 ## Document
-### Snippets
+### Tagging System
+1. To add tag for a note: enter the tag at the bottom of the note
+2. To remove a tag for the note: enter the existing tag name you want to remove
+
+### Real-time Highlighting
+Below is a list of languages supporting real-time highlighting:
 ``` cpp
 map<string, string> mimeMap = {
     {"dot", "dot"},
