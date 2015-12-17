@@ -4,7 +4,6 @@
 #include "markpado.h"
 
 #include <QStack>
-#include <Baloo/TagWidget>
 
 class QVBoxLayout;
 class QLineEdit;
