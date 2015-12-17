@@ -47,6 +47,7 @@ private:
 private slots:
     void updatePreviewer();
     void updatePreviewerByCursor(KTextEditor::View *a_editor, const KTextEditor::Cursor& a_cursor);
+    void setCommonMarkMode(KTextEditor::Document *document, bool saveAs);
 };
 
 #endif

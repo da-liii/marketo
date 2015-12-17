@@ -40,6 +40,7 @@ Markpado::Markpado(QWidget *parent)
     
     m_note = KTextEditor::Editor::instance()->createDocument(0);
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
+    m_editor->setStatusBarEnabled(false);
     
     hs->addWidget(m_editor);
     hs->addWidget(m_previewer);
@@ -55,6 +56,16 @@ Markpado::Markpado(QWidget *parent)
             this, &Markpado::updatePreviewer);
     connect(m_editor, &KTextEditor::View::cursorPositionChanged,
             this, &Markpado::updatePreviewerByCursor);
+    connect(m_note, &KTextEditor::Document::documentSavedOrUploaded,
+            this, &Markpado::setCommonMarkMode);
+
+}
+
+void Markpado::setCommonMarkMode(KTextEditor::Document *document, bool saveAs)
+{
+    Q_UNUSED(document);
+    Q_UNUSED(saveAs);
+    m_note->setHighlightingMode("CommonMark");
 }
 
 void Markpado::preview(bool livePreview)
