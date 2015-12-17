@@ -18,9 +18,12 @@ TagList::TagList(QWidget* parent)
 
 void TagList::stretchWidth()
 {
+    QFont font;
+    font.setFamily(font.defaultFamily());
+    QFontMetrics fm(font);
     int size = 0;
     for (auto item : findItems("*", Qt::MatchWildcard))
-        size += itemWidget(item)->sizeHint().width() + 5;
+        size += fm.width(tagText(row(item))) + 5;
     
     setFixedWidth(size);
 }
@@ -47,7 +50,9 @@ QStringList TagList::addTags(const QString &tags)
         if (item == nullptr) {
             listOfTags << tag;
             QListWidgetItem *newItem = new QListWidgetItem(this);
-            setItemWidget(newItem, new QLabel(tag));
+            QLabel *newLabel = new QLabel(tag);
+            newLabel->setAlignment(Qt::AlignHCenter);
+            setItemWidget(newItem, newLabel);
             newItem->setText("");
             newItem->setSizeHint(itemWidget(newItem)->sizeHint() + QSize(5, 5));
             addItem(newItem);
