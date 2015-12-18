@@ -20,6 +20,7 @@ set (marknoto_SRCS
 # kf5_add_kcfg_files (kmarknote_SRCS kmarknote_generalsettings.kcfgc)
 
 add_executable (marknoto ${marknoto_SRCS})
+add_subdirectory (icons)
 
 include_directories (../markpado/)
 include_directories( ${QT_INCLUDES}
