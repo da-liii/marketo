@@ -32,7 +32,7 @@
 #include <QIcon>
 
 #define DESCRIPTION "Marknoto - Note-taking Part of Marketo"
-#define VERSION "0.1"
+#define VERSION "0.2.1"
 
 int main(int argc, char **argv)
 {
