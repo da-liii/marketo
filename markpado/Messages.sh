@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 $EXTRACTRC `find . -name \*.rc` >> rc.cpp
-$XGETTEXT *.cpp -o $podir/marknoto.pot
+$XGETTEXT *.cpp -o $podir/markpado.pot

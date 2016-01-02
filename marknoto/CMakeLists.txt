@@ -21,6 +21,7 @@ set (marknoto_SRCS
 
 add_executable (marknoto ${marknoto_SRCS})
 add_subdirectory (icons)
+add_subdirectory (po)
 
 include_directories (../markpado/)
 include_directories( ${QT_INCLUDES}

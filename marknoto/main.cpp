@@ -47,6 +47,7 @@ int main(int argc, char **argv)
         QString(),
         QStringLiteral("https://github.com/sadhen/marketo"));
     about.addAuthor( i18n("Darcy Shen"), i18n("Developer"), "sadhen@zoho.com" );
+    KLocalizedString::setApplicationDomain("marknoto");
 
     KAboutData::setApplicationData(about);
 

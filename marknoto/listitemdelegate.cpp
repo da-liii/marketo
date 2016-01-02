@@ -1,6 +1,7 @@
 #include "listpanel.h"
 #include "listitemdelegate.h"
 #include <QPainter>
+#include <QStandardItem>
 
 ListItemDelegate::ListItemDelegate(ListPanel* parent)
 {
@@ -19,6 +20,9 @@ void ListItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     
     painter->drawPixmap(decorationRect, QIcon::fromTheme(QLatin1String("text-markdown")).pixmap(QSize(24, 24)));
     painter->drawText(textRect, text);
+    
+//    QStandardItem *pluginItem = qobject_cast<const QStandardItemModel *>(index.model())->itemFromIndex(index);
+//    pluginItem->setCheckState(Qt::Checked);
 }
 
 
