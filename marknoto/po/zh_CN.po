@@ -5,11 +5,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2015-12-30 01:59+0800\n"
-"PO-Revision-Date: 2016-01-02 20:19+0800\n"
+"Report-Msgid-Bugs-To: https://github.com/sadhen/marketo/issues\n"
+"POT-Creation-Date: 2016-01-03 18:56+0800\n"
+"PO-Revision-Date: 2016-01-03 19:04+0800\n"
 "Last-Translator: shenda <sadhen@zoho.com>\n"
-"Language-Team: \n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,21 +17,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
+#: main.cpp:42
+msgid "Marknoto"
+msgstr "Marknoto"
+
 #: main.cpp:46
 msgid "(C) 2015 Darcy Shen"
 msgstr "(C) 2015 Darcy Shen"
-
-#: marknoto.cpp:78
-msgid "Backward"
-msgstr "后退"
-
-#: marknoto.cpp:75
-msgid "Browse"
-msgstr "三栏"
-
-#: main.cpp:71
-msgid "Choose where your notes save"
-msgstr ""
 
 #: main.cpp:49
 msgid "Darcy Shen"
@@ -39,35 +31,43 @@ msgstr "Darcy Shen"
 
 #: main.cpp:49
 msgid "Developer"
+msgstr "开发者"
+
+#: main.cpp:72
+msgid "Choose where your notes save"
 msgstr ""
-
-#: marknoto.cpp:73
-msgid "Focus"
-msgstr "集中"
-
-#: marknoto.cpp:77
-msgid "Forward"
-msgstr "前进"
-
-#: marknoto.cpp:79
-msgid "Home"
-msgstr "首页"
-
-#: main.cpp:42
-msgid "Marknoto"
-msgstr "Marknoto"
-
-#: marknoto.cpp:76
-msgid "New Note"
-msgstr "新建笔记"
 
 #: marknoto.cpp:40
 msgid "Preview"
 msgstr "预览"
 
+#: marknoto.cpp:73
+msgid "Focus"
+msgstr "集中"
+
 #: marknoto.cpp:74
 msgid "Split"
 msgstr "分栏"
+
+#: marknoto.cpp:75
+msgid "Browse"
+msgstr "三栏"
+
+#: marknoto.cpp:76
+msgid "New Note"
+msgstr "新建笔记"
+
+#: marknoto.cpp:77
+msgid "Forward"
+msgstr "前进"
+
+#: marknoto.cpp:78
+msgid "Backward"
+msgstr "后退"
+
+#: marknoto.cpp:79
+msgid "Home"
+msgstr "首页"
 
 #: marknoto.cpp:96
 msgid ""
@@ -75,11 +75,26 @@ msgid ""
 "open them again."
 msgstr ""
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
+#. i18n: file: marknoto.rc:8
+#. i18n: ectx: Menu (go)
+#: po/rc.cpp:3
+msgid "&Go"
+msgstr "转到"
 
+#. i18n: file: marknoto.rc:14
+#. i18n: ectx: Menu (window)
+#: po/rc.cpp:6
+msgid "&Window"
+msgstr "窗口"
+
+#: po/rc.cpp:7
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "你的名字"
+
+#: po/rc.cpp:8
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "你的邮箱"
+
 
