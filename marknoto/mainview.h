@@ -37,8 +37,7 @@ public:
     void setupUI();
     
 private:
-    QVBoxLayout *verticalLayout;
-    QSplitter *vsplitter;
+    QHBoxLayout *horizonLayout;
     QSplitter *hsplitter;
     Panel *terminal;
     Navigator *navigator;

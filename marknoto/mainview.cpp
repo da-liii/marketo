@@ -50,8 +50,7 @@ MainView::MainView(QWidget *parent, KActionCollection *pActions)
 void MainView::setupUI()
 {
     resize(629, 470);
-    verticalLayout = new QVBoxLayout(this);
-    vsplitter = new QSplitter(Qt::Vertical, this);
+    horizonLayout = new QHBoxLayout(this);
     hsplitter = new QSplitter(Qt::Horizontal, this);
     
     //terminal = new TerminalPanel(this);
@@ -59,7 +58,7 @@ void MainView::setupUI()
     //connect(terminal, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     
     navigator = new Navigator(this);
-    navigator->setContentsMargins(0, -5, -65, 0);
+    navigator->setContentsMargins(0, -5, -7, 0);
     connect(navigator, SIGNAL(changeUrl(QUrl)), this, SLOT(setUrl(QUrl)));
     connect(navigator->tagTree, SIGNAL(itemClicked(QTreeWidgetItem *, int )),
             this, SLOT(showTaggedFiles(QTreeWidgetItem *, int )));
@@ -79,17 +78,18 @@ void MainView::setupUI()
     connect(noteView, SIGNAL(tagsAdded(const QStringList &, const QUrl &)),
             navigator, SLOT(addNewTags(const QStringList &, const QUrl &)));
 
-    vsplitter->addWidget(hsplitter);
-    //vsplitter->addWidget(terminal);
-    verticalLayout->addWidget(vsplitter);
-
     hsplitter->addWidget(navigator);
     hsplitter->addWidget(listPanel);
-    hsplitter->addWidget(noteView);
     hsplitter->setHandleWidth(0);
-    QList<int> sizeList;
-    sizeList << 100 << 100 << 800;
-    hsplitter->setSizes(sizeList);
+    navigator->setMinimumWidth(180);
+    hsplitter->setStretchFactor(0, 0);
+    hsplitter->setStretchFactor(1, 1);
+    
+    horizonLayout->addWidget(hsplitter);
+    horizonLayout->addWidget(noteView);
+    horizonLayout->setSpacing(0);
+    horizonLayout->setStretch(0, 0);
+    horizonLayout->setStretch(1, 1);
 }
 
 bool MainView::urlChanged()
