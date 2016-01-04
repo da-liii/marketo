@@ -17,8 +17,6 @@ set (marknoto_SRCS
    ../markpado/htmlgenerator.cpp
 )
 
-# kf5_add_kcfg_files (kmarknote_SRCS kmarknote_generalsettings.kcfgc)
-
 add_executable (marknoto ${marknoto_SRCS})
 add_subdirectory (icons)
 add_subdirectory (po)
@@ -46,4 +44,3 @@ install(TARGETS marknoto DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS marknoto.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES marknoto.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/marknoto)
 install(FILES Home.md DESTINATION ${DATA_INSTALL_DIR}/marknoto)
-# install( FILES kmarknote_generalsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )

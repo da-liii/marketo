@@ -19,6 +19,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QStringListModel>
+#include <QPainter>
 
 ListPanel::ListPanel(QWidget* parent)
     : Panel(parent),
@@ -40,7 +41,8 @@ ListPanel::ListPanel(QWidget* parent)
     
     listView = new QListView(this);
     listView->setModel(lmodel);
-    listView->setItemDelegate(new ListItemDelegate(this));
+    m_delegate = new ListItemDelegate(this);
+    listView->setItemDelegate(m_delegate);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
     listView->setGridSize(QSize(listView->sizeHint().width(), 24));
     listView->setAlternatingRowColors(true);
@@ -77,6 +79,8 @@ void ListPanel::goHome()
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
+    m_delegate->setSelectedRect(listView->visualRect(index));
+    
     if (displayByTag) {
         listView->setModel(smodel);    
         KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");

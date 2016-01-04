@@ -10,6 +10,7 @@ class QModelIndex;
 class QContextMenuEvent;
 class QPoint;
 class QStringListModel;
+class ListItemDelegate;
 
 class ListPanel : public Panel
 {
@@ -30,6 +31,7 @@ private:
     QPoint m_pos;
     QStringList m_filters;
     QWidget *m_parent;
+    ListItemDelegate *m_delegate;
     bool displayByTag;
     
 public slots:

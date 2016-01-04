@@ -4,16 +4,20 @@
 #include <QStyledItemDelegate>
 
 class ListPanel;
+class QRect;
 
 class ListItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
     explicit ListItemDelegate(ListPanel *parent);
+    void setSelectedRect(QRect rect);
     virtual void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
     
 private:
     ListPanel *m_parent;
+    QRect pre_rect;
+    QRect m_rect;
 };
 
 #endif
