@@ -97,8 +97,10 @@ bool MainView::urlChanged()
     //terminal->setUrl(url());
     listPanel->setUrl(url());
     navigator->setUrl(url());
-    if (QFileInfo(url().toLocalFile()).isFile())
+    if (QFileInfo(url().toLocalFile()).isFile()) {
+        noteView->note->documentSave();
         noteView->openUrl(url());
+    }
     return true;
 }
 
