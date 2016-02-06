@@ -79,8 +79,6 @@ void ListPanel::goHome()
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
-    m_delegate->setSelectedRect(listView->visualRect(index));
-    
     if (displayByTag) {
         listView->setModel(smodel);    
         KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");

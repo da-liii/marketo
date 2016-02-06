@@ -11,7 +11,6 @@ class ListItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 public:
     explicit ListItemDelegate(ListPanel *parent);
-    void setSelectedRect(QRect rect);
     virtual void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
     
 private:
