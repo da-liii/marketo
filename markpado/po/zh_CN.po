@@ -17,9 +17,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: main.cpp:46
-msgid "Markpado"
-msgstr "Markpado"
+#. i18n: file: markpado.rc:12
+#. i18n: ectx: Menu (edit)
+#: po/rc.cpp:3 rc.cpp:3
+msgid "&Edit"
+msgstr "编辑"
+
+#. i18n: file: markpado.rc:28
+#. i18n: ectx: Menu (tools)
+#: po/rc.cpp:9 rc.cpp:9
+msgid "&Tools"
+msgstr "工具"
+
+#. i18n: file: markpado.rc:24
+#. i18n: ectx: Menu (view)
+#: po/rc.cpp:6 rc.cpp:6
+msgid "&View"
+msgstr "视图"
 
 #: main.cpp:50
 msgid "(C) 2015 Darcy Shen"
@@ -37,6 +51,16 @@ msgstr "开发者"
 msgid "Documents to open."
 msgstr ""
 
+#. i18n: file: markpado.rc:34
+#. i18n: ectx: ToolBar (mainToolBar)
+#: po/rc.cpp:12 rc.cpp:12
+msgid "Main Toolbar"
+msgstr "主要工具栏"
+
+#: main.cpp:46
+msgid "Markpado"
+msgstr "Markpado"
+
 #: mainwindow.cpp:72
 msgid "Preview"
 msgstr "预览"
@@ -51,36 +75,12 @@ msgid ""
 "open them again."
 msgstr ""
 
-#. i18n: file: markpado.rc:12
-#. i18n: ectx: Menu (edit)
-#: po/rc.cpp:3 rc.cpp:3
-msgid "&Edit"
-msgstr "编辑"
-
-#. i18n: file: markpado.rc:24
-#. i18n: ectx: Menu (view)
-#: po/rc.cpp:6 rc.cpp:6
-msgid "&View"
-msgstr "视图"
-
-#. i18n: file: markpado.rc:28
-#. i18n: ectx: Menu (tools)
-#: po/rc.cpp:9 rc.cpp:9
-msgid "&Tools"
-msgstr "工具"
-
-#. i18n: file: markpado.rc:34
-#. i18n: ectx: ToolBar (mainToolBar)
-#: po/rc.cpp:12 rc.cpp:12
-msgid "Main Toolbar"
-msgstr "主要工具栏"
+#: po/rc.cpp:14 rc.cpp:14
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "你的邮箱"
 
 #: po/rc.cpp:13 rc.cpp:13
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "你的名字"
-
-#: po/rc.cpp:14 rc.cpp:14
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "你的邮箱"

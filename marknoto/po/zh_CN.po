@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/sadhen/marketo/issues\n"
-"POT-Creation-Date: 2016-01-03 18:56+0800\n"
+"POT-Creation-Date: 2016-02-07 01:15+0800\n"
 "PO-Revision-Date: 2016-01-03 19:04+0800\n"
 "Last-Translator: shenda <sadhen@zoho.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -75,6 +75,14 @@ msgid ""
 "open them again."
 msgstr ""
 
+#: navpanel.cpp:64
+msgid "Folder"
+msgstr "目录"
+
+#: navpanel.cpp:65
+msgid "Tag"
+msgstr "标签"
+
 #. i18n: file: marknoto.rc:8
 #. i18n: ectx: Menu (go)
 #: po/rc.cpp:3
@@ -96,5 +104,3 @@ msgstr "你的名字"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "你的邮箱"
-
-

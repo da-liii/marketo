@@ -4,6 +4,7 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <KFileMetaData/UserMetaData>
+#include <KLocalizedString>
 
 #include <QFileSystemModel>
 #include <QItemSelection>
@@ -61,8 +62,8 @@ Navigator::Navigator(Panel* parent)
     buildTagStaffs();
     
     tabWidget = new QTabWidget(this);
-    tabWidget->addTab(treeView, QString("Folder"));
-    tabWidget->addTab(tagTree, QString("Tag"));
+    tabWidget->addTab(treeView, i18n("Folder"));
+    tabWidget->addTab(tagTree, i18n("Tag"));
     tabWidget->setContentsMargins(0, 0, 0, 0);
     vl = new QVBoxLayout(this);
     vl->addWidget(tabWidget);

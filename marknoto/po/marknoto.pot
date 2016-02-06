@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: marknoto\n"
 "Report-Msgid-Bugs-To: https://github.com/sadhen/marketo/issues\n"
-"POT-Creation-Date: 2016-01-03 18:56+0800\n"
+"POT-Creation-Date: 2016-02-07 01:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,6 +73,14 @@ msgstr ""
 msgid ""
 "This lists files which you have opened recently, and allows you to easily "
 "open them again."
+msgstr ""
+
+#: navpanel.cpp:64
+msgid "Folder"
+msgstr ""
+
+#: navpanel.cpp:65
+msgid "Tag"
 msgstr ""
 
 #. i18n: file: marknoto.rc:8
