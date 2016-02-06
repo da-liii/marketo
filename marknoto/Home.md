@@ -64,6 +64,8 @@ map<string, string> mimeMap = {
     {"zsh", "Zsh"}
 };
 ```
+### MathJax
+$$J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}$$
 
 ## Contribute to Marketo
 See [https://github.com/sadhen/marketo](https://github.com/sadhen/marketo) for more info.

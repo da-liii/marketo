@@ -9,6 +9,7 @@ It is bundled with a separated Markdown editor.
 + Partially support **CommonMark**
 + Live Preview(auto sync between two views)
 + Real-time fenced-code highlight
++ MathJax support
 
   ![Rendering when editing](screenshot/render_code.png)
 
