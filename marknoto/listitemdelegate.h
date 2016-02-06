@@ -15,8 +15,6 @@ public:
     
 private:
     ListPanel *m_parent;
-    QRect pre_rect;
-    QRect m_rect;
 };
 
 #endif

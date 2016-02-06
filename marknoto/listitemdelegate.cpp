@@ -25,6 +25,8 @@ void ListItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     painter->setBackgroundMode(Qt::OpaqueMode);
     if (option.state & QStyle::State_Selected)
         painter->fillRect(option.rect, QColor(0, 128, 255, 60));
+    else if (option.state & QStyle::State_MouseOver)
+        painter->fillRect(option.rect, QColor(0, 128, 255, 10));
     else
         painter->fillRect(option.rect, QColor(255, 255, 255, 0));
 }
