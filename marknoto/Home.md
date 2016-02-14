@@ -1,28 +1,31 @@
 ﻿<!--
-tags: home, @todo
+tags: home, @todo, document
 -->
 
 # Home of Marketo
-Hi, this is the home of Marketo. When you first start Marketo or click the home button on the toolbar, you will go to Home!
+Hi, this is the home of Marketo. When you first start Marketo or click the home button on the toolbar, you will go home!
 
 ## Custormize
 ### Starred Notes
 [Home.md](/Home.md)
 
 ### TODO List
-1. Make a new catogary in the Navigator
-2. Make a sub catogary in the created catogary.
-3. See what in the file system
-4. Creat a new notes in `$NOTEDIR`/`$CREATED`/`$SUB_CREATED`
-
+1. Make a new folder in the Navigator
+2. Make a sub folder in the created catogary.
+3. See what happened in the file system
+4. Creat a new note in `$NOTEDIR`/`$CREATED`/`$SUB_CREATED`
+5. Add tags for the newly created note
+6. Find these tags in the Navigator and in the Dolphin file explorer
    ...
 
 ### DONE List
    
 ## Document
-### Tagging System
-1. To add tag for a note: enter the tag at the bottom of the note
-2. To remove a tag for the note: enter the existing tag name you want to remove
+### Metadata
+The metadata part starts with `<!--` and ends with `-->`. You must put your metadata(tags, date, licence...) at the starting of the document for the parser to parse.
+
+### MathJax
+$$J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}$$
 
 ### Real-time Highlighting
 Below is a list of languages supporting real-time highlighting:
@@ -68,8 +71,5 @@ map<string, string> mimeMap = {
     {"zsh", "Zsh"}
 };
 ```
-### MathJax
-$$J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}$$
-
 ## Contribute to Marketo
 See [https://github.com/sadhen/marketo](https://github.com/sadhen/marketo) for more info.

@@ -31,7 +31,7 @@
 
 #define DESCRIPTION "Markpado - Editor Part of Marketo"
 
-#define VERSION "0.2.1"
+#define VERSION "0.2.2"
 
 int main(int argc, char **argv)
 {
