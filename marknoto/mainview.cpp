@@ -236,7 +236,8 @@ void MainView::showTaggedFiles(QTreeWidgetItem *item, int row)
 
 void MainView::setDisplayMode(int mode) {
     if (mode == 0) {
-        goHome();
+        navigator->tabWidget->setCurrentIndex(0);
+        listPanel->setUrlForLModel(note->url());
     } else {
         showTaggedFiles(QString("@todo"));
     }

@@ -77,6 +77,14 @@ void ListPanel::goHome()
     listView->setRootIndex(lmodel->index(url().path()));
 }
 
+void ListPanel::setUrlForLModel(const QUrl& url)
+{
+    displayByTag = false;
+    setUrl(url.adjusted(QUrl::RemoveFilename));
+    listView->scrollTo(lmodel->index(url.path()));
+    listView->setCurrentIndex(lmodel->index(url.path()));
+}
+
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
 {
     if (displayByTag) {

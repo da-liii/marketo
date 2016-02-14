@@ -21,6 +21,7 @@ public:
     virtual ~ListPanel();
     void setTaggedList(const QStringList& list);
     QString getTitleByIndex(const QModelIndex& index);
+    void setUrlForLModel(const QUrl& url);
     void goHome();
     
 private:
