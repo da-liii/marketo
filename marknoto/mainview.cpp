@@ -239,7 +239,9 @@ void MainView::setDisplayMode(int mode) {
         navigator->tabWidget->setCurrentIndex(0);
         listPanel->setUrlForLModel(note->url());
     } else {
-        showTaggedFiles(QString("@todo"));
+        if (navigator->tagTree->currentItem())
+            showTaggedFiles(navigator->tagTree->currentItem()->text(0));
+        else showTaggedFiles(QString("@todo"));
     }
 }
 
