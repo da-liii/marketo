@@ -50,6 +50,7 @@ private:
 public slots:
     void newNote();
     void goHome();
+    void afterSave();
     
 private slots:
     void oneColView();

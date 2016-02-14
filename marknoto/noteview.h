@@ -42,11 +42,7 @@ public slots:
 private:
     KActionCollection *actions;
     QVBoxLayout *vl;
-    QHBoxLayout *hl;
     QLineEdit *title;
-    TagList *tagList;
-    QLineEdit *tagEdit;
-    QLabel *label;
     QStack<QUrl> *done;
     QStack<QUrl> *todo;
     
@@ -56,7 +52,6 @@ private:
     
 private slots:
     void saveNote();
-    void addTags();
 };
 
 #endif

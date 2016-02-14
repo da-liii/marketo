@@ -1,9 +1,9 @@
 #include "navpanel.h"
 #include "iconfilter.h"
+#include "metadata.h"
 
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <KFileMetaData/UserMetaData>
 #include <KLocalizedString>
 
 #include <QFileSystemModel>
@@ -80,7 +80,7 @@ void Navigator::buildTagStaffs()
     QDirIterator it(noteDir, QStringList() << "*.cm" << "*.md", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
         QString file(it.next());
-        KFileMetaData::UserMetaData metaData(file);
+        MetaData metaData(file);
         QStringList tags = metaData.tags();
         if (!tags.isEmpty()) {
             tagPaths->append(file);
@@ -107,7 +107,7 @@ QStringList Navigator::getFilesByTag(const QString& tag)
     QStringListIterator iter(*tagPaths);
     while (iter.hasNext()) {
         QString curPath(iter.next());
-        KFileMetaData::UserMetaData metaData(curPath);
+        MetaData metaData(curPath);
         if (metaData.tags().contains(tag)) {
             list.append(curPath);
         }

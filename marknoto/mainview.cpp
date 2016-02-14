@@ -2,6 +2,7 @@
 // #include "terminalpanel.h"
 #include "navpanel.h"
 #include "listpanel.h"
+#include "metadata.h"
 
 #include <KTextEditor/Editor>
 #include <KLineEdit>
@@ -9,6 +10,7 @@
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <KActionCollection>
+#include <KFileMetaData/UserMetaData>
 
 #include <QUrl>
 #include <QAction>
@@ -77,6 +79,8 @@ void MainView::setupUI()
     markPad = noteView->markPad;
     connect(noteView, SIGNAL(tagsAdded(const QStringList &, const QUrl &)),
             navigator, SLOT(addNewTags(const QStringList &, const QUrl &)));
+    connect(note, &KTextEditor::Document::documentSavedOrUploaded, 
+            this, &MainView::afterSave);
 
     hsplitter->addWidget(navigator);
     hsplitter->addWidget(listPanel);
@@ -98,7 +102,8 @@ bool MainView::urlChanged()
     listPanel->setUrl(url());
     navigator->setUrl(url());
     if (QFileInfo(url().toLocalFile()).isFile()) {
-        noteView->note->documentSave();
+        if (noteView->note->isModified())
+            noteView->note->documentSave();
         noteView->openUrl(url());
     }
     return true;
@@ -199,6 +204,15 @@ void MainView::newNote()
     noteView->openUrl(tmpUrl);
     unpreview();
 }
+
+void MainView::afterSave()
+{
+    MetaData metadata(note->url().toLocalFile());
+    navigator->addNewTags(metadata.tags(), note->url());
+    KFileMetaData::UserMetaData kmetadata(note->url().toLocalFile());
+    kmetadata.setTags(metadata.tags());
+}
+
 
 void MainView::goHome()
 {

@@ -1,4 +1,8 @@
-﻿# Home of Marketo
+﻿<!--
+tags: home, @todo
+-->
+
+# Home of Marketo
 Hi, this is the home of Marketo. When you first start Marketo or click the home button on the toolbar, you will go to Home!
 
 ## Custormize

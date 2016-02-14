@@ -21,7 +21,6 @@
 
 #include <KAboutData>
 #include <KLocalizedString>
-#include <KFileMetaData/UserMetaData>
 
 #include <QFile>
 #include <QFileDialog>
@@ -85,8 +84,6 @@ int main(int argc, char **argv)
         QFile::copy(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                            QLatin1String("marknoto/Home.md")),
                     QString(noteDir + "/Home.md"));
-        KFileMetaData::UserMetaData metaData(noteDir + "/Home.md");
-        metaData.setTags(QStringList() << QString("@todo"));
     }
         
     // create the Trash dir

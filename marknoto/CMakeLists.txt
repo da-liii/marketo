@@ -8,6 +8,7 @@ set (marknoto_SRCS
    panel.cpp
    iconfilter.cpp
    taglist.cpp
+   metadata.cpp
    #terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
