@@ -36,11 +36,12 @@ Also you need to install many other dependencies for compiling. Please see the C
 ### Compile
 
 Then follow these instructions:
-``` sh
+``` bash
 cd /tmp
 git clone https://github.com/sadhen/marketo.git
 cd marketo
-mkdir $HOME/software
+git submodule init
+git submodule update
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local ..
@@ -51,7 +52,7 @@ make install
 **NOTE**: `$HOME` is your home directory. The above instructions will install Marketo in `$HOME/.local`.
 
 ### Run it
-``` sh
+``` bash
 cd ~/.local/bin/
 ./marknoto # this will launch the note-taking application
 ./markpado # this will launch the Markdown editor
