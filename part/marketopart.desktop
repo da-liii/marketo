@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Markdown Previewer
+Mimetype=text/x-markdown;
+Icon=markpado
+X-KDE-ServiceTypes=KParts/ReadOnlyPart
+X-KDE-Library=kf5/parts/marketopart
+Type=Service

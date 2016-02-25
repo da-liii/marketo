@@ -26,6 +26,7 @@ find_package (KF5 REQUIRED COMPONENTS
 	XmlGui
 	TextEditor
 	FileMetaData
+	Parts
 )
 
 include_directories( ${QT_INCLUDES}
@@ -34,7 +35,9 @@ include_directories( ${QT_INCLUDES}
     /usr/include/KF5/XmlGui
     /usr/include/KF5/TextEditor
     /usr/include/KF5/KI18n
+    /usr/include/KF5/KParts
 )
 
 add_subdirectory (markpado)
 add_subdirectory (marknoto)
+add_subdirectory (part)
