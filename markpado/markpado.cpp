@@ -86,8 +86,13 @@ void Markpado::generateHtml()
         + QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("markpado/css/style.css"))
         + QString("\" rel=\"stylesheet\">")
 	+ QString("<script type='text/x-mathjax-config'>MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>")
-        + QString("<script type='text/javascript' async src='file:///usr/share/javascript/mathjax/MathJax.js'></script>")
-        + QString("<script type='text/javascript' async src='file:///usr/share/javascript/mathjax/config/TeX-AMS-MML_HTMLorMML.js'></script>")
+	// for arch
+        + QString("<script type='text/javascript' async src='file:///usr/share/mathjax/MathJax.js'></script>")
+        + QString("<script type='text/javascript' async src='file:///usr/share/mathjax/config/TeX-AMS-MML_HTMLorMML.js'></script>")
+	// for debian
+	+ QString("<script type=\"text/javascript\"> if(typeof jQval == 'undefined') {")
+        + QString("document.write(unescape(\"%3Cscript src='file:///usr/share/javascript/mathjax/MathJax.js' type='text/javascript'%3E%3C/script%3E\"));")
+    	+ QString("document.write(unescape(\"%3Cscript src='file:///usr/share/javascript/mathjax/config/TeX-AMS-MML_HTMLorMML.js' type='text/javascript'%3E%3C/script%3E\"));}</script>")
         + QString("</head>") + QString("<body>")
         + content + QString("</body>")
         + QString("</html>");
