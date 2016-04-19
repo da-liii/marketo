@@ -29,6 +29,8 @@
 #include <QUrl>
 #include <QIcon>
 
+#include "../icons.h"
+
 #define DESCRIPTION "Markpado - Editor Part of Marketo"
 
 #define VERSION "0.2.2"
@@ -36,6 +38,10 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    
+    setupIconTheme();
+    QIcon::setThemeName(QStringLiteral("breeze"));
+    
     /*
      * enable high dpi support
      */
@@ -72,7 +78,6 @@ int main(int argc, char **argv)
     parser.process(app);
     about.processCommandLine(&parser);
 
-    QIcon::setThemeName(QStringLiteral("breeze"));
 
     if (parser.positionalArguments().count() > 0) {
         Q_FOREACH(const QString positionalArgument, parser.positionalArguments()) {

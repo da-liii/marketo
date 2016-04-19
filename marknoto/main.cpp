@@ -30,12 +30,17 @@
 #include <QDir>
 #include <QIcon>
 
+#include "../icons.h"
+
 #define DESCRIPTION "Marknoto - Note-taking Part of Marketo"
 #define VERSION "0.2.2"
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    
+    setupIconTheme();
+    QIcon::setThemeName(QStringLiteral("breeze"));
     
     KAboutData about(QStringLiteral("marknoto"),
         i18n("Marknoto"),
@@ -90,8 +95,6 @@ int main(int argc, char **argv)
     QDir qDir(noteDir + "/Trash");
     if (!qDir.exists())
         qDir.mkpath(qDir.path());
-
-    QIcon::setThemeName(QStringLiteral("breeze"));
 
     MarkNote *mainWindow = new MarkNote;
     mainWindow->show();

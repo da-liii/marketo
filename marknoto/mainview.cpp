@@ -10,7 +10,10 @@
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <KActionCollection>
+
+#ifdef UNIX
 #include <KFileMetaData/UserMetaData>
+#endif
 
 #include <QUrl>
 #include <QAction>
@@ -209,8 +212,10 @@ void MainView::afterSave()
 {
     MetaData metadata(note->url().toLocalFile());
     navigator->addNewTags(metadata.tags(), note->url());
+#ifdef UNIX
     KFileMetaData::UserMetaData kmetadata(note->url().toLocalFile());
     kmetadata.setTags(metadata.tags());
+#endif
 }
 
 

@@ -29,17 +29,26 @@ include_directories( ${QT_INCLUDES}
     /usr/include/KF5/BalooWidgets)
 
 
+if (WIN32)
+include_directories (D:/kde/kate-windows/release5.6/include/)
+target_link_libraries (marknoto
+    D:/kde/kate-windows/release5.6/lib/mdcpp.lib
+    C:/local/boost_1_60_0/lib64-msvc-14.0/libboost_regex-vc140-mt-1_60.lib
+    Qt5::WebEngineWidgets
+    KF5::TextEditor
+    KF5::I18n
+    KF5::XmlGui
+)
+else (WIN32)
 target_link_libraries (marknoto
     mdcpp
-    Qt5::WebKit
-    Qt5::WebKitWidgets
+    Qt5::WebEngineWidgets
     KF5::TextEditor
     KF5::I18n
     KF5::XmlGui
     KF5::FileMetaData
-    KF5WebKit
-    mdcpp
 )
+endif (WIN32)
 
 install(TARGETS marknoto DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS marknoto.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

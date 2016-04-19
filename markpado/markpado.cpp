@@ -18,8 +18,8 @@
 #include <QDir>
 #include <Qt>
 #include <QStandardPaths>
-#include <QtWebKitWidgets/QWebView>
-#include <QtWebKitWidgets/QWebFrame>
+#include <QtWebEngineWidgets/QWebEnginePage>
+#include <QtWebEngineWidgets/QWebEngineView>
 
 using std::string;
 
@@ -32,9 +32,9 @@ Markpado::Markpado(QWidget *parent)
     
     hs = new QSplitter(this);
     
-    m_previewer = new QWebView(this);
+    m_previewer = new QWebEngineView(this);
     m_livePreview = false;
-    m_previewer->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    //m_previewer->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
     connect(m_previewer, SIGNAL(linkClicked(const QUrl&)),
             parent, SLOT(slotOpen(const QUrl&)));
     
@@ -135,11 +135,11 @@ void Markpado::updatePreviewerByCursor(KTextEditor::View *editor, const KTextEdi
     
     int sourceTotal = m_note->lines();
     int sourceCur = cursor.line();
-    int targetTotal = m_previewer->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
-    int targetCur = sourceCur * targetTotal / sourceTotal;
+    int targetCur = sourceCur / sourceTotal;
     int offset = (sourceCur - sourceTotal/2) * 400 / sourceTotal;
     
-    m_previewer->page()->mainFrame()->setScrollPosition(QPoint(0, targetCur + offset));
+    const QString ScrollJavaScript("window.scrollTo(0, document.body.scrollHeight * %1 / %2 + %3);");
+    m_previewer->page()->runJavaScript(ScrollJavaScript.arg(sourceCur).arg(sourceTotal).arg(offset));
 }
 
 void Markpado::setPreview(bool checked)

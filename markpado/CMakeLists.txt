@@ -14,22 +14,31 @@ add_executable (markpado ${markpado_SRCS})
 
 include_directories(../marknote/)
 
+if (WIN32)
+include_directories(D:/kde/kate-windows/release5.6/include/)
 target_link_libraries (markpado
-        Qt5::WebKit
-        Qt5::WebKitWidgets
+        Qt5::WebEngineWidgets
 	KF5::TextEditor
 	KF5::I18n
 	KF5::XmlGui
-	#KF5::KDELibs4Support
-	KF5WebKit
-        KF5KIOFileWidgets
+	D:/kde/kate-windows/release5.6/lib/KF5KIOFileWidgets.lib
+	C:/local/boost_1_60_0/lib64-msvc-14.0/libboost_regex-vc140-mt-1_60.lib
+	D:/kde/kate-windows/release5.6/lib/mdcpp.lib
+)
+else (WIN32)
+target_link_libraries (markpado
+        Qt5::WebEngineWidgets
+	KF5::TextEditor
+	KF5::I18n
+	KF5::XmlGui
+	KF5KIOFileWidgets
 	mdcpp
 )
+endif (WIN32)
 
 install(TARGETS markpado RUNTIME DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS markpado.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES markpado.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/markpado)
-# install( FILES kmarknote_generalsettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 
 add_subdirectory (css)
 add_subdirectory (icons)
