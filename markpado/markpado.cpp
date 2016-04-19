@@ -41,6 +41,7 @@ Markpado::Markpado(QWidget *parent)
     m_note = KTextEditor::Editor::instance()->createDocument(0);
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     m_editor->setStatusBarEnabled(false);
+    m_editor->setFocus(Qt::OtherFocusReason);
     
     hs->addWidget(m_editor);
     hs->addWidget(m_previewer);
@@ -52,8 +53,9 @@ Markpado::Markpado(QWidget *parent)
     setPreview(false);
     setSplit(false);
     
-    connect(m_note, &KTextEditor::Document::textChanged, 
-            this, &Markpado::updatePreviewer);
+    // this will make the editor failing to receiving keystrokes, thus commented
+    //connect(m_note, &KTextEditor::Document::textChanged, 
+    //        this, &Markpado::updatePreviewer);
     connect(m_editor, &KTextEditor::View::cursorPositionChanged,
             this, &Markpado::updatePreviewerByCursor);
     connect(m_note, &KTextEditor::Document::documentSavedOrUploaded,

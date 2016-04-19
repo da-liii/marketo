@@ -26,6 +26,7 @@ MainWindow::MainWindow()
 
     setCentralWidget(m_markpad);
     setupGUI(QSize(500,600), Default, "markpado.rc");
+    createShellGUI(true);
     guiFactory()->addClient(m_markpad->m_editor);
     setStandardToolBarMenuEnabled(true);
     

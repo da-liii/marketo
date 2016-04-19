@@ -26,7 +26,6 @@ find_package(Qt5 REQUIRED
 )
 
 if (WIN32)
-find_package (LibMdcpp)
 find_package (KF5 REQUIRED COMPONENTS
 	I18n
 	CoreAddons
