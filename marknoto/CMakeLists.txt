@@ -16,6 +16,7 @@ set (marknoto_SRCS
    ../markpado/markpado.cpp
    ../markpado/highlighterbykate.cpp
    ../markpado/htmlgenerator.cpp
+   ../markpado/document.cpp
 )
 qt5_add_resources(marknoto_SRCS data/marknoto.qrc)
 
@@ -36,6 +37,7 @@ target_link_libraries (marknoto
     D:/kde/kate-windows/release5.6/lib/mdcpp.lib
     C:/local/boost_1_60_0/lib64-msvc-14.0/libboost_regex-vc140-mt-1_60.lib
     Qt5::WebEngineWidgets
+    Qt5::WebChannel
     KF5::TextEditor
     KF5::I18n
     KF5::XmlGui
@@ -44,6 +46,7 @@ else (WIN32)
 target_link_libraries (marknoto
     mdcpp
     Qt5::WebEngineWidgets
+    Qt5::WebChannel
     KF5::TextEditor
     KF5::I18n
     KF5::XmlGui

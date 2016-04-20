@@ -23,6 +23,7 @@ include (ECMInstallIcons)
 find_package(Qt5 REQUIRED
 	Core
 	WebEngineWidgets
+	WebChannel
 )
 
 if (WIN32)

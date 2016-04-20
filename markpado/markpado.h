@@ -2,8 +2,11 @@
 #define KMARKVIEW_H
 
 #include "htmlgenerator.h"
+#include "document.h"
 
 #include <QWidget>
+#include <QThread>
+#include <QTimer>
 class QWebEngineView;
 
 class QHBoxLayout;
@@ -30,10 +33,12 @@ public:
     void setPreview(bool checked);
     void setSplit(bool checked);
  
+signals:
+    void stop();
+    
 public slots:
     void preview(bool livePreview);
     void preview();
-    void generateHtml();
     
 private:
     QSplitter *hs;
@@ -42,11 +47,13 @@ private:
     bool m_livePreview;
     KTextEditor::Editor *m_new_editor;
     HTMLGenerator *m_generator;
+    Document m_content;
     
 private slots:
     void updatePreviewer();
     void updatePreviewerByCursor(KTextEditor::View *a_editor, const KTextEditor::Cursor& a_cursor);
-    void setCommonMarkMode(KTextEditor::Document *document, bool saveAs);
+    void onSavedOrUploaded(KTextEditor::Document *document, bool saveAs);
+    void generateHtml();
 };
 
 #endif

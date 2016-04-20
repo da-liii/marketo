@@ -8,6 +8,7 @@ set (markpado_SRCS
     markpado.cpp
     highlighterbykate.cpp
     htmlgenerator.cpp
+	document.cpp
 )
 qt5_add_resources(markpado_SRCS data/markpado.qrc)
 
@@ -18,7 +19,8 @@ include_directories(../marknote/)
 if (WIN32)
 include_directories(D:/kde/kate-windows/release5.6/include/)
 target_link_libraries (markpado
-        Qt5::WebEngineWidgets
+    Qt5::WebEngineWidgets
+	Qt5::WebChannel
 	KF5::TextEditor
 	KF5::I18n
 	KF5::XmlGui
@@ -27,7 +29,8 @@ target_link_libraries (markpado
 )
 else (WIN32)
 target_link_libraries (markpado
-        Qt5::WebEngineWidgets
+    Qt5::WebEngineWidgets
+	Qt5::WebChannel
 	KF5::TextEditor
 	KF5::I18n
 	KF5::XmlGui

@@ -6,5 +6,11 @@
     <qresource prefix="/css">
         <file>style.css</file>
     </qresource>
+    <qresource prefix="/js">
+        <file>qwebchannel.js</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>index.html</file>
+    </qresource>
 </RCC>
 

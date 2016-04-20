@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <link href="qrc:/css/style.css" rel="stylesheet">
+	<script type='text/x-mathjax-config'>MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+    <script type='text/javascript' async src='file:///usr/share/mathjax/MathJax.js'></script>
+    <script type='text/javascript' async src='file:///usr/share/mathjax/config/TeX-AMS-MML_HTMLorMML.js'></script>
+	<script type="text/javascript">
+    if(typeof jQval == 'undefined') {
+      document.write(unescape("%3Cscript src='file:///usr/share/javascript/mathjax/MathJax.js' type='text/javascript'%3E%3C/script%3E"));
+      document.write(unescape("%3Cscript src='file:///usr/share/javascript/mathjax/config/TeX-AMS-MML_HTMLorMML.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+    </script>
+    <script src="qrc:/js/qwebchannel.js"></script>
+  </head>
+<body>
+    <div id="placeholder"></div>
+    <script>
+    'use strict';
+
+    var placeholder = document.getElementById('placeholder');
+
+    var updateText = function(text) {
+        placeholder.innerHTML = text;
+    }
+
+    new QWebChannel(qt.webChannelTransport,
+      function(channel) {
+        var content = channel.objects.content;
+        updateText(content.text);
+        content.textChanged.connect(updateText);
+      }
+    );
+    </script>
+</body>
+</html>
