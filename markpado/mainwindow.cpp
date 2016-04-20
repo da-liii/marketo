@@ -6,13 +6,13 @@
 #include <KConfig>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KIOFileWidgets/KEncodingFileDialog>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <KRecentFilesAction>
 #include <KLocalizedString>
 
 #include <QUrl>
+#include <QFileDialog>
 
 MainWindow::MainWindow()
     : m_markpad(0)
@@ -162,7 +162,7 @@ void MainWindow::slotClose()
 
 void MainWindow::slotOpen()
 {
-    QUrl url = KEncodingFileDialog::getOpenUrlAndEncoding().URLs.first();
+    QUrl url = QFileDialog::getOpenFileUrl();
     
     slotOpen(url);
 }

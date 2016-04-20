@@ -22,7 +22,6 @@ target_link_libraries (markpado
 	KF5::TextEditor
 	KF5::I18n
 	KF5::XmlGui
-	D:/kde/kate-windows/release5.6/lib/KF5KIOFileWidgets.lib
 	C:/local/boost_1_60_0/lib64-msvc-14.0/libboost_regex-vc140-mt-1_60.lib
 	D:/kde/kate-windows/release5.6/lib/mdcpp.lib
 )
