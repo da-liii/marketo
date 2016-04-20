@@ -23,6 +23,7 @@ public:
     QString getTitleByIndex(const QModelIndex& index);
     void setUrlForLModel(const QUrl& url);
     void goHome();
+    QString removeLeadingSlash(QString path);
     
 private:
     QListView *listView;

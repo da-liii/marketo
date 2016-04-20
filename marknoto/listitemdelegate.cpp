@@ -16,7 +16,7 @@ void ListItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     QFont font;
     font.setFamily(font.defaultFamily());
     QFontMetrics fm(font);
-    QRect textRect = QRect(decorationRect.topRight()+QPoint(5, 2), QSize(fm.width(text)+2, fm.height()+4));
+    QRect textRect = QRect(decorationRect.topRight()+QPoint(5, 2), QSize(fm.width(text)+5, fm.height()+4));
     
     painter->setBackgroundMode(Qt::TransparentMode);
     painter->drawPixmap(decorationRect, QIcon::fromTheme(QLatin1String("text-markdown")).pixmap(QSize(24, 24)));

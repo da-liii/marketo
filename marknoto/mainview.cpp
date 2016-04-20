@@ -197,7 +197,14 @@ void MainView::newNote()
         tmpUrl = QUrl::fromLocalFile(cfg.readEntry("NoteDir"));
     }
 
-    if (QFileInfo(tmpUrl.path()).isDir())
+    bool flag;
+#ifdef UNIX
+    flag = QFileInfo(tmpUrl.path()).isDir();
+#else
+    QString path = tmpUrl.path();
+    flag = QFileInfo(path.right(path.length()-1)).isDir();
+#endif
+    if (flag)
         tmpUrl = QUrl::fromLocalFile(tmpUrl.toLocalFile() + QString("/Untitled.md"));
     else
         tmpUrl.setUrl(tmpUrl.url(QUrl::RemoveFilename).append("/Untitled.md"));

@@ -20,6 +20,7 @@
 #include <QUrl>
 #include <QStringListModel>
 #include <QPainter>
+#include <QDir>
 
 ListPanel::ListPanel(QWidget* parent)
     : Panel(parent),
@@ -44,7 +45,7 @@ ListPanel::ListPanel(QWidget* parent)
     m_delegate = new ListItemDelegate(this);
     listView->setItemDelegate(m_delegate);
     listView->setRootIndex(lmodel->index(cfg.readEntry("NoteDir")));
-    listView->setGridSize(QSize(listView->sizeHint().width(), 24));
+    listView->setGridSize(QSize(listView->sizeHint().width(), 26));
     listView->setAlternatingRowColors(true);
     listView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(listView, SIGNAL(clicked(QModelIndex)),
@@ -72,17 +73,17 @@ void ListPanel::goHome()
 {
     displayByTag = false;
     listView->setModel(lmodel);
-    lmodel->setRootPath(url().path());
+    lmodel->setRootPath(removeLeadingSlash(url().path()));
     lmodel->setNameFilters(m_filters);
-    listView->setRootIndex(lmodel->index(url().path()));
+    listView->setRootIndex(lmodel->index(removeLeadingSlash(url().path())));
 }
 
 void ListPanel::setUrlForLModel(const QUrl& url)
 {
     displayByTag = false;
     setUrl(url.adjusted(QUrl::RemoveFilename));
-    listView->scrollTo(lmodel->index(url.path()));
-    listView->setCurrentIndex(lmodel->index(url.path()));
+    listView->scrollTo(lmodel->index(removeLeadingSlash(url.path())));
+    listView->setCurrentIndex(lmodel->index(removeLeadingSlash(url.path())));
 }
 
 void ListPanel::setUrlFromIndex(const QModelIndex& index)
@@ -116,9 +117,9 @@ bool ListPanel::urlChanged()
     else
         listView->setModel(lmodel);
     if (QFileInfo(url().toLocalFile()).isDir() && !displayByTag) {
-        lmodel->setRootPath(url().path());
+        lmodel->setRootPath(removeLeadingSlash(url().path()));
         lmodel->setNameFilters(m_filters);
-        listView->setRootIndex(lmodel->index(url().path()));
+        listView->setRootIndex(lmodel->index(removeLeadingSlash(url().path())));
     }
     emit changeUrl(url());
     return true;
@@ -179,6 +180,13 @@ void ListPanel::copyNoteLink()
 ListPanel::~ListPanel()
 {
 
+}
+
+QString ListPanel::removeLeadingSlash(QString path) {
+#ifdef UNIX
+    return path;
+#endif
+    return path.right(path.length() - 1);
 }
 
 #include "listpanel.moc"
