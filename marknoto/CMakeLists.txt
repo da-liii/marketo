@@ -17,6 +17,7 @@ set (marknoto_SRCS
    ../markpado/highlighterbykate.cpp
    ../markpado/htmlgenerator.cpp
 )
+qt5_add_resources(marknoto_SRCS data/marknoto.qrc)
 
 add_executable (marknoto ${marknoto_SRCS})
 add_subdirectory (icons)
@@ -52,5 +53,4 @@ endif (WIN32)
 
 install(TARGETS marknoto DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS marknoto.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES marknoto.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/marknoto)
 install(FILES Home.md DESTINATION ${DATA_INSTALL_DIR}/marknoto)

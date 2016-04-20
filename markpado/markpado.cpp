@@ -84,9 +84,7 @@ void Markpado::generateHtml()
 
     QString content = QString::fromUtf8(html.c_str());
     content = QString("<html>") + QString("<head>")
-        + QString("<link href=\"file://") 
-        + QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("markpado/css/style.css"))
-        + QString("\" rel=\"stylesheet\">")
+        + QString("<link href=\"qrc:/css/style.css\" rel=\"stylesheet\">") 
 	+ QString("<script type='text/x-mathjax-config'>MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>")
 	// for arch
         + QString("<script type='text/javascript' async src='file:///usr/share/mathjax/MathJax.js'></script>")
@@ -111,6 +109,7 @@ void Markpado::preview()
         m_previewer->setHidden(false);
     }
     
+    generateHtml();
     // scroll to the correct position
     updatePreviewerByCursor(0, m_editor->cursorPosition());
     

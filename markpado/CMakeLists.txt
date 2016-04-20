@@ -9,6 +9,7 @@ set (markpado_SRCS
     highlighterbykate.cpp
     htmlgenerator.cpp
 )
+qt5_add_resources(markpado_SRCS data/markpado.qrc)
 
 add_executable (markpado ${markpado_SRCS})
 
@@ -38,9 +39,7 @@ endif (WIN32)
 
 install(TARGETS markpado RUNTIME DESTINATION ${BIN_INSTALL_DIR})
 install(PROGRAMS markpado.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES markpado.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/markpado)
 
-add_subdirectory (css)
 add_subdirectory (icons)
 add_subdirectory (kate-commonmark)
 add_subdirectory (po)

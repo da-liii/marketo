@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/kxmlgui5/markpado">
+        <file>markpado.rc</file>
+    </qresource>
+    <qresource prefix="/css">
+        <file>style.css</file>
+    </qresource>
+</RCC>
