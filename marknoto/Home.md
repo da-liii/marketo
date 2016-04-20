@@ -5,7 +5,7 @@ tags: home, @todo, document
 # Home of Marketo
 Hi, this is the home of Marketo. When you first start Marketo or click the home button on the toolbar, you will go home!
 
-## Custormize
+## Customize
 ### Starred Notes
 [Home.md](/Home.md)
 
