@@ -17,6 +17,7 @@ set (marknoto_SRCS
    ../markpado/highlighterbykate.cpp
    ../markpado/htmlgenerator.cpp
    ../markpado/document.cpp
+   ../markpado/webpage.cpp
 )
 qt5_add_resources(marknoto_SRCS data/marknoto.qrc)
 

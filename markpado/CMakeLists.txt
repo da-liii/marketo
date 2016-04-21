@@ -9,6 +9,7 @@ set (markpado_SRCS
     highlighterbykate.cpp
     htmlgenerator.cpp
 	document.cpp
+	webpage.cpp
 )
 qt5_add_resources(markpado_SRCS data/markpado.qrc)
 

@@ -12,6 +12,7 @@ class QWebEngineView;
 class QHBoxLayout;
 class QSplitter;
 class QUrl;
+class WebPage;
 namespace KTextEditor {
     class View;
     class Document;
@@ -44,6 +45,7 @@ private:
     QSplitter *hs;
     QHBoxLayout *hl;
     QWebEngineView *m_previewer;
+    WebPage *m_page;
     bool m_livePreview;
     KTextEditor::Editor *m_new_editor;
     HTMLGenerator *m_generator;

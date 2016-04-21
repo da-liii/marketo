@@ -15,6 +15,7 @@
 #include <QListWidget>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 
 NoteView::NoteView(QWidget* parent, KActionCollection *pActions)
     : QWidget(parent),
@@ -146,15 +147,15 @@ void NoteView::openUrl(const QUrl& url)
 // Open url that from the note(links)
 void NoteView::slotOpen(const QUrl& url)
 {
-    if (url.toString().startsWith("file:///")) {
+    if (url.toString().startsWith("qrc:/")) {
         // case1: fake root link
         KConfigGroup cfg(KSharedConfig::openConfig(), "General Options");
         QString rootPath(cfg.readEntry("NoteDir"));
-        QString notePath(url.toString().replace("file:///", "/"));
-        QUrl newUrl("file://" + rootPath + notePath);
-        qDebug() << newUrl;
-        if (QFileInfo(newUrl.path()).exists()) {
-            openUrl(newUrl);
+        QString notePath(url.toString().replace("qrc:/", "/"));
+        QString path = rootPath + notePath;
+        qDebug() << path;
+        if (QFileInfo(path).exists()) {
+            openUrl(QUrl::fromLocalFile(path));
             return ;
         }
 

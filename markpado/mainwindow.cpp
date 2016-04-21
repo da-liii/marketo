@@ -172,6 +172,7 @@ void MainWindow::slotOpen(const QUrl &url)
     // NOTICE: the order of assigning m_firstTextChange and markpad matters
     m_firstTextChange = true;
     m_markpad->m_note->openUrl(url);
+    m_markpad->m_note->setHighlightingMode("CommonMark");
     m_recentFiles->addUrl(url);
 }
 

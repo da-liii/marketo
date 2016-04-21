@@ -1,5 +1,6 @@
 #include "markpado.h"
 #include "htmlgenerator.h"
+#include "webpage.h"
 
 #include <string>
 #include <iostream>
@@ -32,17 +33,20 @@ Markpado::Markpado(QWidget *parent)
     
     hs = new QSplitter(this);
     
+    m_page = new WebPage(this);
     m_previewer = new QWebEngineView(this);
+    m_previewer->setPage(m_page);
     m_livePreview = false;
     
     QWebChannel *channel = new QWebChannel(this);
     channel->registerObject(QStringLiteral("content"), &m_content);
-    m_previewer->page()->setWebChannel(channel);
-    m_previewer->setUrl(QUrl("qrc:/index.html"));
-    connect(m_previewer, SIGNAL(linkClicked(const QUrl&)),
+    m_page->setWebChannel(channel);
+    m_page->setUrl(QUrl("qrc:/index.html"));
+    connect(m_page, SIGNAL(linkClicked(const QUrl&)),
             parent, SLOT(slotOpen(const QUrl&)));
     
     m_note = KTextEditor::Editor::instance()->createDocument(0);
+    m_note->setHighlightingMode("CommonMark");
     m_editor = qobject_cast<KTextEditor::View*>(m_note->createView(this));
     m_editor->setStatusBarEnabled(false);
     m_editor->setFocus(Qt::OtherFocusReason);
