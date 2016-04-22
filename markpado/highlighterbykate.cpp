@@ -37,7 +37,7 @@ void exportText(QString& ret,
                 const KTextEditor::Attribute::Ptr& attrib)
 {
     if ( !attrib || !attrib->hasAnyProperty()) {
-        ret.append(text);
+        ret.append(text.toHtmlEscaped());
         return;
     }
 
@@ -62,7 +62,7 @@ void exportText(QString& ret,
                                             + QLatin1Char(';')) 
                                     : QString()));
     }
-    ret.append(text);
+    ret.append(text.toHtmlEscaped());
 
     if ( writeBackground || writeForeground ) {
         ret.append("</span>");
