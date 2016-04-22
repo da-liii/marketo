@@ -13,6 +13,7 @@
 
 #include <QUrl>
 #include <QFileDialog>
+#include <QDesktopServices>
 
 MainWindow::MainWindow()
     : m_markpad(0)
@@ -169,6 +170,10 @@ void MainWindow::slotOpen()
 
 void MainWindow::slotOpen(const QUrl &url)
 {
+    if (url.toString().startsWith("http")) {
+        QDesktopServices::openUrl(url);
+        return ;
+    }
     // NOTICE: the order of assigning m_firstTextChange and markpad matters
     m_firstTextChange = true;
     m_markpad->m_note->openUrl(url);
