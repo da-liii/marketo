@@ -1,5 +1,9 @@
 set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
+if (WIN32)
+    set(marknoto_ICON icon.rc)
+endif (WIN32)
+
 set (marknoto_SRCS
    main.cpp
    marknoto.cpp
@@ -9,7 +13,6 @@ set (marknoto_SRCS
    iconfilter.cpp
    taglist.cpp
    metadata.cpp
-   #terminalpanel.cpp
    navpanel.cpp
    listpanel.cpp
    listitemdelegate.cpp
@@ -18,6 +21,7 @@ set (marknoto_SRCS
    ../markpado/htmlgenerator.cpp
    ../markpado/document.cpp
    ../markpado/webpage.cpp
+   icon.rc
 )
 qt5_add_resources(marknoto_SRCS data/marknoto.qrc)
 
@@ -33,9 +37,9 @@ include_directories( ${QT_INCLUDES}
 
 
 if (WIN32)
-include_directories (D:/kde/kate-windows/release5.6/include/)
+include_directories (${CMAKE_INSTALL_PREFIX}/include/)
 target_link_libraries (marknoto
-    D:/kde/kate-windows/release5.6/lib/mdcpp.lib
+    ${CMAKE_INSTALL_PREFIX}/lib/mdcpp.lib
     C:/local/boost_1_60_0/lib64-msvc-14.0/libboost_regex-vc140-mt-1_60.lib
     Qt5::WebEngineWidgets
     Qt5::WebChannel

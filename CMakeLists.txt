@@ -3,9 +3,6 @@ cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 project (marketo)
 
 if (WIN32)
-    find_library(MDCPP NAMES mdcpp
-        PATHS D:/kde/kate-windows/release5.6/lib NO_DEFAULT_PATH
-    )
 else (WIN32)
     add_definitions("-DUNIX")
     set (CMAKE_CXX_FLAGS "-std=c++11")
