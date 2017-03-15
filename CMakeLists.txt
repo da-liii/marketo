@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 project (marketo)
 
 if (WIN32)
+elseif (APPLE)
 else (WIN32)
     add_definitions("-DUNIX")
     set (CMAKE_CXX_FLAGS "-std=c++11")
@@ -24,6 +25,13 @@ find_package(Qt5 REQUIRED
 )
 
 if (WIN32)
+find_package (KF5 REQUIRED COMPONENTS
+	I18n
+	CoreAddons
+	XmlGui
+	TextEditor
+)
+elseif (APPLE)
 find_package (KF5 REQUIRED COMPONENTS
 	I18n
 	CoreAddons

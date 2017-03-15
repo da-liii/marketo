@@ -47,6 +47,15 @@ target_link_libraries (marknoto
     KF5::I18n
     KF5::XmlGui
 )
+elseif (APPLE)
+target_link_libraries (marknoto
+    mdcpp
+    Qt5::WebEngineWidgets
+    Qt5::WebChannel
+    KF5::TextEditor
+    KF5::I18n
+    KF5::XmlGui
+)
 else (WIN32)
 target_link_libraries (marknoto
     mdcpp
@@ -59,6 +68,6 @@ target_link_libraries (marknoto
 )
 endif (WIN32)
 
-install(TARGETS marknoto DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS marknoto ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS marknoto.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES Home.md DESTINATION ${DATA_INSTALL_DIR}/marknoto)

@@ -6,6 +6,7 @@
 #include <KTextEditor/Range>
 #include <KTextEditor/Attribute>
 #include <QTextDocument>
+#include <iostream>
 
 HighlighterByKate::HighlighterByKate()
 {

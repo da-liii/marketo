@@ -47,7 +47,7 @@ target_link_libraries (markpado
 )
 endif (WIN32)
 
-install(TARGETS markpado RUNTIME DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS markpado ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS markpado.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 add_subdirectory (icons)
