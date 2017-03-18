@@ -68,6 +68,23 @@ target_link_libraries (marknoto
 )
 endif (WIN32)
 
+if(APPLE)
+    # own plist template
+    set_target_properties (marknoto PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in)
+
+    # the MacOSX bundle display name property (CFBundleDisplayName) is not currently supported by cmake,
+    # so has to be set for all targets in this cmake file
+    set(MACOSX_BUNDLE_DISPLAY_NAME Marknoto)
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "com.sadhen.kde.Marknoto")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Marknoto")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME "Marknoto")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_INFO_STRING "Marknoto - Markdown Note-taking Application")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "Marknoto ${KDE_APPLICATIONS_VERSION}")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${KDE_APPLICATIONS_VERSION}")
+    set_target_properties(marknoto PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2000-2017 Darcy Shen")
+endif()
+
 install(TARGETS marknoto ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS marknoto.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES Home.md DESTINATION ${DATA_INSTALL_DIR}/marknoto)
