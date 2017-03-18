@@ -47,6 +47,23 @@ target_link_libraries (markpado
 )
 endif (WIN32)
 
+if(APPLE)
+    # own plist template
+    set_target_properties (markpado PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in)
+
+    # the MacOSX bundle display name property (CFBundleDisplayName) is not currently supported by cmake,
+    # so has to be set for all targets in this cmake file
+    set(MACOSX_BUNDLE_DISPLAY_NAME Markpado)
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "com.sadhen.kde.Markpado")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Markpado")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME "Markpado")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_INFO_STRING "Markpado - Markdown Editor")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "Markpado ${KDE_APPLICATIONS_VERSION}")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${KDE_APPLICATIONS_VERSION}")
+    set_target_properties(markpado PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2000-2017 Darcy Shen")
+endif()
+
 install(TARGETS markpado ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS markpado.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
