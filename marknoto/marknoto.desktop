@@ -1,18 +1,19 @@
 [Desktop Entry]
 Name=Marknoto
+Name[fi]=Marknoto
 Name[zh_CN]=Marknoto
 Name[zh_TW]=Marknoto
 Exec=marknoto
 Icon=marknoto
 Type=Application
-MimeType=text/markdown;
-Categories=KDE;Utility;TextEditor;
+Categories=KDE;Qt;Utility;TextEditor;
 X-DocPath=Marknoto/index.html
 GenericName=Note-taking with Markdown
+GenericName[fi]=Muistiinpanoja Markdownilla
 GenericName[zh_CN]=Markdown 做笔记
 GenericName[zh_TW]=Markdown 做筆記
 Comment=A KDE Note-taking Application
 Comment[en_GB]=A KDE Note-taking Application
+Comment[fi]=Muistiinpanosovellus KDElle
 Comment[zh_CN]=KDE 笔记软件
 Comment[zh_TW]=KDE 笔记程式
-

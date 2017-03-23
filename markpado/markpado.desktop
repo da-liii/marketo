@@ -1,15 +1,18 @@
 [Desktop Entry]
 Name=Markpado
+Name[fi]=Markpado
 Name[zh_CN]=Markpado
 Name[zh_TW]=Markpado
 Exec=markpado
 Icon=markpado
 Type=Application
-Mimetype=text/markdown;
-Categories=KDE;Utility;TextEditor;
+MimeType=text/markdown;
+Categories=KDE;Qt;Utility;TextEditor;
 GenericName=Markdown Editor
+GenericName[fi]=Markdown-muokkain
 GenericName[zh_CN]=Markdown 编辑器
 GenericName[zh_TW]=Markdown 編輯器
 Comment=Just Another Markdown Editor
+Comment=Vain yksi Markdown-muokkain lisää
 Comment[zh_TW]=另一個 Markdown 編輯器
 Comment[zh_CN]=另一个 Markdown 编辑器
